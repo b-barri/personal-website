@@ -12,6 +12,7 @@ export interface Project {
     other?: { label: string; url: string }[];
   };
   featured: boolean;
+  hasFullContent?: boolean; // true if a markdown file exists in src/content/projects/
 }
 
 export const projects: Project[] = [

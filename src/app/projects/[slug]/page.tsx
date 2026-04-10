@@ -2,7 +2,9 @@ import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import Link from "next/link";
 import ProjectImage from "@/components/ui/ProjectImage";
+import MarkdownContent from "@/components/ui/MarkdownContent";
 import { projects } from "@/data/projects";
+import { getProjectContent } from "@/lib/content";
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -33,6 +35,8 @@ export default async function ProjectPage({ params }: Props) {
   const project = projects.find((p) => p.slug === slug);
 
   if (!project) notFound();
+
+  const fullContent = getProjectContent(slug);
 
   return (
     <main id="main" className="flex-1 pt-16">
@@ -90,48 +94,9 @@ export default async function ProjectPage({ params }: Props) {
           </div>
         )}
 
-        {/* Description */}
-        <div className="prose prose-lg max-w-none mb-12">
-          <p className="text-text-primary leading-relaxed">
-            {project.description}
-          </p>
-        </div>
-
-        {/* Features */}
-        {project.features.length > 0 && (
-          <div className="mb-12">
-            <h2 className="text-2xl font-bold font-[family-name:var(--font-heading)] text-text-primary mb-4">
-              Key Features
-            </h2>
-            <ul className="space-y-3">
-              {project.features.map((feature) => (
-                <li
-                  key={feature}
-                  className="flex items-start gap-3 text-text-primary"
-                >
-                  <svg
-                    className="w-5 h-5 text-accent mt-0.5 shrink-0"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                  {feature}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-
         {/* Links */}
         {(project.links.demo || project.links.github || project.links.other) && (
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap gap-4 mb-12">
             {project.links.demo && (
               <a
                 href={project.links.demo}
@@ -173,6 +138,50 @@ export default async function ProjectPage({ params }: Props) {
               </a>
             ))}
           </div>
+        )}
+
+        {/* Full content from markdown OR fallback to description */}
+        {fullContent ? (
+          <MarkdownContent content={fullContent} />
+        ) : (
+          <>
+            <div className="prose prose-lg max-w-none mb-12">
+              <p className="text-text-primary leading-relaxed">
+                {project.description}
+              </p>
+            </div>
+
+            {project.features.length > 0 && (
+              <div className="mb-12">
+                <h2 className="text-2xl font-bold font-[family-name:var(--font-heading)] text-text-primary mb-4">
+                  Key Features
+                </h2>
+                <ul className="space-y-3">
+                  {project.features.map((feature) => (
+                    <li
+                      key={feature}
+                      className="flex items-start gap-3 text-text-primary"
+                    >
+                      <svg
+                        className="w-5 h-5 text-accent mt-0.5 shrink-0"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                      {feature}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </>
         )}
       </div>
     </main>

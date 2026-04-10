@@ -4,6 +4,7 @@ import Navbar from "@/components/ui/Navbar";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://bhavyabarri.com"),
   title: "Bhavya Barri — Side Quests",
   description:
     "Side projects are how I think. These are the ones that made it out. Portfolio of AI tools, Claude skills, and creative side projects by Bhavya Barri.",

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://bhavyabarri.com/sitemap.xml

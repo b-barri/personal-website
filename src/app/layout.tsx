@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { spaceGrotesk, inter } from "@/lib/fonts";
+import Navbar from "@/components/ui/Navbar";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -34,6 +35,7 @@ export default function RootLayout({
         <a href="#main" className="skip-to-content">
           Skip to content
         </a>
+        <Navbar />
         {children}
       </body>
     </html>

@@ -1,11 +1,19 @@
+import Hero from "@/components/sections/Hero";
+import ProjectsGrid from "@/components/sections/ProjectsGrid";
+import About from "@/components/sections/About";
+import Writing from "@/components/sections/Writing";
+import Resume from "@/components/sections/Resume";
+import Footer from "@/components/sections/Footer";
+
 export default function Home() {
   return (
     <main id="main" className="flex-1">
-      <section className="flex min-h-screen items-center justify-center">
-        <h1 className="text-5xl font-bold font-[family-name:var(--font-heading)]">
-          Bhavya&apos;s Side Quests
-        </h1>
-      </section>
+      <Hero />
+      <ProjectsGrid />
+      <About />
+      <Writing />
+      <Resume />
+      <Footer />
     </main>
   );
 }

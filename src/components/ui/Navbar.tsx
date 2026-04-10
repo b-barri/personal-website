@@ -12,7 +12,15 @@ const navLinks = [
 export default function Navbar() {
   const [activeSection, setActiveSection] = useState("");
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const isScrollingRef = useRef(false);
+
+  // Track scroll position for navbar style
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   // Close mobile menu on desktop breakpoint
   useEffect(() => {
@@ -63,7 +71,6 @@ export default function Navbar() {
         window.removeEventListener("scrollend", onScrollEnd);
       };
       window.addEventListener("scrollend", onScrollEnd, { once: true });
-      // Fallback for browsers without scrollend
       setTimeout(() => {
         isScrollingRef.current = false;
       }, 1000);
@@ -72,7 +79,13 @@ export default function Navbar() {
   );
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-bg-primary/80 backdrop-blur-md border-b border-border">
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "bg-bg-primary/80 backdrop-blur-md border-b border-border"
+          : "bg-transparent"
+      }`}
+    >
       <div className="mx-auto max-w-6xl flex items-center justify-between px-6 h-16">
         <a
           href="#"
@@ -80,7 +93,9 @@ export default function Navbar() {
             e.preventDefault();
             window.scrollTo({ top: 0, behavior: "smooth" });
           }}
-          className="text-lg font-semibold font-[family-name:var(--font-heading)] text-text-primary"
+          className={`text-lg font-semibold font-[family-name:var(--font-heading)] transition-colors ${
+            scrolled ? "text-text-primary" : "text-white"
+          }`}
         >
           Bhavya Barri
         </a>
@@ -95,7 +110,9 @@ export default function Navbar() {
               className={`text-sm font-medium transition-colors ${
                 activeSection === link.href
                   ? "text-accent"
-                  : "text-text-secondary hover:text-text-primary"
+                  : scrolled
+                    ? "text-text-secondary hover:text-text-primary"
+                    : "text-white/80 hover:text-white"
               }`}
             >
               {link.label}
@@ -111,19 +128,19 @@ export default function Navbar() {
           aria-expanded={mobileOpen}
         >
           <span
-            className={`block w-5 h-0.5 bg-text-primary transition-transform ${
-              mobileOpen ? "rotate-45 translate-y-2" : ""
-            }`}
+            className={`block w-5 h-0.5 transition-transform ${
+              scrolled ? "bg-text-primary" : "bg-white"
+            } ${mobileOpen ? "rotate-45 translate-y-2" : ""}`}
           />
           <span
-            className={`block w-5 h-0.5 bg-text-primary transition-opacity ${
-              mobileOpen ? "opacity-0" : ""
-            }`}
+            className={`block w-5 h-0.5 transition-opacity ${
+              scrolled ? "bg-text-primary" : "bg-white"
+            } ${mobileOpen ? "opacity-0" : ""}`}
           />
           <span
-            className={`block w-5 h-0.5 bg-text-primary transition-transform ${
-              mobileOpen ? "-rotate-45 -translate-y-2" : ""
-            }`}
+            className={`block w-5 h-0.5 transition-transform ${
+              scrolled ? "bg-text-primary" : "bg-white"
+            } ${mobileOpen ? "-rotate-45 -translate-y-2" : ""}`}
           />
         </button>
       </div>

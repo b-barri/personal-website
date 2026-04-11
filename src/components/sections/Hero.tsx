@@ -76,6 +76,22 @@ export default function Hero() {
           </div>
         </motion.div>
       </div>
+
+      {/* Image caption (bottom-left, editorial style) */}
+      <motion.div
+        initial={prefersReducedMotion ? {} : { opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.8, delay: 1.2 }}
+        className="absolute bottom-8 left-8 max-w-xs"
+      >
+        <div className="flex items-start gap-3">
+          <span className="h-px w-8 bg-white/30 mt-2.5 shrink-0" />
+          <p className="font-[family-name:var(--font-playfair)] italic text-xs md:text-sm text-white/70 leading-snug">
+            Bangalore in tabebuia bloom — the pink riot we call cherry blossom
+            season.
+          </p>
+        </div>
+      </motion.div>
     </section>
   );
 }

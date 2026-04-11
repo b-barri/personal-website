@@ -10,20 +10,25 @@ export default function About() {
           </h2>
           <div className="max-w-3xl space-y-6 text-lg text-text-secondary leading-relaxed">
             <p>
-              I&apos;m Bhavya Barri, a Product Manager who builds things on the
-              side. I believe the best way to understand a problem is to build a
-              solution for it — even if it&apos;s scrappy, even if it&apos;s
-              just for you.
+              Biotech engineer by training, product builder by choice. After
+              graduating from IIT Delhi in 2022, I joined Groww — what started
+              as curiosity about how people make financial decisions quietly
+              turned into a deep obsession with Search, Discovery, and
+              Engagement.
             </p>
             <p>
-              My side projects span AI-powered tools, Claude Code skills,
-              content workflows, and the occasional hardware hack. Each one
-              started as a question I couldn&apos;t shake — and ended as
-              something I shipped.
+              Somewhere along the way, LLMs entered the picture. I&apos;ve since
+              built GenAI pipelines for financial content and LLM-powered
+              document analysis systems — not because it was trendy, but because
+              it genuinely made products smarter. From voice search to Stories
+              and Rewards platforms at CRED, I care most about building things
+              that feel effortless to the millions of people who never think
+              twice about how it works.
             </p>
             <p>
-              By day, I work on AI products. By night, I&apos;m usually
-              prototyping the next Side Quest.
+              Off the clock: tech blogs, reading on my Kindle, prompt
+              engineering experiments, and iPad sketching when I need a break
+              from building.
             </p>
           </div>
         </ScrollReveal>

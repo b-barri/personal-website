@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 const socialLinks = [
   {
     label: "GitHub",
@@ -40,12 +42,33 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer className="border-t border-border py-20">
-      <div className="mx-auto max-w-6xl px-6">
-        <div className="flex flex-col items-center gap-8">
-          <p className="font-[family-name:var(--font-playfair)] italic text-3xl md:text-4xl text-text-primary text-center max-w-2xl leading-tight">
-            Let&apos;s build something.
-          </p>
+    <footer className="border-t border-border">
+      {/* Banner image */}
+      <div className="relative w-full aspect-[3/1] md:aspect-[4/1] overflow-hidden bg-bg-surface">
+        <Image
+          src="/images/footer.png"
+          alt="Bangalore skyline at sunset"
+          fill
+          className="object-cover"
+          sizes="100vw"
+        />
+        {/* Subtle overlay with quote */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+        <div className="absolute inset-0 flex items-end justify-center pb-10 md:pb-16">
+          <div className="text-center px-6">
+            <p className="font-[family-name:var(--font-playfair)] italic text-3xl md:text-5xl text-white drop-shadow-lg leading-tight">
+              Let&apos;s build something.
+            </p>
+            <p className="mt-3 text-xs md:text-sm uppercase tracking-[0.25em] text-white/80 font-[family-name:var(--font-inter)]">
+              From Bangalore, with curiosity
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Footer meta */}
+      <div className="mx-auto max-w-6xl px-6 py-12">
+        <div className="flex flex-col items-center gap-6">
           <div className="flex items-center gap-2">
             {socialLinks.map((link) => (
               <a
@@ -60,7 +83,7 @@ export default function Footer() {
               </a>
             ))}
           </div>
-          <div className="flex items-center gap-3 pt-4 text-xs uppercase tracking-widest text-text-secondary">
+          <div className="flex items-center gap-3 text-xs uppercase tracking-widest text-text-secondary">
             <span>&copy; {new Date().getFullYear()}</span>
             <span className="h-px w-8 bg-border" />
             <span className="font-[family-name:var(--font-playfair)] italic normal-case text-sm">

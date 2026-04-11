@@ -1,56 +1,119 @@
 import ScrollReveal from "@/components/ui/ScrollReveal";
 
-const highlights = [
+const experience = [
   {
-    role: "Product Manager",
-    company: "Sarvam AI",
-    description: "Building AI products that scale across languages and modalities.",
+    role: "Product Manager I, Engagement (AI & Platform)",
+    company: "Groww",
+    period: "Aug 2024 — Present",
+    highlights: [
+      "Led Annual Flashback feature reaching 5.2M+ users with 73.4% completion rate and 59% revisit engagement",
+      "Built GenAI-powered financial news system processing 5,700+ articles daily with semantic deduplication and custom NER",
+      "Created LLM-based document analysis tools that reduced quarterly report processing from one day to two hours",
+      "Scaled Stories platform to 80M+ users with templated content and smart prioritization",
+    ],
   },
   {
-    role: "Side Project Builder",
-    company: "11+ shipped projects",
-    description:
-      "From AI-powered PRD auditors to open-source claw machines — building across the stack with Claude Code, Cursor, and Lovable.",
+    role: "Associate Product Manager II, Search, Discovery & Referral",
+    company: "Groww",
+    period: "Aug 2023 — Aug 2024",
+    highlights: [
+      "Launched multi-language voice search handling 1.2M+ daily queries, increasing repeat usage by 21%",
+      "Redesigned in-app rating system, doubling weekly submissions from 5K to 10K",
+      "Created link-based referral program contributing 3.5% conversion share",
+    ],
   },
   {
-    role: "Builder in Public",
-    company: "Writing & sharing",
-    description:
-      "Documenting the process of building side projects with AI tools, one shipped experiment at a time.",
+    role: "Associate Product Manager I, Search and Discovery",
+    company: "Groww",
+    period: "Jul 2022 — Aug 2023",
+    highlights: [
+      "Implemented word correction model reducing null searches by 2%",
+      "Launched 'Pills in Search' feature capturing 21% of underserved browse demand",
+    ],
   },
 ];
+
+const education = {
+  school: "Indian Institute of Technology, Delhi",
+  degree: "B.Tech in Biochemical Engineering & Biotechnology",
+  detail: "Minor in Entrepreneurship • CGPA 8.01",
+  period: "2018 — 2022",
+};
 
 export default function Resume() {
   return (
     <section id="resume" className="py-24 bg-bg-surface">
       <div className="mx-auto max-w-6xl px-6">
         <ScrollReveal>
-          <h2 className="text-3xl md:text-4xl font-bold font-[family-name:var(--font-heading)] text-text-primary mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold font-[family-name:var(--font-heading)] text-text-primary mb-4">
             Experience
           </h2>
+          <p className="text-text-secondary text-lg mb-12 max-w-2xl">
+            Three years of building product at Groww across Search, Discovery,
+            Engagement, and AI platforms.
+          </p>
 
-          <div className="space-y-8 mb-12 max-w-3xl">
-            {highlights.map((item) => (
-              <div key={item.role} className="flex gap-4">
-                <div className="w-1 bg-accent/20 rounded-full shrink-0" />
-                <div>
-                  <h3 className="text-lg font-semibold font-[family-name:var(--font-heading)] text-text-primary">
-                    {item.role}
-                  </h3>
-                  <p className="text-sm text-accent font-medium mb-2">
+          {/* Experience timeline */}
+          <div className="space-y-10 mb-16 max-w-3xl">
+            {experience.map((item) => (
+              <div key={item.role} className="flex gap-5">
+                <div className="w-1 bg-accent/30 rounded-full shrink-0" />
+                <div className="flex-1">
+                  <div className="flex flex-col md:flex-row md:items-baseline md:justify-between mb-1 gap-1">
+                    <h3 className="text-lg md:text-xl font-semibold font-[family-name:var(--font-heading)] text-text-primary">
+                      {item.role}
+                    </h3>
+                    <span className="text-sm text-text-secondary font-[family-name:var(--font-inter)] shrink-0">
+                      {item.period}
+                    </span>
+                  </div>
+                  <p className="text-sm font-medium text-accent mb-3">
                     {item.company}
                   </p>
-                  <p className="text-text-secondary leading-relaxed">
-                    {item.description}
-                  </p>
+                  <ul className="space-y-2">
+                    {item.highlights.map((highlight) => (
+                      <li
+                        key={highlight}
+                        className="text-text-secondary leading-relaxed pl-5 relative before:content-['→'] before:absolute before:left-0 before:text-accent"
+                      >
+                        {highlight}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
             ))}
           </div>
 
+          {/* Education */}
+          <h3 className="text-2xl font-bold font-[family-name:var(--font-heading)] text-text-primary mb-6">
+            Education
+          </h3>
+          <div className="flex gap-5 mb-12 max-w-3xl">
+            <div className="w-1 bg-accent/30 rounded-full shrink-0" />
+            <div className="flex-1">
+              <div className="flex flex-col md:flex-row md:items-baseline md:justify-between mb-1 gap-1">
+                <h4 className="text-lg md:text-xl font-semibold font-[family-name:var(--font-heading)] text-text-primary">
+                  {education.school}
+                </h4>
+                <span className="text-sm text-text-secondary font-[family-name:var(--font-inter)] shrink-0">
+                  {education.period}
+                </span>
+              </div>
+              <p className="text-sm font-medium text-accent mb-1">
+                {education.degree}
+              </p>
+              <p className="text-text-secondary leading-relaxed">
+                {education.detail}
+              </p>
+            </div>
+          </div>
+
+          {/* Download button */}
           <a
-            href="/resume.pdf"
-            download
+            href="https://docs.google.com/document/d/15oVn3fsh1IK-v_hSKwbzVRP0iOSNl7_jMI1jGm6RAhE/edit?usp=sharing"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-white rounded-lg font-medium hover:bg-accent-hover transition-colors"
           >
             <svg
@@ -63,10 +126,10 @@ export default function Resume() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth={2}
-                d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
               />
             </svg>
-            Download Resume
+            View Full Resume
           </a>
         </ScrollReveal>
       </div>

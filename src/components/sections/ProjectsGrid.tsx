@@ -106,7 +106,7 @@ function ProjectCard({
             </span>
           </div>
           {project.featured && (
-            <span className="absolute top-4 left-4 px-3 py-1 text-[10px] font-medium bg-white/95 backdrop-blur-sm text-text-primary rounded-full uppercase tracking-widest">
+            <span className="absolute top-4 left-4 px-3 py-1 text-[10px] font-medium bg-bg-primary dark:bg-bg-surface/95 backdrop-blur-sm text-text-primary rounded-full uppercase tracking-widest">
               Featured
             </span>
           )}

@@ -8,8 +8,8 @@ export default function Hero() {
 
   return (
     <section className="relative flex min-h-screen items-start justify-center overflow-hidden pt-28 md:pt-40">
-      {/* Full background image */}
-      <div className="absolute inset-0 -z-10">
+      {/* Full background image — light theme */}
+      <div className="absolute inset-0 -z-10 dark:hidden">
         <Image
           src="/images/hero/photo.png"
           alt="Hero background"
@@ -20,6 +20,20 @@ export default function Hero() {
         />
         {/* Subtle gradient for text readability at the top */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/20 to-transparent" />
+      </div>
+
+      {/* Full background image — dark theme */}
+      <div className="absolute inset-0 -z-10 hidden dark:block">
+        <Image
+          src="/images/hero/photo-dark.png"
+          alt="Hero background"
+          fill
+          className="object-cover object-center"
+          priority
+          sizes="100vw"
+        />
+        {/* Stronger gradient for dark mode */}
+        <div className="absolute inset-0 bg-gradient-to-b from-bg-dark/70 via-bg-dark/40 to-bg-dark/60" />
       </div>
 
       <div className="mx-auto max-w-5xl px-6 flex flex-col items-center text-center">

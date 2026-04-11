@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import ThemeToggle from "./ThemeToggle";
 
 const navLinks = [
   { label: "Projects", href: "#projects" },
@@ -120,6 +121,14 @@ export default function Navbar() {
               {link.label}
             </a>
           ))}
+          <div className="ml-2 pl-2 border-l border-white/20 dark:border-white/10">
+            <ThemeToggle scrolled={scrolled} />
+          </div>
+        </div>
+
+        {/* Mobile theme toggle (visible on small screens, before hamburger) */}
+        <div className="md:hidden flex items-center">
+          <ThemeToggle scrolled={scrolled} />
         </div>
 
         {/* Mobile hamburger */}

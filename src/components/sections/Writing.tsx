@@ -23,7 +23,7 @@ export default function Writing() {
                 href={writing.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group block p-7 rounded-2xl border border-border bg-white hover:border-accent/40 hover:shadow-lg transition-all duration-300"
+                className="group block p-7 rounded-2xl border border-border bg-bg-primary dark:bg-bg-surface hover:border-accent/40 hover:shadow-lg transition-all duration-300"
               >
                 <div className="flex items-center gap-2 mb-4">
                   <span className="text-[10px] font-medium text-accent uppercase tracking-widest font-[family-name:var(--font-inter)]">

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { spaceGrotesk, inter, playfairDisplay } from "@/lib/fonts";
 import Navbar from "@/components/ui/Navbar";
 import ScrollProgress from "@/components/ui/ScrollProgress";
+import { ThemeProvider } from "@/components/ui/ThemeProvider";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -23,6 +24,18 @@ export const metadata: Metadata = {
   },
 };
 
+// Anti-FOUC: apply theme class before React hydrates
+const themeInitScript = `
+(function() {
+  try {
+    var stored = localStorage.getItem('theme');
+    var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    var theme = stored || (prefersDark ? 'dark' : 'light');
+    if (theme === 'dark') document.documentElement.classList.add('dark');
+  } catch (e) {}
+})();
+`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -33,13 +46,18 @@ export default function RootLayout({
       lang="en"
       className={`${spaceGrotesk.variable} ${inter.variable} ${playfairDisplay.variable} h-full antialiased`}
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body className="min-h-full flex flex-col">
-        <a href="#main" className="skip-to-content">
-          Skip to content
-        </a>
-        <ScrollProgress />
-        <Navbar />
-        {children}
+        <ThemeProvider>
+          <a href="#main" className="skip-to-content">
+            Skip to content
+          </a>
+          <ScrollProgress />
+          <Navbar />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

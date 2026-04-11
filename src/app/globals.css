@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
-@theme inline {
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
   --color-bg-primary: #FEFFFC;
   --color-bg-surface: #F5F5F0;
   --color-bg-dark: #1F1F29;
@@ -10,18 +12,51 @@
   --color-accent: #3B82F6;
   --color-accent-hover: #2563EB;
   --color-border: #DEE2DE;
+  --color-meta-theme: #FEFFFC;
+}
+
+.dark {
+  --color-bg-primary: #1c1917;       /* warm charcoal — like ink on warm paper */
+  --color-bg-surface: #292524;       /* warm elevated surface */
+  --color-bg-dark: #0f0e0c;          /* deepest warm */
+  --color-text-primary: #f5f3ee;     /* warm off-white, paper feel */
+  --color-text-secondary: #a8a29e;   /* warm muted */
+  --color-text-on-dark: #f5f3ee;
+  --color-accent: #60a5fa;           /* slightly brighter blue for dark bg contrast */
+  --color-accent-hover: #93c5fd;
+  --color-border: #44403c;           /* warm dark border */
+  --color-meta-theme: #1c1917;
+}
+
+@theme inline {
+  --color-bg-primary: var(--color-bg-primary);
+  --color-bg-surface: var(--color-bg-surface);
+  --color-bg-dark: var(--color-bg-dark);
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-on-dark: var(--color-text-on-dark);
+  --color-accent: var(--color-accent);
+  --color-accent-hover: var(--color-accent-hover);
+  --color-border: var(--color-border);
   --font-heading: var(--font-space-grotesk);
   --font-body: var(--font-inter);
+  --font-playfair: var(--font-playfair);
 }
 
 html {
   scroll-behavior: smooth;
+  color-scheme: light;
+}
+
+html.dark {
+  color-scheme: dark;
 }
 
 body {
   background-color: var(--color-bg-primary);
   color: var(--color-text-primary);
   font-family: var(--font-body);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -53,11 +88,23 @@ h1, h2, h3, h4, h5, h6 {
   background-size: 32px 32px;
 }
 
+.dark .bg-grid {
+  background-image:
+    linear-gradient(to right, rgba(245, 243, 238, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(245, 243, 238, 0.04) 1px, transparent 1px);
+}
+
 .bg-grid-fine {
   background-image:
     linear-gradient(to right, rgba(44, 44, 44, 0.04) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(44, 44, 44, 0.04) 1px, transparent 1px);
   background-size: 24px 24px;
+}
+
+.dark .bg-grid-fine {
+  background-image:
+    linear-gradient(to right, rgba(245, 243, 238, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(245, 243, 238, 0.03) 1px, transparent 1px);
 }
 
 /* Hero background animations — pure CSS, compositor thread */
@@ -140,7 +187,9 @@ h1, h2, h3, h4, h5, h6 {
   .animate-gradient-shift,
   .animate-float,
   .animate-float-delayed,
-  .animate-bounce {
+  .animate-bounce,
+  .animate-marquee,
+  .animate-slow-spin {
     animation: none;
   }
 }

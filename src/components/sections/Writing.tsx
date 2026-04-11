@@ -4,7 +4,7 @@ import { writings } from "@/data/writings";
 
 export default function Writing() {
   return (
-    <section id="writing" className="py-32">
+    <section id="writing" className="py-32 bg-grid">
       <div className="mx-auto max-w-6xl px-6">
         <ScrollReveal>
           <SectionLabel number="03" label="Writing" />

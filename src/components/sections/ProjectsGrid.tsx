@@ -36,7 +36,7 @@ export default function ProjectsGrid() {
   const MotionDiv = prefersReducedMotion ? "div" : motion.div;
 
   return (
-    <section id="projects" className="py-32">
+    <section id="projects" className="py-32 bg-grid">
       <div className="mx-auto max-w-6xl px-6">
         <SectionLabel number="01" label="Selected Work" />
         <h2 className="font-[family-name:var(--font-playfair)] text-5xl md:text-6xl font-normal text-text-primary mb-6 leading-[1.05] tracking-tight">

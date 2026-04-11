@@ -42,9 +42,9 @@ export default function Hero() {
             Bhavya Barri
           </h1>
           <p className="text-base md:text-lg text-white/75 max-w-lg leading-relaxed tracking-wide font-[family-name:var(--font-inter)] mt-4">
-            Side projects are how I think.{" "}
+            Curious by default, builder by reflex.{" "}
             <span className="text-white/95">
-              These are the ones that made it out.
+              Each Side Quest is a question I couldn&apos;t stop poking at.
             </span>
           </p>
         </motion.div>

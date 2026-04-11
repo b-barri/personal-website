@@ -2,9 +2,18 @@ import ScrollReveal from "@/components/ui/ScrollReveal";
 
 const experience = [
   {
+    role: "Product Manager II, Rewards Platform & CRED Store",
+    company: "CRED",
+    period: "Dec 2025 — Present",
+    highlights: [
+      "Designed Choice Stack — a time-bound, themed shopping arena to nudge multi-cart purchases and drive GMV lift; product scoped and in pre-launch",
+      "Driving Rewards Platform × Checkout integration to expose relevant offers at the payment stage, targeting improved conversion rates; in progress",
+    ],
+  },
+  {
     role: "Product Manager I, Engagement (AI & Platform)",
     company: "Groww",
-    period: "Aug 2024 — Present",
+    period: "Aug 2024 — Nov 2025",
     highlights: [
       "Led Annual Flashback feature reaching 5.2M+ users with 73.4% completion rate and 59% revisit engagement",
       "Built GenAI-powered financial news system processing 5,700+ articles daily with semantic deduplication and custom NER",
@@ -49,8 +58,8 @@ export default function Resume() {
             Experience
           </h2>
           <p className="text-text-secondary text-lg mb-12 max-w-2xl">
-            Three years of building product at Groww across Search, Discovery,
-            Engagement, and AI platforms.
+            Building product at CRED and Groww across Search, Discovery,
+            Engagement, Rewards, and AI platforms.
           </p>
 
           {/* Experience timeline */}

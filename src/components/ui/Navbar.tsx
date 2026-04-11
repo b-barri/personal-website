@@ -93,7 +93,7 @@ export default function Navbar() {
             e.preventDefault();
             window.scrollTo({ top: 0, behavior: "smooth" });
           }}
-          className={`text-lg font-semibold font-[family-name:var(--font-heading)] transition-colors ${
+          className={`text-xl font-normal italic font-[family-name:var(--font-playfair)] transition-colors ${
             scrolled ? "text-text-primary" : "text-white"
           }`}
         >
@@ -101,18 +101,20 @@ export default function Navbar() {
         </a>
 
         {/* Desktop links */}
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-1">
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
               onClick={(e) => handleNavClick(e, link.href)}
-              className={`text-sm font-medium transition-colors ${
+              className={`text-xs uppercase tracking-widest font-medium transition-all px-4 py-2 rounded-full ${
                 activeSection === link.href
-                  ? "text-accent"
+                  ? scrolled
+                    ? "text-accent bg-accent/10"
+                    : "text-white bg-white/15"
                   : scrolled
-                    ? "text-text-secondary hover:text-text-primary"
-                    : "text-white/80 hover:text-white"
+                    ? "text-text-secondary hover:text-text-primary hover:bg-bg-surface"
+                    : "text-white/80 hover:text-white hover:bg-white/10"
               }`}
             >
               {link.label}

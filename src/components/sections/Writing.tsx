@@ -1,15 +1,17 @@
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import SectionLabel from "@/components/ui/SectionLabel";
 import { writings } from "@/data/writings";
 
 export default function Writing() {
   return (
-    <section id="writing" className="py-24">
+    <section id="writing" className="py-32">
       <div className="mx-auto max-w-6xl px-6">
         <ScrollReveal>
-          <h2 className="text-3xl md:text-4xl font-bold font-[family-name:var(--font-heading)] text-text-primary mb-4">
-            Writing
+          <SectionLabel number="03" label="Writing" />
+          <h2 className="font-[family-name:var(--font-playfair)] text-5xl md:text-6xl font-normal text-text-primary mb-6 leading-[1.05] tracking-tight">
+            Notes from the build.
           </h2>
-          <p className="text-text-secondary text-lg mb-12 max-w-2xl">
+          <p className="text-text-secondary text-lg mb-16 max-w-2xl leading-relaxed">
             Thoughts on building with AI, shipping side projects, and working in
             public.
           </p>
@@ -21,35 +23,23 @@ export default function Writing() {
                 href={writing.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group block p-6 rounded-xl border border-border bg-white hover:border-accent/30 hover:shadow-md transition-all duration-200"
+                className="group block p-7 rounded-2xl border border-border bg-white hover:border-accent/40 hover:shadow-lg transition-all duration-300"
               >
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="text-xs font-medium text-accent bg-accent/10 px-2 py-0.5 rounded-full">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="text-[10px] font-medium text-accent uppercase tracking-widest font-[family-name:var(--font-inter)]">
                     {writing.platform}
                   </span>
                 </div>
-                <h3 className="text-lg font-semibold font-[family-name:var(--font-heading)] text-text-primary group-hover:text-accent transition-colors mb-2">
+                <h3 className="font-[family-name:var(--font-playfair)] text-2xl font-normal text-text-primary group-hover:text-accent transition-colors mb-3 leading-tight">
                   {writing.title}
                 </h3>
                 <p className="text-sm text-text-secondary leading-relaxed">
                   {writing.description}
                 </p>
-                <div className="mt-4 flex items-center gap-1 text-sm text-accent opacity-0 group-hover:opacity-100 transition-opacity">
-                  Read more
-                  <svg
-                    className="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M17 8l4 4m0 0l-4 4m4-4H3"
-                    />
-                  </svg>
-                </div>
+                <span className="mt-5 inline-flex items-center gap-1.5 text-xs uppercase tracking-widest text-text-secondary group-hover:text-accent transition-colors">
+                  Read
+                  <span className="transition-transform group-hover:translate-x-0.5">→</span>
+                </span>
               </a>
             ))}
           </div>

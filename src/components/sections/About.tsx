@@ -1,14 +1,16 @@
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import SectionLabel from "@/components/ui/SectionLabel";
 
 export default function About() {
   return (
-    <section id="about" className="py-24 bg-bg-surface">
+    <section id="about" className="py-32 bg-bg-surface">
       <div className="mx-auto max-w-6xl px-6">
         <ScrollReveal>
-          <h2 className="text-3xl md:text-4xl font-bold font-[family-name:var(--font-heading)] text-text-primary mb-8">
-            About
+          <SectionLabel number="02" label="About" />
+          <h2 className="font-[family-name:var(--font-playfair)] text-5xl md:text-6xl font-normal text-text-primary mb-12 leading-[1.05] tracking-tight">
+            A builder, by choice.
           </h2>
-          <div className="max-w-3xl space-y-6 text-lg text-text-secondary leading-relaxed">
+          <div className="max-w-3xl space-y-6 text-lg text-text-secondary leading-[1.8]">
             <p>
               Biotech engineer by training, product builder by choice. After
               graduating from IIT Delhi in 2022, I joined Groww — what started

@@ -29,10 +29,19 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
           className="flex flex-col items-center gap-6"
         >
-          <h1 className="text-5xl md:text-7xl lg:text-[5.5rem] font-normal font-[family-name:var(--font-playfair)] text-white tracking-tight leading-[1.1]">
+          <div className="flex items-center gap-3 mb-2">
+            <span className="font-[family-name:var(--font-playfair)] italic text-base text-white/70">
+              00
+            </span>
+            <span className="h-px w-12 bg-white/30" />
+            <span className="font-[family-name:var(--font-playfair)] italic text-sm text-white/70 tracking-wide">
+              Portfolio
+            </span>
+          </div>
+          <h1 className="text-5xl md:text-7xl lg:text-[5.5rem] font-normal italic font-[family-name:var(--font-playfair)] text-white tracking-tight leading-[1.05]">
             Bhavya Barri
           </h1>
-          <p className="text-base md:text-lg text-white/75 max-w-lg leading-relaxed tracking-wide font-[family-name:var(--font-inter)]">
+          <p className="text-base md:text-lg text-white/75 max-w-lg leading-relaxed tracking-wide font-[family-name:var(--font-inter)] mt-4">
             Side projects are how I think.{" "}
             <span className="text-white/95">
               These are the ones that made it out.

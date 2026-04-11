@@ -4,6 +4,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { projects } from "@/data/projects";
+import SectionLabel from "@/components/ui/SectionLabel";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -35,12 +36,13 @@ export default function ProjectsGrid() {
   const MotionDiv = prefersReducedMotion ? "div" : motion.div;
 
   return (
-    <section id="projects" className="py-24">
+    <section id="projects" className="py-32">
       <div className="mx-auto max-w-6xl px-6">
-        <h2 className="text-3xl md:text-4xl font-bold font-[family-name:var(--font-heading)] text-text-primary mb-4">
+        <SectionLabel number="01" label="Selected Work" />
+        <h2 className="font-[family-name:var(--font-playfair)] text-5xl md:text-6xl font-normal text-text-primary mb-6 leading-[1.05] tracking-tight">
           Side Quests
         </h2>
-        <p className="text-text-secondary text-lg mb-12 max-w-2xl">
+        <p className="text-text-secondary text-lg mb-16 max-w-2xl leading-relaxed">
           11 projects across AI tools, Claude skills, and creative experiments.
         </p>
 
@@ -51,7 +53,7 @@ export default function ProjectsGrid() {
             whileInView: "visible",
             viewport: { once: true, amount: 0.1 },
           })}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-14"
         >
           {sortedProjects.map((project) => (
             <ProjectCard
@@ -81,45 +83,47 @@ function ProjectCard({
     >
       <Link
         href={`/projects/${project.slug}`}
-        className={`group block rounded-xl overflow-hidden border transition-all duration-200 hover:shadow-lg hover:scale-[1.02] hover:border-accent/30 ${
-          project.featured
-            ? "border-accent/20 shadow-sm"
-            : "border-border"
-        } bg-white`}
+        className="group block"
       >
         {/* Project image */}
-        <div className="relative aspect-video bg-bg-surface overflow-hidden">
+        <div className={`relative aspect-[4/3] bg-bg-surface overflow-hidden rounded-2xl border transition-all duration-300 ${
+          project.featured ? "border-accent/20" : "border-border"
+        } group-hover:border-accent/40 group-hover:shadow-xl`}>
           <Image
             src={project.imagePath}
             alt={project.title}
             fill
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
             onError={(e) => {
               (e.target as HTMLImageElement).style.display = "none";
             }}
           />
           {/* Gradient fallback when no image */}
-          <div className="absolute inset-0 bg-gradient-to-br from-accent/10 to-accent/5 flex items-center justify-center">
-            <span className="text-4xl font-bold text-accent/20 font-[family-name:var(--font-heading)]">
+          <div className="absolute inset-0 bg-gradient-to-br from-accent/10 to-accent/5 flex items-center justify-center -z-10">
+            <span className="text-4xl font-normal text-accent/20 font-[family-name:var(--font-playfair)] italic">
               {project.title.charAt(0)}
             </span>
           </div>
           {project.featured && (
-            <span className="absolute top-3 right-3 px-2 py-0.5 text-xs font-medium bg-accent text-white rounded-full">
+            <span className="absolute top-4 left-4 px-3 py-1 text-[10px] font-medium bg-white/95 backdrop-blur-sm text-text-primary rounded-full uppercase tracking-widest">
               Featured
             </span>
           )}
         </div>
 
         {/* Card content */}
-        <div className="p-5">
-          <h3 className="text-lg font-semibold font-[family-name:var(--font-heading)] text-text-primary group-hover:text-accent transition-colors">
+        <div className="pt-5 pb-2">
+          <h3 className="font-[family-name:var(--font-playfair)] text-2xl font-normal text-text-primary group-hover:text-accent transition-colors leading-tight">
             {project.title}
           </h3>
           <p className="mt-2 text-sm text-text-secondary leading-relaxed line-clamp-2">
             {project.tagline}
           </p>
+          <span className="mt-3 inline-flex items-center gap-1.5 text-xs uppercase tracking-widest text-text-secondary group-hover:text-accent transition-colors">
+            View
+            <span className="transition-transform group-hover:translate-x-0.5">→</span>
+          </span>
         </div>
       </Link>
     </Wrapper>

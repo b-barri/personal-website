@@ -40,25 +40,34 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer className="border-t border-border py-12">
-      <div className="mx-auto max-w-6xl px-6 flex flex-col items-center gap-6">
-        <div className="flex items-center gap-6">
-          {socialLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.url}
-              target={link.url.startsWith("mailto") ? undefined : "_blank"}
-              rel={link.url.startsWith("mailto") ? undefined : "noopener noreferrer"}
-              className="text-text-secondary hover:text-accent transition-colors"
-              aria-label={link.label}
-            >
-              {link.icon}
-            </a>
-          ))}
+    <footer className="border-t border-border py-20">
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="flex flex-col items-center gap-8">
+          <p className="font-[family-name:var(--font-playfair)] italic text-3xl md:text-4xl text-text-primary text-center max-w-2xl leading-tight">
+            Let&apos;s build something.
+          </p>
+          <div className="flex items-center gap-2">
+            {socialLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.url}
+                target={link.url.startsWith("mailto") ? undefined : "_blank"}
+                rel={link.url.startsWith("mailto") ? undefined : "noopener noreferrer"}
+                className="p-3 rounded-full text-text-secondary hover:text-accent hover:bg-bg-surface transition-all"
+                aria-label={link.label}
+              >
+                {link.icon}
+              </a>
+            ))}
+          </div>
+          <div className="flex items-center gap-3 pt-4 text-xs uppercase tracking-widest text-text-secondary">
+            <span>&copy; {new Date().getFullYear()}</span>
+            <span className="h-px w-8 bg-border" />
+            <span className="font-[family-name:var(--font-playfair)] italic normal-case text-sm">
+              Bhavya Barri
+            </span>
+          </div>
         </div>
-        <p className="text-sm text-text-secondary">
-          &copy; {new Date().getFullYear()} Bhavya Barri. Built with Next.js.
-        </p>
       </div>
     </footer>
   );

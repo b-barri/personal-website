@@ -1,4 +1,5 @@
 import ScrollReveal from "@/components/ui/ScrollReveal";
+import SectionLabel from "@/components/ui/SectionLabel";
 
 const experience = [
   {
@@ -51,35 +52,38 @@ const education = {
 
 export default function Resume() {
   return (
-    <section id="resume" className="py-24 bg-bg-surface">
+    <section id="resume" className="py-32 bg-bg-surface">
       <div className="mx-auto max-w-6xl px-6">
         <ScrollReveal>
-          <h2 className="text-3xl md:text-4xl font-bold font-[family-name:var(--font-heading)] text-text-primary mb-4">
-            Experience
+          <SectionLabel number="04" label="Experience" />
+          <h2 className="font-[family-name:var(--font-playfair)] text-5xl md:text-6xl font-normal text-text-primary mb-6 leading-[1.05] tracking-tight">
+            Where I&apos;ve built.
           </h2>
-          <p className="text-text-secondary text-lg mb-12 max-w-2xl">
+          <p className="text-text-secondary text-lg mb-16 max-w-2xl leading-relaxed">
             Building product at CRED and Groww across Search, Discovery,
             Engagement, Rewards, and AI platforms.
           </p>
 
           {/* Experience timeline */}
-          <div className="space-y-10 mb-16 max-w-3xl">
+          <div className="space-y-12 mb-20 max-w-3xl">
             {experience.map((item) => (
-              <div key={item.role} className="flex gap-5">
-                <div className="w-1 bg-accent/30 rounded-full shrink-0" />
-                <div className="flex-1">
-                  <div className="flex flex-col md:flex-row md:items-baseline md:justify-between mb-1 gap-1">
-                    <h3 className="text-lg md:text-xl font-semibold font-[family-name:var(--font-heading)] text-text-primary">
+              <div key={item.role} className="flex gap-6">
+                <div className="w-px bg-border shrink-0 relative">
+                  <div className="absolute top-2 -left-[5px] w-2.5 h-2.5 rounded-full bg-accent" />
+                </div>
+                <div className="flex-1 pb-2">
+                  <div className="flex flex-col md:flex-row md:items-baseline md:justify-between mb-2 gap-1">
+                    <h3 className="font-[family-name:var(--font-playfair)] text-xl md:text-2xl font-normal text-text-primary leading-tight">
                       {item.role}
                     </h3>
-                    <span className="text-sm text-text-secondary font-[family-name:var(--font-inter)] shrink-0">
+                    <span className="text-xs uppercase tracking-widest text-text-secondary font-[family-name:var(--font-inter)] shrink-0">
                       {item.period}
                     </span>
                   </div>
-                  <p className="text-sm font-medium text-accent mb-3">
+                  <p className="text-sm font-medium text-accent mb-4 uppercase tracking-wider">
                     {item.company}
                   </p>
-                  <ul className="space-y-2">
+                  <ul className="space-y-2.5">
                     {item.highlights.map((highlight) => (
                       <li
                         key={highlight}
@@ -95,21 +99,23 @@ export default function Resume() {
           </div>
 
           {/* Education */}
-          <h3 className="text-2xl font-bold font-[family-name:var(--font-heading)] text-text-primary mb-6">
+          <h3 className="font-[family-name:var(--font-playfair)] text-3xl md:text-4xl font-normal text-text-primary mb-8 italic">
             Education
           </h3>
-          <div className="flex gap-5 mb-12 max-w-3xl">
-            <div className="w-1 bg-accent/30 rounded-full shrink-0" />
+          <div className="flex gap-6 max-w-3xl">
+            <div className="w-px bg-border shrink-0 relative">
+              <div className="absolute top-2 -left-[5px] w-2.5 h-2.5 rounded-full bg-accent" />
+            </div>
             <div className="flex-1">
-              <div className="flex flex-col md:flex-row md:items-baseline md:justify-between mb-1 gap-1">
-                <h4 className="text-lg md:text-xl font-semibold font-[family-name:var(--font-heading)] text-text-primary">
+              <div className="flex flex-col md:flex-row md:items-baseline md:justify-between mb-2 gap-1">
+                <h4 className="font-[family-name:var(--font-playfair)] text-xl md:text-2xl font-normal text-text-primary leading-tight">
                   {education.school}
                 </h4>
-                <span className="text-sm text-text-secondary font-[family-name:var(--font-inter)] shrink-0">
+                <span className="text-xs uppercase tracking-widest text-text-secondary font-[family-name:var(--font-inter)] shrink-0">
                   {education.period}
                 </span>
               </div>
-              <p className="text-sm font-medium text-accent mb-1">
+              <p className="text-sm font-medium text-accent mb-2 uppercase tracking-wider">
                 {education.degree}
               </p>
               <p className="text-text-secondary leading-relaxed">
@@ -117,7 +123,6 @@ export default function Resume() {
               </p>
             </div>
           </div>
-
         </ScrollReveal>
       </div>
     </section>

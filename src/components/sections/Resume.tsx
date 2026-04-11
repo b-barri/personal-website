@@ -45,7 +45,7 @@ const experience = [
 const education = {
   school: "Indian Institute of Technology, Delhi",
   degree: "B.Tech in Biochemical Engineering & Biotechnology",
-  detail: "Minor in Entrepreneurship • CGPA 8.01",
+  detail: "Minor in Entrepreneurship",
   period: "2018 — 2022",
 };
 

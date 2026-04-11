@@ -7,21 +7,17 @@ export interface Writing {
 
 export const writings: Writing[] = [
   {
-    title: "How I Build Side Projects with AI",
-    description: "A walkthrough of my process for shipping side projects using Claude Code, Cursor, and other AI tools.",
-    url: "#",
-    platform: "Blog",
+    title: "Bhavya on Substack",
+    description:
+      "Essays on building with AI, product strategy, and shipping side projects in public.",
+    url: "https://substack.com/@barribhavya",
+    platform: "Substack",
   },
   {
-    title: "The Case for Building in Public",
-    description: "Why sharing your side projects publicly leads to better outcomes, more connections, and faster learning.",
-    url: "#",
-    platform: "Blog",
-  },
-  {
-    title: "AI Tools That Actually Ship Products",
-    description: "A practical review of AI development tools I've used across 11 side projects.",
-    url: "#",
-    platform: "Blog",
+    title: "Bhavya on Medium",
+    description:
+      "Long-form writing on product management, AI tools, and lessons from building.",
+    url: "https://bhavyabarri.medium.com/",
+    platform: "Medium",
   },
 ];

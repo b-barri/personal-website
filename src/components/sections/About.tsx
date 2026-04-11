@@ -4,17 +4,17 @@ import SectionLabel from "@/components/ui/SectionLabel";
 
 export default function About() {
   return (
-    <section id="about" className="py-32 bg-bg-surface">
+    <section id="about" className="py-20 md:py-32 bg-bg-surface">
       <div className="mx-auto max-w-6xl px-6">
         <ScrollReveal>
           <SectionLabel number="02" label="About" />
-          <h2 className="font-[family-name:var(--font-playfair)] text-5xl md:text-6xl font-normal text-text-primary mb-16 leading-[1.05] tracking-tight">
+          <h2 className="font-[family-name:var(--font-playfair)] text-4xl md:text-6xl font-normal text-text-primary mb-12 md:mb-16 leading-[1.05] tracking-tight">
             A builder, by choice.
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-12 md:gap-16 items-start">
             {/* Bio text */}
-            <div className="space-y-6 text-lg text-text-secondary leading-[1.8] order-2 md:order-1">
+            <div className="space-y-5 text-base md:text-lg text-text-secondary leading-[1.8] order-2 md:order-1">
               <p>
                 Biotech engineer by training, product builder by choice. After
                 graduating from IIT Delhi in 2022, I joined Groww — what started

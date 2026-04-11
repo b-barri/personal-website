@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { spaceGrotesk, inter, playfairDisplay } from "@/lib/fonts";
 import Navbar from "@/components/ui/Navbar";
+import ScrollProgress from "@/components/ui/ScrollProgress";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -36,6 +37,7 @@ export default function RootLayout({
         <a href="#main" className="skip-to-content">
           Skip to content
         </a>
+        <ScrollProgress />
         <Navbar />
         {children}
       </body>

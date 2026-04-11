@@ -89,6 +89,53 @@ h1, h2, h3, h4, h5, h6 {
   animation: float-delayed 10s ease-in-out infinite;
 }
 
+/* Marquee scrolling animation */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-25%); }
+}
+
+.animate-marquee {
+  animation: marquee 40s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Tilt on hover (for project cards) */
+.tilt-card {
+  transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+@media (hover: hover) {
+  .tilt-card:hover {
+    transform: perspective(1000px) rotateX(2deg) rotateY(-2deg) translateY(-4px);
+  }
+}
+
+/* Wiggle on hover for interactive accents */
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0); }
+  25% { transform: rotate(-8deg); }
+  75% { transform: rotate(8deg); }
+}
+
+.hover-wiggle:hover {
+  animation: wiggle 0.4s ease-in-out;
+}
+
+/* Slow spin for decorative stars */
+@keyframes slow-spin {
+  from { transform: rotate(0); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-slow-spin {
+  animation: slow-spin 20s linear infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-gradient-shift,
   .animate-float,

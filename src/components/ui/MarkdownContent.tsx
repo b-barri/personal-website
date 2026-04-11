@@ -5,27 +5,27 @@ import remarkGfm from "remark-gfm";
 
 const components: Components = {
   h1: ({ children }) => (
-    <h1 className="font-[family-name:var(--font-heading)] text-4xl md:text-5xl font-bold text-text-primary mt-16 mb-6 first:mt-0 leading-tight">
+    <h1 className="font-[family-name:var(--font-heading)] text-3xl md:text-5xl font-bold text-text-primary mt-12 md:mt-16 mb-5 md:mb-6 first:mt-0 leading-tight">
       {children}
     </h1>
   ),
   h2: ({ children }) => (
-    <h2 className="font-[family-name:var(--font-heading)] text-2xl md:text-3xl font-bold text-text-primary mt-16 mb-5 leading-tight border-b border-border pb-3">
+    <h2 className="font-[family-name:var(--font-heading)] text-xl md:text-3xl font-bold text-text-primary mt-12 md:mt-16 mb-4 md:mb-5 leading-tight border-b border-border pb-3">
       {children}
     </h2>
   ),
   h3: ({ children }) => (
-    <h3 className="font-[family-name:var(--font-heading)] text-xl md:text-2xl font-semibold text-text-primary mt-10 mb-4 leading-snug">
+    <h3 className="font-[family-name:var(--font-heading)] text-lg md:text-2xl font-semibold text-text-primary mt-8 md:mt-10 mb-3 md:mb-4 leading-snug">
       {children}
     </h3>
   ),
   h4: ({ children }) => (
-    <h4 className="font-[family-name:var(--font-heading)] text-lg font-semibold text-text-primary mt-8 mb-3">
+    <h4 className="font-[family-name:var(--font-heading)] text-base md:text-lg font-semibold text-text-primary mt-6 md:mt-8 mb-2 md:mb-3">
       {children}
     </h4>
   ),
   p: ({ children }) => (
-    <p className="text-text-primary text-base md:text-lg leading-[1.75] mb-6">
+    <p className="text-text-primary text-[15px] md:text-lg leading-[1.7] md:leading-[1.75] mb-5 md:mb-6">
       {children}
     </p>
   ),

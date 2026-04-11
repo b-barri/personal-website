@@ -7,7 +7,7 @@ export default function Hero() {
   const prefersReducedMotion = useReducedMotion();
 
   return (
-    <section className="relative flex min-h-screen items-start justify-center overflow-hidden pt-32 md:pt-40">
+    <section className="relative flex min-h-screen items-start justify-center overflow-hidden pt-28 md:pt-40">
       {/* Full background image */}
       <div className="absolute inset-0 -z-10">
         <Image
@@ -38,7 +38,7 @@ export default function Hero() {
               Portfolio
             </span>
           </div>
-          <h1 className="text-5xl md:text-7xl lg:text-[5.5rem] font-normal italic font-[family-name:var(--font-playfair)] text-white tracking-tight leading-[1.05]">
+          <h1 className="text-[3.25rem] sm:text-6xl md:text-7xl lg:text-[5.5rem] font-normal italic font-[family-name:var(--font-playfair)] text-white tracking-tight leading-[1.05]">
             Bhavya Barri
           </h1>
           <p className="text-base md:text-lg text-white/75 max-w-lg leading-relaxed tracking-wide font-[family-name:var(--font-inter)] mt-4">
@@ -82,7 +82,7 @@ export default function Hero() {
         initial={prefersReducedMotion ? {} : { opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, delay: 1.2 }}
-        className="absolute bottom-8 left-8 max-w-xs"
+        className="hidden sm:block absolute bottom-8 left-8 max-w-xs"
       >
         <div className="flex items-start gap-3">
           <span className="h-px w-8 bg-white/30 mt-2.5 shrink-0" />

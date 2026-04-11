@@ -52,14 +52,14 @@ const education = {
 
 export default function Resume() {
   return (
-    <section id="resume" className="py-32 bg-bg-surface">
+    <section id="resume" className="py-20 md:py-32 bg-bg-surface">
       <div className="mx-auto max-w-6xl px-6">
         <ScrollReveal>
           <SectionLabel number="04" label="Experience" />
-          <h2 className="font-[family-name:var(--font-playfair)] text-5xl md:text-6xl font-normal text-text-primary mb-6 leading-[1.05] tracking-tight">
+          <h2 className="font-[family-name:var(--font-playfair)] text-4xl md:text-6xl font-normal text-text-primary mb-4 md:mb-6 leading-[1.05] tracking-tight">
             Where I&apos;ve built.
           </h2>
-          <p className="text-text-secondary text-lg mb-16 max-w-2xl leading-relaxed">
+          <p className="text-text-secondary text-base md:text-lg mb-12 md:mb-16 max-w-2xl leading-relaxed">
             Building product at CRED and Groww across Search, Discovery,
             Engagement, Rewards, and AI platforms.
           </p>

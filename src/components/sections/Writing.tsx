@@ -4,14 +4,14 @@ import { writings } from "@/data/writings";
 
 export default function Writing() {
   return (
-    <section id="writing" className="py-32 bg-grid">
+    <section id="writing" className="py-20 md:py-32 bg-grid">
       <div className="mx-auto max-w-6xl px-6">
         <ScrollReveal>
           <SectionLabel number="03" label="Writing" />
-          <h2 className="font-[family-name:var(--font-playfair)] text-5xl md:text-6xl font-normal text-text-primary mb-6 leading-[1.05] tracking-tight">
+          <h2 className="font-[family-name:var(--font-playfair)] text-4xl md:text-6xl font-normal text-text-primary mb-4 md:mb-6 leading-[1.05] tracking-tight">
             Notes from the build.
           </h2>
-          <p className="text-text-secondary text-lg mb-16 max-w-2xl leading-relaxed">
+          <p className="text-text-secondary text-base md:text-lg mb-12 md:mb-16 max-w-2xl leading-relaxed">
             Thoughts on building with AI, shipping side projects, and working in
             public.
           </p>

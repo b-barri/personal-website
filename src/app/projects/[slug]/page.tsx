@@ -41,7 +41,7 @@ export default async function ProjectPage({ params }: Props) {
   return (
     <main id="main" className="flex-1 pt-16 bg-bg-primary">
       {/* Hero image with title overlay */}
-      <div className="relative w-full h-[60vh] min-h-[400px] bg-bg-surface overflow-hidden">
+      <div className="relative w-full h-[50vh] md:h-[60vh] min-h-[320px] md:min-h-[400px] bg-bg-surface overflow-hidden">
         <ProjectImage
           src={project.imagePath}
           alt={project.title}
@@ -53,7 +53,7 @@ export default async function ProjectPage({ params }: Props) {
 
         {/* Title overlay on hero */}
         <div className="absolute inset-0 flex items-end">
-          <div className="mx-auto max-w-4xl px-6 pb-16 w-full">
+          <div className="mx-auto max-w-4xl px-6 pb-10 md:pb-16 w-full">
             {/* Back link */}
             <Link
               href="/#projects"
@@ -75,10 +75,10 @@ export default async function ProjectPage({ params }: Props) {
               Back to projects
             </Link>
 
-            <h1 className="font-[family-name:var(--font-heading)] text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-4 leading-[1.05] drop-shadow-lg">
+            <h1 className="font-[family-name:var(--font-heading)] text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-3 md:mb-4 leading-[1.05] drop-shadow-lg">
               {project.title}
             </h1>
-            <p className="text-xl md:text-2xl text-white/90 max-w-2xl drop-shadow-md font-[family-name:var(--font-inter)]">
+            <p className="text-base md:text-xl lg:text-2xl text-white/90 max-w-2xl drop-shadow-md font-[family-name:var(--font-inter)]">
               {project.tagline}
             </p>
           </div>
@@ -86,7 +86,7 @@ export default async function ProjectPage({ params }: Props) {
       </div>
 
       {/* Content area */}
-      <div className="mx-auto max-w-3xl px-6 py-16">
+      <div className="mx-auto max-w-3xl px-6 py-12 md:py-16">
         {/* Tools */}
         {project.tools.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-8">

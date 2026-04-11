@@ -1,12 +1,133 @@
 "use client";
 
-import ReactMarkdown from "react-markdown";
+import ReactMarkdown, { Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
+
+const components: Components = {
+  h1: ({ children }) => (
+    <h1 className="font-[family-name:var(--font-heading)] text-4xl md:text-5xl font-bold text-text-primary mt-16 mb-6 first:mt-0 leading-tight">
+      {children}
+    </h1>
+  ),
+  h2: ({ children }) => (
+    <h2 className="font-[family-name:var(--font-heading)] text-2xl md:text-3xl font-bold text-text-primary mt-16 mb-5 leading-tight border-b border-border pb-3">
+      {children}
+    </h2>
+  ),
+  h3: ({ children }) => (
+    <h3 className="font-[family-name:var(--font-heading)] text-xl md:text-2xl font-semibold text-text-primary mt-10 mb-4 leading-snug">
+      {children}
+    </h3>
+  ),
+  h4: ({ children }) => (
+    <h4 className="font-[family-name:var(--font-heading)] text-lg font-semibold text-text-primary mt-8 mb-3">
+      {children}
+    </h4>
+  ),
+  p: ({ children }) => (
+    <p className="text-text-primary text-base md:text-lg leading-[1.75] mb-6">
+      {children}
+    </p>
+  ),
+  a: ({ children, href }) => (
+    <a
+      href={href}
+      target={href?.startsWith("http") ? "_blank" : undefined}
+      rel={href?.startsWith("http") ? "noopener noreferrer" : undefined}
+      className="text-accent font-medium underline decoration-accent/30 underline-offset-2 hover:decoration-accent transition-colors"
+    >
+      {children}
+    </a>
+  ),
+  strong: ({ children }) => (
+    <strong className="font-semibold text-text-primary">{children}</strong>
+  ),
+  em: ({ children }) => (
+    <em className="italic text-text-primary">{children}</em>
+  ),
+  ul: ({ children }) => (
+    <ul className="my-6 space-y-2.5 ml-1">{children}</ul>
+  ),
+  ol: ({ children }) => (
+    <ol className="my-6 space-y-2.5 ml-1 list-decimal list-inside marker:text-accent marker:font-semibold">
+      {children}
+    </ol>
+  ),
+  li: ({ children }) => (
+    <li className="text-text-primary text-base md:text-lg leading-[1.7] pl-2 relative before:content-['→'] before:absolute before:left-[-1.25rem] before:text-accent before:font-bold list-none">
+      {children}
+    </li>
+  ),
+  blockquote: ({ children }) => (
+    <blockquote className="my-8 pl-6 py-2 border-l-4 border-accent bg-bg-surface/50 rounded-r-lg">
+      <div className="text-text-primary text-lg italic font-[family-name:var(--font-heading)]">
+        {children}
+      </div>
+    </blockquote>
+  ),
+  code: ({ children, className }) => {
+    const isInline = !className;
+    if (isInline) {
+      return (
+        <code className="text-accent bg-accent/10 px-1.5 py-0.5 rounded text-[0.9em] font-mono">
+          {children}
+        </code>
+      );
+    }
+    return (
+      <code className="text-text-on-dark font-mono text-sm leading-relaxed">
+        {children}
+      </code>
+    );
+  },
+  pre: ({ children }) => (
+    <pre className="my-8 p-5 bg-bg-dark rounded-xl overflow-x-auto border border-bg-dark">
+      {children}
+    </pre>
+  ),
+  table: ({ children }) => (
+    <div className="my-8 overflow-x-auto rounded-xl border border-border">
+      <table className="w-full border-collapse text-left">{children}</table>
+    </div>
+  ),
+  thead: ({ children }) => (
+    <thead className="bg-bg-surface border-b border-border">{children}</thead>
+  ),
+  tbody: ({ children }) => (
+    <tbody className="divide-y divide-border">{children}</tbody>
+  ),
+  tr: ({ children }) => (
+    <tr className="hover:bg-bg-surface/40 transition-colors">{children}</tr>
+  ),
+  th: ({ children }) => (
+    <th className="px-4 py-3 font-semibold text-text-primary text-sm uppercase tracking-wide font-[family-name:var(--font-heading)]">
+      {children}
+    </th>
+  ),
+  td: ({ children }) => (
+    <td className="px-4 py-3 text-text-primary text-base align-top">
+      {children}
+    </td>
+  ),
+  hr: () => (
+    <hr className="my-12 border-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+  ),
+  img: ({ src, alt }) => (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={typeof src === "string" ? src : ""}
+      alt={alt || ""}
+      className="my-8 rounded-xl shadow-md w-full"
+    />
+  ),
+};
 
 export default function MarkdownContent({ content }: { content: string }) {
   return (
-    <div className="prose prose-lg max-w-none prose-headings:font-[family-name:var(--font-heading)] prose-headings:text-text-primary prose-p:text-text-primary prose-p:leading-relaxed prose-a:text-accent prose-a:no-underline hover:prose-a:underline prose-strong:text-text-primary prose-li:text-text-primary prose-code:text-accent prose-code:bg-bg-surface prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-pre:bg-bg-dark prose-pre:text-text-on-dark prose-table:text-sm prose-th:text-text-primary prose-td:text-text-secondary prose-img:rounded-lg">
-      <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
-    </div>
+    <article className="markdown-content">
+      <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
+        {content}
+      </ReactMarkdown>
+    </article>
   );
 }

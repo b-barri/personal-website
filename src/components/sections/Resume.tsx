@@ -118,28 +118,6 @@ export default function Resume() {
             </div>
           </div>
 
-          {/* Download button */}
-          <a
-            href="https://docs.google.com/document/d/15oVn3fsh1IK-v_hSKwbzVRP0iOSNl7_jMI1jGm6RAhE/edit?usp=sharing"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-white rounded-lg font-medium hover:bg-accent-hover transition-colors"
-          >
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-              />
-            </svg>
-            View Full Resume
-          </a>
         </ScrollReveal>
       </div>
     </section>

@@ -13,6 +13,16 @@ gsap.registerPlugin(useGSAP);
 const AUTO_PLAY_INTERVAL = 4000;
 const RESUME_DELAY = 6000;
 
+type Slot = "farLeft" | "left" | "center" | "right" | "farRight";
+
+const SLOT_CONFIGS: Record<Slot, { xOffset: number; scale: number; rotateY: number; opacity: number; zIndex: number }> = {
+  farLeft:  { xOffset: -1.3, scale: 0.5,  rotateY: 35,  opacity: 0,   zIndex: 1 },
+  left:     { xOffset: -0.6, scale: 0.75, rotateY: 20,  opacity: 0.5, zIndex: 2 },
+  center:   { xOffset: 0,    scale: 1,    rotateY: 0,   opacity: 1,   zIndex: 4 },
+  right:    { xOffset: 0.6,  scale: 0.75, rotateY: -20, opacity: 0.5, zIndex: 2 },
+  farRight: { xOffset: 1.3,  scale: 0.5,  rotateY: -35, opacity: 0,   zIndex: 1 },
+};
+
 export default function ArtShowcase() {
   const containerRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
@@ -33,7 +43,6 @@ export default function ArtShowcase() {
     ).matches;
   }, []);
 
-  // Get the indices for the visible 5-card spread: far-left, left, center, right, far-right
   const getVisibleIndices = useCallback(
     (center: number) => ({
       farLeft: (center - 2 + total) % total,
@@ -45,111 +54,61 @@ export default function ArtShowcase() {
     [total]
   );
 
-  // Position config for each slot
-  const getSlotStyle = (
-    slot: "farLeft" | "left" | "center" | "right" | "farRight"
-  ) => {
-    switch (slot) {
-      case "farLeft":
-        return {
-          x: "-130%",
-          scale: 0.45,
-          rotateY: 35,
-          opacity: 0,
-          zIndex: 1,
-        };
-      case "left":
-        return {
-          x: "-72%",
-          scale: 0.7,
-          rotateY: 25,
-          opacity: 0.6,
-          zIndex: 2,
-        };
-      case "center":
-        return {
-          x: "0%",
-          scale: 1,
-          rotateY: 0,
-          opacity: 1,
-          zIndex: 4,
-        };
-      case "right":
-        return {
-          x: "72%",
-          scale: 0.7,
-          rotateY: -25,
-          opacity: 0.6,
-          zIndex: 2,
-        };
-      case "farRight":
-        return {
-          x: "130%",
-          scale: 0.45,
-          rotateY: -35,
-          opacity: 0,
-          zIndex: 1,
-        };
-    }
-  };
-
-  // Apply position to a card element
+  // Apply position using pixel-based x offset relative to container width
   const applySlotPosition = useCallback(
-    (el: HTMLElement | null, slot: string, animate: boolean) => {
+    (el: HTMLElement | null, slot: Slot, animate: boolean) => {
       if (!el) return;
-      const style = getSlotStyle(
-        slot as "farLeft" | "left" | "center" | "right" | "farRight"
-      );
-      if (!style) return;
+      const config = SLOT_CONFIGS[slot];
+      const container = containerRef.current;
+      if (!container) return;
+
+      const containerW = container.offsetWidth;
+      const xPx = config.xOffset * containerW * 0.4; // 40% of container width per unit
+
+      const props = {
+        x: xPx,
+        scale: config.scale,
+        rotateY: config.rotateY,
+        opacity: config.opacity,
+        zIndex: config.zIndex,
+      };
 
       if (animate && !prefersReducedMotion.current) {
         gsap.to(el, {
-          xPercent: parseFloat(style.x),
-          scale: style.scale,
-          rotateY: style.rotateY,
-          opacity: style.opacity,
-          zIndex: style.zIndex,
+          ...props,
           duration: 0.6,
           ease: "power2.out",
           onComplete: () => {
-            el.style.zIndex = String(style.zIndex);
+            el.style.zIndex = String(config.zIndex);
           },
         });
       } else {
-        gsap.set(el, {
-          xPercent: parseFloat(style.x),
-          scale: style.scale,
-          rotateY: style.rotateY,
-          opacity: style.opacity,
-          zIndex: style.zIndex,
-        });
+        gsap.set(el, props);
       }
     },
     []
   );
 
-  // Position all cards based on current active index
   const positionCards = useCallback(
     (center: number, animate: boolean) => {
       const visible = getVisibleIndices(center);
-      const slotMap: Record<string, number> = {
-        farLeft: visible.farLeft,
-        left: visible.left,
-        center: visible.center,
-        right: visible.right,
-        farRight: visible.farRight,
-      };
+      const slotMap: [Slot, number][] = [
+        ["farLeft", visible.farLeft],
+        ["left", visible.left],
+        ["center", visible.center],
+        ["right", visible.right],
+        ["farRight", visible.farRight],
+      ];
 
-      // Hide all cards first, then show visible ones
+      const visibleSet = new Set(slotMap.map(([, idx]) => idx));
+
       cardsRef.current.forEach((el, i) => {
         if (!el) return;
-        const slot = Object.entries(slotMap).find(
-          ([, idx]) => idx === i
-        )?.[0];
-        if (slot) {
+        const entry = slotMap.find(([, idx]) => idx === i);
+        if (entry) {
           el.style.visibility = "visible";
-          applySlotPosition(el, slot, animate);
-        } else {
+          applySlotPosition(el, entry[0], animate);
+        } else if (!visibleSet.has(i)) {
           el.style.visibility = "hidden";
           gsap.set(el, { opacity: 0 });
         }
@@ -166,6 +125,13 @@ export default function ArtShowcase() {
     { scope: containerRef, dependencies: [] }
   );
 
+  // Reposition on resize
+  useEffect(() => {
+    const handleResize = () => positionCards(activeIndex, false);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [activeIndex, positionCards]);
+
   // --- Navigation ---
 
   const goTo = useCallback(
@@ -180,7 +146,6 @@ export default function ArtShowcase() {
 
       positionCards(nextIndex, true);
 
-      // Wait for animation to finish
       const dur = prefersReducedMotion.current ? 0 : 600;
       setTimeout(() => {
         setActiveIndex(nextIndex);
@@ -304,11 +269,8 @@ export default function ArtShowcase() {
       } else if (e.key === " " || e.key === "Enter") {
         e.preventDefault();
         isPausedRef.current = !isPausedRef.current;
-        if (isPausedRef.current) {
-          pauseAutoPlay();
-        } else {
-          startAutoPlay();
-        }
+        if (isPausedRef.current) pauseAutoPlay();
+        else startAutoPlay();
       }
     },
     [handleManualAdvance, pauseAutoPlay, startAutoPlay]
@@ -326,7 +288,6 @@ export default function ArtShowcase() {
       const dx = e.clientX - pointerStart.current.x;
       const dy = e.clientY - pointerStart.current.y;
       pointerStart.current = null;
-
       if (Math.abs(dx) > 50 && Math.abs(dy) < 30) {
         handleManualAdvance(dx < 0 ? "next" : "prev");
       }
@@ -354,9 +315,9 @@ export default function ArtShowcase() {
           aria-roledescription="carousel"
           aria-label="Digital art showcase"
           tabIndex={0}
-          className="relative mx-auto outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 focus-visible:ring-offset-bg-primary rounded-2xl"
+          className="relative mx-auto w-full outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 focus-visible:ring-offset-bg-primary rounded-2xl"
           style={{
-            height: "clamp(22rem, 45vw, 32rem)",
+            height: "clamp(20rem, 40vw, 28rem)",
             perspective: "1200px",
             perspectiveOrigin: "50% 50%",
           }}
@@ -380,48 +341,49 @@ export default function ArtShowcase() {
                 aria-roledescription="slide"
                 aria-label={artwork.alt}
                 aria-hidden={!isCenter}
-                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer select-none"
+                className="absolute top-1/2 left-1/2 cursor-pointer select-none"
                 style={{
-                  width: "clamp(16rem, 35vw, 26rem)",
+                  width: "clamp(16rem, 32vw, 24rem)",
+                  // Fixed centering — GSAP x is additive to this base position
+                  transform: "translate(-50%, -50%)",
                   transformStyle: "preserve-3d",
                   willChange: "transform, opacity",
                   visibility: "hidden",
                 }}
                 onClick={
-                  isCenter
-                    ? () => handleManualAdvance("next")
-                    : undefined
+                  isCenter ? () => handleManualAdvance("next") : undefined
                 }
               >
-                {/* Card frame — matted gallery style */}
+                {/* Card frame */}
                 <div
-                  className="relative rounded-xl overflow-hidden transition-shadow duration-300"
+                  className="relative rounded-xl overflow-hidden"
                   style={{
                     background:
-                      "linear-gradient(145deg, rgba(255,255,255,0.08), rgba(0,0,0,0.03))",
+                      "linear-gradient(145deg, rgba(255,255,255,0.1), rgba(0,0,0,0.02))",
                     boxShadow: isCenter
-                      ? "0 25px 60px -12px rgba(0,0,0,0.35), 0 8px 24px -8px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1)"
-                      : "0 10px 30px -8px rgba(0,0,0,0.2), 0 4px 12px -4px rgba(0,0,0,0.1)",
-                    padding: "0.625rem",
+                      ? "0 20px 50px -10px rgba(0,0,0,0.3), 0 8px 20px -6px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.12)"
+                      : "0 8px 24px -6px rgba(0,0,0,0.15), 0 4px 10px -4px rgba(0,0,0,0.08)",
+                    padding: "0.5rem",
                   }}
                 >
-                  {/* Inner image with subtle border */}
-                  <div className="relative rounded-lg overflow-hidden ring-1 ring-black/[0.06] dark:ring-white/[0.06]">
+                  {/* Fixed aspect ratio image container */}
+                  <div
+                    className="relative rounded-lg overflow-hidden ring-1 ring-black/[0.06] dark:ring-white/[0.06]"
+                    style={{ aspectRatio: "4/3" }}
+                  >
                     <Image
                       src={artwork.imagePath}
                       alt={artwork.alt}
-                      width={artwork.width}
-                      height={artwork.height}
-                      className="w-full h-auto block"
-                      style={{ aspectRatio: `${artwork.width}/${artwork.height}` }}
+                      fill
+                      sizes="(max-width: 768px) 64vw, 32vw"
+                      className="object-cover"
                       priority={i <= 2}
-                      loading={i <= 4 ? "eager" : "lazy"}
                     />
-                    {/* Subtle inner vignette */}
+                    {/* Inner vignette */}
                     <div
                       className="absolute inset-0 pointer-events-none rounded-lg"
                       style={{
-                        boxShadow: "inset 0 0 30px rgba(0,0,0,0.06)",
+                        boxShadow: "inset 0 0 20px rgba(0,0,0,0.05)",
                       }}
                     />
                   </div>
@@ -430,15 +392,15 @@ export default function ArtShowcase() {
             );
           })}
 
-          {/* Click zones for side cards */}
+          {/* Clickable side zones */}
           <button
             aria-label="Previous artwork"
-            className="absolute left-0 top-0 w-[30%] h-full z-[3] cursor-pointer bg-transparent border-none"
+            className="absolute left-0 top-0 w-[28%] h-full z-[3] cursor-pointer bg-transparent border-none"
             onClick={() => handleManualAdvance("prev")}
           />
           <button
             aria-label="Next artwork"
-            className="absolute right-0 top-0 w-[30%] h-full z-[3] cursor-pointer bg-transparent border-none"
+            className="absolute right-0 top-0 w-[28%] h-full z-[3] cursor-pointer bg-transparent border-none"
             onClick={() => handleManualAdvance("next")}
           />
         </div>
@@ -451,24 +413,11 @@ export default function ArtShowcase() {
               className="w-10 h-10 rounded-full border border-border bg-bg-primary hover:border-accent hover:text-accent flex items-center justify-center text-text-secondary transition-all duration-200"
               onClick={() => handleManualAdvance("prev")}
             >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                className="translate-x-[-1px]"
-              >
-                <path
-                  d="M10 12L6 8L10 4"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M10 12L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
 
-            {/* Dot indicators */}
             <div className="flex items-center gap-1.5">
               {artworks.map((_, i) => (
                 <button
@@ -499,29 +448,15 @@ export default function ArtShowcase() {
               className="w-10 h-10 rounded-full border border-border bg-bg-primary hover:border-accent hover:text-accent flex items-center justify-center text-text-secondary transition-all duration-200"
               onClick={() => handleManualAdvance("next")}
             >
-              <svg
-                width="16"
-                height="16"
-                viewBox="0 0 16 16"
-                fill="none"
-                className="translate-x-[1px]"
-              >
-                <path
-                  d="M6 12L10 8L6 4"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M6 12L10 8L6 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
           </div>
         )}
 
-        {/* Live region for screen readers */}
         <div className="sr-only" aria-live="polite" aria-atomic="true">
-          Showing artwork {activeIndex + 1} of {total}:{" "}
-          {artworks[activeIndex]?.alt}
+          Showing artwork {activeIndex + 1} of {total}: {artworks[activeIndex]?.alt}
         </div>
       </div>
     </section>

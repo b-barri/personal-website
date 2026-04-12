@@ -7,6 +7,7 @@ const navLinks = [
   { label: "Projects", href: "#projects" },
   { label: "About", href: "#about" },
   { label: "Writing", href: "#writing" },
+  { label: "Art", href: "#art" },
   { label: "Resume", href: "#resume" },
 ];
 
@@ -32,6 +33,14 @@ export default function Navbar() {
     mq.addEventListener("change", handler);
     return () => mq.removeEventListener("change", handler);
   }, []);
+
+  // Close mobile menu on scroll
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const onScroll = () => setMobileOpen(false);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [mobileOpen]);
 
   // Intersection Observer for active section tracking
   useEffect(() => {
@@ -94,7 +103,7 @@ export default function Navbar() {
             e.preventDefault();
             window.scrollTo({ top: 0, behavior: "smooth" });
           }}
-          className={`text-xl font-normal italic font-[family-name:var(--font-playfair)] transition-colors ${
+          className={`text-xl font-normal italic font-[family-name:var(--font-playfair)] transition-colors focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none rounded ${
             scrolled ? "text-text-primary" : "text-white"
           }`}
         >
@@ -126,49 +135,48 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile theme toggle (visible on small screens, before hamburger) */}
-        <div className="md:hidden flex items-center">
+        {/* Mobile: theme toggle + hamburger */}
+        <div className="md:hidden flex items-center gap-2">
           <ThemeToggle scrolled={scrolled} />
+          <button
+            className={`flex flex-col justify-center items-center w-10 h-10 rounded-lg focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none transition-colors ${
+              scrolled ? "hover:bg-bg-surface" : "hover:bg-white/10"
+            }`}
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileOpen}
+          >
+            <span
+              className={`block w-5 h-0.5 transition-all duration-200 ${
+                scrolled ? "bg-text-primary" : "bg-white"
+              } ${mobileOpen ? "rotate-45 translate-y-[3px]" : ""}`}
+            />
+            <span
+              className={`block w-5 h-0.5 mt-1.5 transition-all duration-200 ${
+                scrolled ? "bg-text-primary" : "bg-white"
+              } ${mobileOpen ? "-rotate-45 -translate-y-[3px]" : ""}`}
+            />
+          </button>
         </div>
-
-        {/* Mobile hamburger */}
-        <button
-          className="md:hidden flex flex-col gap-1.5 p-3 -mr-1 focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none rounded-lg"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label={mobileOpen ? "Close menu" : "Open menu"}
-          aria-expanded={mobileOpen}
-        >
-          <span
-            className={`block w-5 h-0.5 transition-transform ${
-              scrolled ? "bg-text-primary" : "bg-white"
-            } ${mobileOpen ? "rotate-45 translate-y-2" : ""}`}
-          />
-          <span
-            className={`block w-5 h-0.5 transition-opacity ${
-              scrolled ? "bg-text-primary" : "bg-white"
-            } ${mobileOpen ? "opacity-0" : ""}`}
-          />
-          <span
-            className={`block w-5 h-0.5 transition-transform ${
-              scrolled ? "bg-text-primary" : "bg-white"
-            } ${mobileOpen ? "-rotate-45 -translate-y-2" : ""}`}
-          />
-        </button>
       </div>
 
       {/* Mobile menu */}
-      {mobileOpen && (
-        <div className="md:hidden border-t border-border bg-bg-primary/95 backdrop-blur-md">
-          <div className="flex flex-col px-6 py-4 gap-4">
+      <div
+        className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+          mobileOpen ? "max-h-80 opacity-100" : "max-h-0 opacity-0"
+        }`}
+      >
+        <div className="border-t border-border bg-bg-primary/95 backdrop-blur-md px-6 py-5">
+          <div className="flex flex-col gap-1">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
-                className={`text-base font-medium py-2 rounded-lg px-2 -mx-2 focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none transition-colors ${
+                className={`text-sm uppercase tracking-widest font-medium py-3 px-4 rounded-xl transition-all focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none ${
                   activeSection === link.href
-                    ? "text-accent"
-                    : "text-text-secondary hover:text-text-primary"
+                    ? "text-accent bg-accent/10"
+                    : "text-text-secondary hover:text-text-primary hover:bg-bg-surface"
                 }`}
               >
                 {link.label}
@@ -176,7 +184,7 @@ export default function Navbar() {
             ))}
           </div>
         </div>
-      )}
+      </div>
     </nav>
   );
 }

@@ -47,6 +47,7 @@ export default function About() {
                   fill
                   className="object-cover"
                   sizes="(max-width: 768px) 100vw, 33vw"
+                  priority
                 />
               </div>
               <p className="mt-3 text-xs uppercase tracking-widest text-text-secondary text-center font-[family-name:var(--font-inter)]">

@@ -73,7 +73,7 @@ export default function Resume() {
                 </div>
                 <div className="flex-1 pb-2">
                   <div className="flex flex-col md:flex-row md:items-baseline md:justify-between mb-2 gap-1">
-                    <h3 className="font-[family-name:var(--font-playfair)] text-xl md:text-2xl font-normal text-text-primary leading-tight">
+                    <h3 className="font-[family-name:var(--font-playfair)] text-lg md:text-2xl font-normal text-text-primary leading-tight">
                       {item.role}
                     </h3>
                     <span className="text-xs uppercase tracking-widest text-text-secondary font-[family-name:var(--font-inter)] shrink-0">
@@ -108,7 +108,7 @@ export default function Resume() {
             </div>
             <div className="flex-1">
               <div className="flex flex-col md:flex-row md:items-baseline md:justify-between mb-2 gap-1">
-                <h4 className="font-[family-name:var(--font-playfair)] text-xl md:text-2xl font-normal text-text-primary leading-tight">
+                <h4 className="font-[family-name:var(--font-playfair)] text-lg md:text-2xl font-normal text-text-primary leading-tight">
                   {education.school}
                 </h4>
                 <span className="text-xs uppercase tracking-widest text-text-secondary font-[family-name:var(--font-inter)] shrink-0">

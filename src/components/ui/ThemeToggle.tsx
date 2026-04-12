@@ -11,7 +11,7 @@ export default function ThemeToggle({ scrolled }: { scrolled: boolean }) {
     <button
       onClick={toggleTheme}
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
-      className={`relative p-2 rounded-full transition-colors ${
+      className={`relative p-2 rounded-full transition-colors focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none ${
         scrolled
           ? "text-text-secondary hover:text-text-primary hover:bg-bg-surface"
           : "text-white/80 hover:text-white hover:bg-white/10"

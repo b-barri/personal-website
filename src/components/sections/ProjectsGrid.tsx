@@ -53,7 +53,7 @@ export default function ProjectsGrid() {
             whileInView: "visible",
             viewport: { once: true, amount: 0.1 },
           })}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-14"
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-8 md:gap-y-14"
         >
           {sortedProjects.map((project) => (
             <ProjectCard
@@ -83,7 +83,7 @@ function ProjectCard({
     >
       <Link
         href={`/projects/${project.slug}`}
-        className="group block tilt-card"
+        className="group block tilt-card rounded-2xl focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 focus-visible:ring-offset-bg-primary outline-none"
       >
         {/* Project image */}
         <div className={`relative aspect-[4/3] bg-bg-surface overflow-hidden rounded-2xl border transition-all duration-300 ${

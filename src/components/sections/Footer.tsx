@@ -67,7 +67,7 @@ export default function Footer() {
                 href={link.url}
                 target={link.url.startsWith("mailto") ? undefined : "_blank"}
                 rel={link.url.startsWith("mailto") ? undefined : "noopener noreferrer"}
-                className="p-3 rounded-full text-text-secondary hover:text-accent hover:bg-bg-surface transition-all"
+                className="p-3 rounded-full text-text-secondary hover:text-accent hover:bg-bg-surface focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none transition-all"
                 aria-label={link.label}
               >
                 {link.icon}

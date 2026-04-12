@@ -359,7 +359,7 @@ export default function ArtShowcase() {
                   className="relative rounded-xl overflow-hidden"
                   style={{
                     background:
-                      "linear-gradient(145deg, rgba(255,255,255,0.1), rgba(0,0,0,0.02))",
+                      "linear-gradient(145deg, var(--color-bg-surface), rgba(0,0,0,0.02))",
                     boxShadow: isCenter
                       ? "0 20px 50px -10px rgba(0,0,0,0.3), 0 8px 20px -6px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.12)"
                       : "0 8px 24px -6px rgba(0,0,0,0.15), 0 4px 10px -4px rgba(0,0,0,0.08)",
@@ -423,7 +423,7 @@ export default function ArtShowcase() {
                 <button
                   key={i}
                   aria-label={`Go to artwork ${i + 1}`}
-                  className={`rounded-full transition-all duration-300 ${
+                  className={`rounded-full transition-all duration-300 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary outline-none ${
                     i === activeIndex
                       ? "w-6 h-1.5 bg-accent"
                       : "w-1.5 h-1.5 bg-border hover:bg-text-secondary"

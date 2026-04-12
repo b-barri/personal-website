@@ -15,13 +15,25 @@ const RESUME_DELAY = 6000;
 
 type Slot = "farLeft" | "left" | "center" | "right" | "farRight";
 
-const SLOT_CONFIGS: Record<Slot, { xOffset: number; scale: number; rotateY: number; opacity: number; zIndex: number }> = {
+// Desktop: 3D perspective carousel with side cards visible
+const DESKTOP_SLOTS: Record<Slot, { xOffset: number; scale: number; rotateY: number; opacity: number; zIndex: number }> = {
   farLeft:  { xOffset: -1.3, scale: 0.5,  rotateY: 35,  opacity: 0,   zIndex: 1 },
   left:     { xOffset: -0.6, scale: 0.75, rotateY: 20,  opacity: 0.5, zIndex: 2 },
   center:   { xOffset: 0,    scale: 1,    rotateY: 0,   opacity: 1,   zIndex: 4 },
   right:    { xOffset: 0.6,  scale: 0.75, rotateY: -20, opacity: 0.5, zIndex: 2 },
   farRight: { xOffset: 1.3,  scale: 0.5,  rotateY: -35, opacity: 0,   zIndex: 1 },
 };
+
+// Mobile: single card, no 3D, side cards are just offscreen for animation
+const MOBILE_SLOTS: Record<Slot, { xOffset: number; scale: number; rotateY: number; opacity: number; zIndex: number }> = {
+  farLeft:  { xOffset: -2,   scale: 0.9, rotateY: 0, opacity: 0, zIndex: 1 },
+  left:     { xOffset: -1.2, scale: 0.9, rotateY: 0, opacity: 0, zIndex: 2 },
+  center:   { xOffset: 0,    scale: 1,   rotateY: 0, opacity: 1, zIndex: 4 },
+  right:    { xOffset: 1.2,  scale: 0.9, rotateY: 0, opacity: 0, zIndex: 2 },
+  farRight: { xOffset: 2,    scale: 0.9, rotateY: 0, opacity: 0, zIndex: 1 },
+};
+
+const MOBILE_BREAKPOINT = 640;
 
 export default function ArtShowcase() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -58,12 +70,14 @@ export default function ArtShowcase() {
   const applySlotPosition = useCallback(
     (el: HTMLElement | null, slot: Slot, animate: boolean) => {
       if (!el) return;
-      const config = SLOT_CONFIGS[slot];
+      const isMobile = window.innerWidth < MOBILE_BREAKPOINT;
+      const slots = isMobile ? MOBILE_SLOTS : DESKTOP_SLOTS;
+      const config = slots[slot];
       const container = containerRef.current;
       if (!container) return;
 
       const containerW = container.offsetWidth;
-      const xPx = config.xOffset * containerW * 0.4; // 40% of container width per unit
+      const xPx = config.xOffset * containerW * (isMobile ? 0.5 : 0.4);
 
       const props = {
         x: xPx,
@@ -315,11 +329,9 @@ export default function ArtShowcase() {
           aria-roledescription="carousel"
           aria-label="Digital art showcase"
           tabIndex={0}
-          className="relative mx-auto w-full outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 focus-visible:ring-offset-bg-primary rounded-2xl"
+          className="relative mx-auto w-full outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 focus-visible:ring-offset-bg-primary rounded-2xl carousel-container"
           style={{
-            height: "clamp(22rem, 45vw, 34rem)",
-            perspective: "1200px",
-            perspectiveOrigin: "50% 50%",
+            height: "clamp(18rem, 65vw, 34rem)",
           }}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
@@ -343,8 +355,7 @@ export default function ArtShowcase() {
                 aria-hidden={!isCenter}
                 className="absolute top-1/2 left-1/2 cursor-pointer select-none"
                 style={{
-                  width: "clamp(18rem, 38vw, 30rem)",
-                  // Fixed centering — GSAP x is additive to this base position
+                  width: "clamp(80%, 38vw, 30rem)",
                   transform: "translate(-50%, -50%)",
                   transformStyle: "preserve-3d",
                   willChange: "transform, opacity",
@@ -392,15 +403,15 @@ export default function ArtShowcase() {
             );
           })}
 
-          {/* Clickable side zones */}
+          {/* Clickable side zones — desktop only */}
           <button
             aria-label="Previous artwork"
-            className="absolute left-0 top-0 w-[28%] h-full z-[3] cursor-pointer bg-transparent border-none"
+            className="hidden sm:block absolute left-0 top-0 w-[28%] h-full z-[3] cursor-pointer bg-transparent border-none"
             onClick={() => handleManualAdvance("prev")}
           />
           <button
             aria-label="Next artwork"
-            className="absolute right-0 top-0 w-[28%] h-full z-[3] cursor-pointer bg-transparent border-none"
+            className="hidden sm:block absolute right-0 top-0 w-[28%] h-full z-[3] cursor-pointer bg-transparent border-none"
             onClick={() => handleManualAdvance("next")}
           />
         </div>

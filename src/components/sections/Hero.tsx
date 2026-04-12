@@ -63,6 +63,22 @@ export default function Hero() {
           </p>
         </motion.div>
 
+        {/* Caption — inline on mobile, below tagline */}
+        <motion.div
+          initial={prefersReducedMotion ? {} : { opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 1.2 }}
+          className="sm:hidden mt-6"
+        >
+          <div className="flex items-start gap-2 justify-center">
+            <span className="h-px w-6 bg-white/30 mt-2 shrink-0" />
+            <p className="font-[family-name:var(--font-playfair)] italic text-[11px] text-white/60 leading-snug">
+              Bangalore in tabebuia bloom — the pink riot we call cherry blossom
+              season.
+            </p>
+          </div>
+        </motion.div>
+
         {/* Scroll indicator */}
         <motion.div
           initial={prefersReducedMotion ? {} : { opacity: 0 }}
@@ -91,16 +107,16 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* Image caption — bottom-left on desktop, above scroll on mobile */}
+      {/* Image caption — bottom-left, desktop only */}
       <motion.div
         initial={prefersReducedMotion ? {} : { opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, delay: 1.2 }}
-        className="absolute bottom-24 sm:bottom-8 left-6 sm:left-8 max-w-[15rem] sm:max-w-xs z-10"
+        className="hidden sm:block absolute bottom-8 left-8 max-w-xs z-10"
       >
-        <div className="flex items-start gap-2 sm:gap-3">
-          <span className="h-px w-6 sm:w-8 bg-white/30 mt-2 sm:mt-2.5 shrink-0" />
-          <p className="font-[family-name:var(--font-playfair)] italic text-[11px] sm:text-xs md:text-sm text-white/70 leading-snug">
+        <div className="flex items-start gap-3">
+          <span className="h-px w-8 bg-white/30 mt-2.5 shrink-0" />
+          <p className="font-[family-name:var(--font-playfair)] italic text-xs md:text-sm text-white/70 leading-snug">
             Bangalore in tabebuia bloom — the pink riot we call cherry blossom
             season.
           </p>

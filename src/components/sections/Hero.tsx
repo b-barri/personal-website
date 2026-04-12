@@ -96,7 +96,7 @@ export default function Hero() {
         initial={prefersReducedMotion ? {} : { opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, delay: 1.2 }}
-        className="hidden sm:block absolute bottom-8 left-8 max-w-xs"
+        className="absolute bottom-6 left-6 sm:bottom-8 sm:left-8 max-w-[14rem] sm:max-w-xs"
       >
         <div className="flex items-start gap-3">
           <span className="h-px w-8 bg-white/30 mt-2.5 shrink-0" />

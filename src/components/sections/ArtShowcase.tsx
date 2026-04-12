@@ -303,7 +303,7 @@ export default function ArtShowcase() {
           <h2 className="font-[family-name:var(--font-playfair)] text-4xl md:text-6xl font-normal text-text-primary mb-4 md:mb-6 leading-[1.05] tracking-tight">
             Pixels &amp; palettes.
           </h2>
-          <p className="text-text-secondary text-base md:text-lg mb-12 md:mb-16 max-w-2xl leading-relaxed">
+          <p className="text-text-secondary text-base md:text-lg mb-6 md:mb-8 max-w-2xl leading-relaxed">
             No models were prompted. Just Procreate, an Apple Pencil, and a free evening.
           </p>
         </ScrollReveal>
@@ -317,7 +317,7 @@ export default function ArtShowcase() {
           tabIndex={0}
           className="relative mx-auto w-full outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 focus-visible:ring-offset-bg-primary rounded-2xl"
           style={{
-            height: "clamp(20rem, 40vw, 28rem)",
+            height: "clamp(22rem, 45vw, 34rem)",
             perspective: "1200px",
             perspectiveOrigin: "50% 50%",
           }}
@@ -343,7 +343,7 @@ export default function ArtShowcase() {
                 aria-hidden={!isCenter}
                 className="absolute top-1/2 left-1/2 cursor-pointer select-none"
                 style={{
-                  width: "clamp(16rem, 32vw, 24rem)",
+                  width: "clamp(18rem, 38vw, 30rem)",
                   // Fixed centering — GSAP x is additive to this base position
                   transform: "translate(-50%, -50%)",
                   transformStyle: "preserve-3d",

@@ -7,7 +7,7 @@ export default function Hero() {
   const prefersReducedMotion = useReducedMotion();
 
   return (
-    <section className="relative flex min-h-screen items-start justify-center overflow-hidden pt-28 md:pt-40">
+    <section className="relative flex min-h-dvh items-start justify-center overflow-hidden pt-20 md:pt-40">
       {/* Full background image — light theme */}
       <div className="absolute inset-0 -z-10 dark:hidden">
         <Image
@@ -91,16 +91,16 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* Image caption (bottom-left, editorial style) */}
+      {/* Image caption — bottom-left on desktop, above scroll on mobile */}
       <motion.div
         initial={prefersReducedMotion ? {} : { opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, delay: 1.2 }}
-        className="absolute bottom-20 left-6 sm:bottom-8 sm:left-8 max-w-[14rem] sm:max-w-xs z-10"
+        className="absolute bottom-24 sm:bottom-8 left-6 sm:left-8 max-w-[15rem] sm:max-w-xs z-10"
       >
-        <div className="flex items-start gap-3">
-          <span className="h-px w-8 bg-white/30 mt-2.5 shrink-0" />
-          <p className="font-[family-name:var(--font-playfair)] italic text-xs md:text-sm text-white/70 leading-snug">
+        <div className="flex items-start gap-2 sm:gap-3">
+          <span className="h-px w-6 sm:w-8 bg-white/30 mt-2 sm:mt-2.5 shrink-0" />
+          <p className="font-[family-name:var(--font-playfair)] italic text-[11px] sm:text-xs md:text-sm text-white/70 leading-snug">
             Bangalore in tabebuia bloom — the pink riot we call cherry blossom
             season.
           </p>

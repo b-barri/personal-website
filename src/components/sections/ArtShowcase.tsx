@@ -331,7 +331,7 @@ export default function ArtShowcase() {
           tabIndex={0}
           className="relative mx-auto w-full outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 focus-visible:ring-offset-bg-primary rounded-2xl carousel-container"
           style={{
-            height: "clamp(18rem, 65vw, 34rem)",
+            height: "min(60vw, 26rem)",
           }}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
@@ -355,7 +355,7 @@ export default function ArtShowcase() {
                 aria-hidden={!isCenter}
                 className="absolute top-1/2 left-1/2 cursor-pointer select-none"
                 style={{
-                  width: "clamp(80%, 38vw, 30rem)",
+                  width: "min(80vw, 24rem)",
                   transform: "translate(-50%, -50%)",
                   transformStyle: "preserve-3d",
                   willChange: "transform, opacity",

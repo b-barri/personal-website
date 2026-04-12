@@ -12,28 +12,26 @@ export default function Hero() {
       <div className="absolute inset-0 -z-10 dark:hidden">
         <Image
           src="/images/hero/photo.png"
-          alt="Hero background"
+          alt="Bangalore street lined with tabebuia trees in bloom"
           fill
-          className="object-cover object-center"
+          className="object-cover object-top sm:object-center"
           priority
           sizes="100vw"
         />
-        {/* Subtle gradient for text readability at the top */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/20 to-black/10 sm:to-transparent" />
       </div>
 
       {/* Full background image — dark theme */}
       <div className="absolute inset-0 -z-10 hidden dark:block">
         <Image
           src="/images/hero/photo-dark.png"
-          alt="Hero background"
+          alt="Bangalore street lined with tabebuia trees at twilight"
           fill
-          className="object-cover object-center"
+          className="object-cover object-top sm:object-center"
           priority
           sizes="100vw"
         />
-        {/* Stronger gradient for dark mode */}
-        <div className="absolute inset-0 bg-gradient-to-b from-bg-dark/70 via-bg-dark/40 to-bg-dark/60" />
+        <div className="absolute inset-0 bg-gradient-to-b from-bg-dark/70 via-bg-dark/40 to-bg-dark/50 sm:to-bg-dark/60" />
       </div>
 
       <div className="mx-auto max-w-5xl px-6 flex flex-col items-center text-center">

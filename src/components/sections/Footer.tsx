@@ -33,9 +33,9 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer className="border-t border-border">
-      {/* Banner image */}
-      <div className="relative w-full aspect-[3/1] md:aspect-[4/1] overflow-hidden bg-bg-surface">
+    <footer>
+      {/* Banner image with gradient fade-in from page background */}
+      <div className="relative w-full aspect-[2.5/1] md:aspect-[4/1] overflow-hidden">
         <Image
           src="/images/footer.png"
           alt="Bangalore skyline at sunset"
@@ -43,8 +43,10 @@ export default function Footer() {
           className="object-cover"
           sizes="100vw"
         />
-        {/* Subtle overlay with quote */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+        {/* Top fade: blends into the page background */}
+        <div className="absolute inset-0 bg-gradient-to-b from-bg-primary via-bg-primary/40 to-transparent" style={{ height: "40%" }} />
+        {/* Bottom overlay for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
         <div className="absolute inset-0 flex items-end justify-center pb-10 md:pb-16">
           <div className="text-center px-6">
             <p className="font-[family-name:var(--font-playfair)] italic text-3xl md:text-5xl text-white drop-shadow-lg leading-tight">

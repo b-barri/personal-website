@@ -18,7 +18,7 @@ export default function Hero() {
           priority
           sizes="100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/15" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/25 via-transparent to-black/10" />
       </div>
 
       {/* Full background image — dark theme */}

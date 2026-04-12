@@ -55,7 +55,7 @@ export default function Resume() {
     <section id="resume" className="py-20 md:py-32 bg-bg-surface">
       <div className="mx-auto max-w-6xl px-6">
         <ScrollReveal>
-          <SectionLabel number="04" label="Experience" />
+          <SectionLabel number="05" label="Experience" />
           <h2 className="font-[family-name:var(--font-playfair)] text-4xl md:text-6xl font-normal text-text-primary mb-4 md:mb-6 leading-[1.05] tracking-tight">
             Where I&apos;ve built.
           </h2>

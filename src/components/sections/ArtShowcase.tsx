@@ -10,15 +10,12 @@ import { artworks } from "@/data/artworks";
 
 gsap.registerPlugin(useGSAP);
 
-// Precompute stable rotation offsets per card position in the stack
-const STACK_ROTATIONS = [0, -2, 1.5, -1, 2.5];
-const STACK_OFFSETS = [0, 3, 6, 9, 12]; // px translate for depth
-const AUTO_PLAY_INTERVAL = 4000; // ms
-const RESUME_DELAY = 6000; // ms after interaction before auto-play resumes
-const ANIMATION_DURATION = 0.5;
+const AUTO_PLAY_INTERVAL = 4000;
+const RESUME_DELAY = 6000;
 
 export default function ArtShowcase() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const autoPlayRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -26,62 +23,174 @@ export default function ArtShowcase() {
   const isInViewportRef = useRef(false);
   const isPausedRef = useRef(false);
   const prefersReducedMotion = useRef(false);
-
-  // Pointer tracking for swipe
   const pointerStart = useRef<{ x: number; y: number } | null>(null);
 
   const total = artworks.length;
 
-  // Check reduced motion preference
   useEffect(() => {
     prefersReducedMotion.current = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
     ).matches;
   }, []);
 
+  // Get the indices for the visible 5-card spread: far-left, left, center, right, far-right
+  const getVisibleIndices = useCallback(
+    (center: number) => ({
+      farLeft: (center - 2 + total) % total,
+      left: (center - 1 + total) % total,
+      center,
+      right: (center + 1) % total,
+      farRight: (center + 2) % total,
+    }),
+    [total]
+  );
+
+  // Position config for each slot
+  const getSlotStyle = (
+    slot: "farLeft" | "left" | "center" | "right" | "farRight"
+  ) => {
+    switch (slot) {
+      case "farLeft":
+        return {
+          x: "-130%",
+          scale: 0.45,
+          rotateY: 35,
+          opacity: 0,
+          zIndex: 1,
+        };
+      case "left":
+        return {
+          x: "-72%",
+          scale: 0.7,
+          rotateY: 25,
+          opacity: 0.6,
+          zIndex: 2,
+        };
+      case "center":
+        return {
+          x: "0%",
+          scale: 1,
+          rotateY: 0,
+          opacity: 1,
+          zIndex: 4,
+        };
+      case "right":
+        return {
+          x: "72%",
+          scale: 0.7,
+          rotateY: -25,
+          opacity: 0.6,
+          zIndex: 2,
+        };
+      case "farRight":
+        return {
+          x: "130%",
+          scale: 0.45,
+          rotateY: -35,
+          opacity: 0,
+          zIndex: 1,
+        };
+    }
+  };
+
+  // Apply position to a card element
+  const applySlotPosition = useCallback(
+    (el: HTMLElement | null, slot: string, animate: boolean) => {
+      if (!el) return;
+      const style = getSlotStyle(
+        slot as "farLeft" | "left" | "center" | "right" | "farRight"
+      );
+      if (!style) return;
+
+      if (animate && !prefersReducedMotion.current) {
+        gsap.to(el, {
+          xPercent: parseFloat(style.x),
+          scale: style.scale,
+          rotateY: style.rotateY,
+          opacity: style.opacity,
+          zIndex: style.zIndex,
+          duration: 0.6,
+          ease: "power2.out",
+          onComplete: () => {
+            el.style.zIndex = String(style.zIndex);
+          },
+        });
+      } else {
+        gsap.set(el, {
+          xPercent: parseFloat(style.x),
+          scale: style.scale,
+          rotateY: style.rotateY,
+          opacity: style.opacity,
+          zIndex: style.zIndex,
+        });
+      }
+    },
+    []
+  );
+
+  // Position all cards based on current active index
+  const positionCards = useCallback(
+    (center: number, animate: boolean) => {
+      const visible = getVisibleIndices(center);
+      const slotMap: Record<string, number> = {
+        farLeft: visible.farLeft,
+        left: visible.left,
+        center: visible.center,
+        right: visible.right,
+        farRight: visible.farRight,
+      };
+
+      // Hide all cards first, then show visible ones
+      cardsRef.current.forEach((el, i) => {
+        if (!el) return;
+        const slot = Object.entries(slotMap).find(
+          ([, idx]) => idx === i
+        )?.[0];
+        if (slot) {
+          el.style.visibility = "visible";
+          applySlotPosition(el, slot, animate);
+        } else {
+          el.style.visibility = "hidden";
+          gsap.set(el, { opacity: 0 });
+        }
+      });
+    },
+    [getVisibleIndices, applySlotPosition]
+  );
+
+  // Initial positioning
+  useGSAP(
+    () => {
+      positionCards(activeIndex, false);
+    },
+    { scope: containerRef, dependencies: [] }
+  );
+
   // --- Navigation ---
 
   const goTo = useCallback(
     (direction: "next" | "prev") => {
       if (isAnimating || total <= 1) return;
-
-      const cardEl = containerRef.current?.querySelector(
-        `[data-card-index="${activeIndex}"]`
-      ) as HTMLElement | null;
+      setIsAnimating(true);
 
       const nextIndex =
         direction === "next"
           ? (activeIndex + 1) % total
           : (activeIndex - 1 + total) % total;
 
-      if (!cardEl || prefersReducedMotion.current) {
-        // Reduced motion: instant swap
+      positionCards(nextIndex, true);
+
+      // Wait for animation to finish
+      const dur = prefersReducedMotion.current ? 0 : 600;
+      setTimeout(() => {
         setActiveIndex(nextIndex);
-        return;
-      }
-
-      setIsAnimating(true);
-      const xTarget = direction === "next" ? -120 : 120;
-
-      gsap.to(cardEl, {
-        x: xTarget,
-        rotation: direction === "next" ? -15 : 15,
-        opacity: 0,
-        duration: ANIMATION_DURATION,
-        ease: "power2.in",
-        onComplete: () => {
-          setActiveIndex(nextIndex);
-          setIsAnimating(false);
-          // Reset the card that just animated out
-          gsap.set(cardEl, { x: 0, rotation: 0, opacity: 1 });
-        },
-      });
+        setIsAnimating(false);
+      }, dur);
     },
-    [activeIndex, isAnimating, total]
+    [activeIndex, isAnimating, total, positionCards]
   );
 
   const goNext = useCallback(() => goTo("next"), [goTo]);
-  const goPrev = useCallback(() => goTo("prev"), [goTo]);
 
   // --- Auto-play ---
 
@@ -129,7 +238,6 @@ export default function ArtShowcase() {
   useEffect(() => {
     const section = containerRef.current?.closest("section");
     if (!section) return;
-
     const observer = new IntersectionObserver(
       ([entry]) => {
         isInViewportRef.current = entry.isIntersecting;
@@ -139,14 +247,12 @@ export default function ArtShowcase() {
           clearAutoPlay();
         }
       },
-      { threshold: 0.5 }
+      { threshold: 0.3 }
     );
-
     observer.observe(section);
     return () => observer.disconnect();
   }, [startAutoPlay, clearAutoPlay]);
 
-  // Cleanup on unmount
   useEffect(() => {
     return () => {
       clearAutoPlay();
@@ -185,10 +291,6 @@ export default function ArtShowcase() {
     [pauseAutoPlay, goTo, scheduleResume]
   );
 
-  const handleClick = useCallback(() => {
-    handleManualAdvance("next");
-  }, [handleManualAdvance]);
-
   // --- Keyboard ---
 
   const handleKeyDown = useCallback(
@@ -201,7 +303,6 @@ export default function ArtShowcase() {
         handleManualAdvance("prev");
       } else if (e.key === " " || e.key === "Enter") {
         e.preventDefault();
-        // Toggle pause
         isPausedRef.current = !isPausedRef.current;
         if (isPausedRef.current) {
           pauseAutoPlay();
@@ -215,12 +316,9 @@ export default function ArtShowcase() {
 
   // --- Pointer/Swipe ---
 
-  const handlePointerDown = useCallback(
-    (e: React.PointerEvent) => {
-      pointerStart.current = { x: e.clientX, y: e.clientY };
-    },
-    []
-  );
+  const handlePointerDown = useCallback((e: React.PointerEvent) => {
+    pointerStart.current = { x: e.clientX, y: e.clientY };
+  }, []);
 
   const handlePointerUp = useCallback(
     (e: React.PointerEvent) => {
@@ -229,35 +327,15 @@ export default function ArtShowcase() {
       const dy = e.clientY - pointerStart.current.y;
       pointerStart.current = null;
 
-      // Check if it's a swipe (>50px horizontal, <30px vertical drift)
       if (Math.abs(dx) > 50 && Math.abs(dy) < 30) {
-        if (dx < 0) {
-          handleManualAdvance("next");
-        } else {
-          handleManualAdvance("prev");
-        }
-      } else if (Math.abs(dx) <= 10 && Math.abs(dy) <= 10) {
-        // Tap — treat as click to advance
-        handleManualAdvance("next");
+        handleManualAdvance(dx < 0 ? "next" : "prev");
       }
     },
     [handleManualAdvance]
   );
 
-  // --- Render stack ---
-  // Show the active card on top, with up to 4 cards visible behind it
-  const getStackOrder = () => {
-    const stack: number[] = [];
-    for (let i = 0; i < Math.min(5, total); i++) {
-      stack.push((activeIndex + i) % total);
-    }
-    return stack;
-  };
-
-  const stackOrder = getStackOrder();
-
   return (
-    <section id="art" className="py-20 md:py-32">
+    <section id="art" className="py-20 md:py-32 overflow-hidden">
       <div className="mx-auto max-w-6xl px-6">
         <ScrollReveal>
           <SectionLabel number="04" label="Art" />
@@ -267,89 +345,184 @@ export default function ArtShowcase() {
           <p className="text-text-secondary text-base md:text-lg mb-12 md:mb-16 max-w-2xl leading-relaxed">
             Digital illustrations from the sketchbook.
           </p>
-
-          {/* Card stack */}
-          <div
-            ref={containerRef}
-            role="region"
-            aria-roledescription="carousel"
-            aria-label="Digital art showcase"
-            tabIndex={0}
-            className="relative mx-auto max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 focus-visible:ring-offset-bg-primary rounded-2xl"
-            style={{ height: "28rem" }}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            onKeyDown={handleKeyDown}
-            onPointerDown={handlePointerDown}
-            onPointerUp={handlePointerUp}
-          >
-            {stackOrder.map((artIndex, stackPosition) => {
-              const artwork = artworks[artIndex];
-              const isTop = stackPosition === 0;
-              const rotation = STACK_ROTATIONS[stackPosition] ?? 0;
-              const yOffset = STACK_OFFSETS[stackPosition] ?? 0;
-              const zIndex = 10 - stackPosition;
-              const scale = 1 - stackPosition * 0.03;
-
-              return (
-                <div
-                  key={artwork.id}
-                  data-card-index={artIndex}
-                  role="group"
-                  aria-roledescription="slide"
-                  aria-label={artwork.alt}
-                  aria-hidden={!isTop}
-                  className="absolute inset-0 rounded-2xl overflow-hidden shadow-lg border border-border cursor-pointer select-none"
-                  style={{
-                    zIndex,
-                    transform: `rotate(${rotation}deg) translateY(${yOffset}px) scale(${scale})`,
-                    transition: isTop ? "none" : "transform 0.4s ease-out",
-                    pointerEvents: isTop ? "auto" : "none",
-                  }}
-                  onClick={isTop ? handleClick : undefined}
-                >
-                  <Image
-                    src={artwork.imagePath}
-                    alt={artwork.alt}
-                    width={artwork.width}
-                    height={artwork.height}
-                    className="w-full h-full object-contain bg-bg-surface"
-                    priority={artIndex === 0}
-                    loading={artIndex <= 2 ? "eager" : "lazy"}
-                  />
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Counter */}
-          {total > 1 && (
-            <div className="flex items-center justify-center mt-6 gap-4">
-              <button
-                aria-label="Previous artwork"
-                className="text-text-secondary hover:text-accent transition-colors text-lg"
-                onClick={() => handleManualAdvance("prev")}
-              >
-                ←
-              </button>
-              <span
-                className="text-sm text-text-secondary font-[family-name:var(--font-inter)] tabular-nums"
-                aria-live="polite"
-              >
-                {activeIndex + 1} / {total}
-              </span>
-              <button
-                aria-label="Next artwork"
-                className="text-text-secondary hover:text-accent transition-colors text-lg"
-                onClick={() => handleManualAdvance("next")}
-              >
-                →
-              </button>
-            </div>
-          )}
         </ScrollReveal>
+
+        {/* 3D Carousel */}
+        <div
+          ref={containerRef}
+          role="region"
+          aria-roledescription="carousel"
+          aria-label="Digital art showcase"
+          tabIndex={0}
+          className="relative mx-auto outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 focus-visible:ring-offset-bg-primary rounded-2xl"
+          style={{
+            height: "clamp(22rem, 45vw, 32rem)",
+            perspective: "1200px",
+            perspectiveOrigin: "50% 50%",
+          }}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          onKeyDown={handleKeyDown}
+          onPointerDown={handlePointerDown}
+          onPointerUp={handlePointerUp}
+        >
+          {artworks.map((artwork, i) => {
+            const isCenter = i === activeIndex;
+            return (
+              <div
+                key={artwork.id}
+                ref={(el) => {
+                  cardsRef.current[i] = el;
+                }}
+                role="group"
+                aria-roledescription="slide"
+                aria-label={artwork.alt}
+                aria-hidden={!isCenter}
+                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer select-none"
+                style={{
+                  width: "clamp(16rem, 35vw, 26rem)",
+                  transformStyle: "preserve-3d",
+                  willChange: "transform, opacity",
+                  visibility: "hidden",
+                }}
+                onClick={
+                  isCenter
+                    ? () => handleManualAdvance("next")
+                    : undefined
+                }
+              >
+                {/* Card frame — matted gallery style */}
+                <div
+                  className="relative rounded-xl overflow-hidden transition-shadow duration-300"
+                  style={{
+                    background:
+                      "linear-gradient(145deg, rgba(255,255,255,0.08), rgba(0,0,0,0.03))",
+                    boxShadow: isCenter
+                      ? "0 25px 60px -12px rgba(0,0,0,0.35), 0 8px 24px -8px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.1)"
+                      : "0 10px 30px -8px rgba(0,0,0,0.2), 0 4px 12px -4px rgba(0,0,0,0.1)",
+                    padding: "0.625rem",
+                  }}
+                >
+                  {/* Inner image with subtle border */}
+                  <div className="relative rounded-lg overflow-hidden ring-1 ring-black/[0.06] dark:ring-white/[0.06]">
+                    <Image
+                      src={artwork.imagePath}
+                      alt={artwork.alt}
+                      width={artwork.width}
+                      height={artwork.height}
+                      className="w-full h-auto block"
+                      style={{ aspectRatio: `${artwork.width}/${artwork.height}` }}
+                      priority={i <= 2}
+                      loading={i <= 4 ? "eager" : "lazy"}
+                    />
+                    {/* Subtle inner vignette */}
+                    <div
+                      className="absolute inset-0 pointer-events-none rounded-lg"
+                      style={{
+                        boxShadow: "inset 0 0 30px rgba(0,0,0,0.06)",
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+
+          {/* Click zones for side cards */}
+          <button
+            aria-label="Previous artwork"
+            className="absolute left-0 top-0 w-[30%] h-full z-[3] cursor-pointer bg-transparent border-none"
+            onClick={() => handleManualAdvance("prev")}
+          />
+          <button
+            aria-label="Next artwork"
+            className="absolute right-0 top-0 w-[30%] h-full z-[3] cursor-pointer bg-transparent border-none"
+            onClick={() => handleManualAdvance("next")}
+          />
+        </div>
+
+        {/* Controls */}
+        {total > 1 && (
+          <div className="flex items-center justify-center mt-8 gap-6">
+            <button
+              aria-label="Previous artwork"
+              className="w-10 h-10 rounded-full border border-border bg-bg-primary hover:border-accent hover:text-accent flex items-center justify-center text-text-secondary transition-all duration-200"
+              onClick={() => handleManualAdvance("prev")}
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                className="translate-x-[-1px]"
+              >
+                <path
+                  d="M10 12L6 8L10 4"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+
+            {/* Dot indicators */}
+            <div className="flex items-center gap-1.5">
+              {artworks.map((_, i) => (
+                <button
+                  key={i}
+                  aria-label={`Go to artwork ${i + 1}`}
+                  className={`rounded-full transition-all duration-300 ${
+                    i === activeIndex
+                      ? "w-6 h-1.5 bg-accent"
+                      : "w-1.5 h-1.5 bg-border hover:bg-text-secondary"
+                  }`}
+                  onClick={() => {
+                    if (i === activeIndex || isAnimating) return;
+                    pauseAutoPlay();
+                    setIsAnimating(true);
+                    positionCards(i, true);
+                    setTimeout(() => {
+                      setActiveIndex(i);
+                      setIsAnimating(false);
+                    }, prefersReducedMotion.current ? 0 : 600);
+                    scheduleResume();
+                  }}
+                />
+              ))}
+            </div>
+
+            <button
+              aria-label="Next artwork"
+              className="w-10 h-10 rounded-full border border-border bg-bg-primary hover:border-accent hover:text-accent flex items-center justify-center text-text-secondary transition-all duration-200"
+              onClick={() => handleManualAdvance("next")}
+            >
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                className="translate-x-[1px]"
+              >
+                <path
+                  d="M6 12L10 8L6 4"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </button>
+          </div>
+        )}
+
+        {/* Live region for screen readers */}
+        <div className="sr-only" aria-live="polite" aria-atomic="true">
+          Showing artwork {activeIndex + 1} of {total}:{" "}
+          {artworks[activeIndex]?.alt}
+        </div>
       </div>
     </section>
   );

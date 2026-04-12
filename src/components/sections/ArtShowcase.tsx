@@ -304,7 +304,7 @@ export default function ArtShowcase() {
             Pixels &amp; palettes.
           </h2>
           <p className="text-text-secondary text-base md:text-lg mb-12 md:mb-16 max-w-2xl leading-relaxed">
-            Digital illustrations from the sketchbook.
+            No models were prompted. Just Procreate, an Apple Pencil, and a free evening.
           </p>
         </ScrollReveal>
 

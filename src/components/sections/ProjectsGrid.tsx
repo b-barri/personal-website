@@ -43,7 +43,7 @@ export default function ProjectsGrid() {
           Side Quests
         </h2>
         <p className="text-text-secondary text-base md:text-lg mb-12 md:mb-16 max-w-2xl leading-relaxed">
-          11 projects across AI tools, Claude skills, and creative experiments.
+          12 projects across AI tools, Claude skills, and creative experiments.
         </p>
 
         <MotionDiv

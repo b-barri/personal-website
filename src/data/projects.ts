@@ -17,6 +17,38 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    slug: "literary-garden",
+    title: "Literary Garden",
+    tagline:
+      "A digitized intellectual orbit — Kindle highlights and vocabulary, grown as a private garden",
+    description:
+      "A static-site 'garden' for your own Kindle reading — a spaced-repetition flashcard bed for vocabulary you looked up, and a scrapbook of passages you highlighted, surfaced as shareable postcards. Built in a weekend with Claude Code, reading directly from Kindle's on-device vocab.db (SQLite) and My Clippings.txt. Private by construction: nothing leaves your laptop unless you choose to deploy it. Words move through three states — seedling, bloom, pressed — driven by FSRS spaced-repetition. The scrapbook shows every highlighted book on a 3D-hinge spine carousel with the dominant spine color extracted from each cover, and any quote exports as a 1080×1350 watercolor share card. Open-sourced as a clonable template.",
+    imagePath: "/images/projects/Kindle_garden.png",
+    tools: [
+      "Astro 6",
+      "Svelte 5",
+      "Tailwind CSS",
+      "TypeScript",
+      "better-sqlite3",
+      "sharp",
+      "ts-fsrs",
+      "html-to-image",
+      "Claude Code",
+    ],
+    features: [
+      "Reads Kindle's on-device vocab.db and My Clippings.txt — no servers, no accounts",
+      "FSRS spaced-repetition with state-as-aesthetic: seedling → bloom → pressed",
+      "3D-hinge spine carousel; dominant spine color extracted from each cover",
+      "Watercolor share cards (1080×1350) exported via html-to-image",
+      "Open-source template — clone it, drop in your Kindle files, deploy",
+    ],
+    links: {
+      github: "https://github.com/b-barri/literary-garden",
+    },
+    featured: true,
+    hasFullContent: true,
+  },
+  {
     slug: "prd-auditor",
     title: "PRD Auditor",
     tagline:

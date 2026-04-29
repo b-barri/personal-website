@@ -4,7 +4,7 @@ An AI-powered PRD auditor — your strategy, stress-tested by 279 product expert
 
 Built in a single day with Claude Code. [Try it here](https://lenny-war-room.vercel.app/)
 
-![Analyze mode — PRD draft on the left, expert-grounded annotations on the right](/images/projects/prd-auditor/image.png)
+![War Room landing — drop your PRD, get the truth from 279 product experts](/images/projects/prd-auditor/lenny.png)
 
 ## TL;DR
 
@@ -43,6 +43,8 @@ Existing alternatives don't solve this well:
 | Analyze PRD | Scores 9 sections (1-10), highlights weak phrases, suggests one-click rewrites | Each annotation teaches an expert's framework first, then applies it to your text |
 | Red Team | 2-5 experts matched to your PRD's topics debate your strategy | Experts reference and challenge each other's arguments — not parallel monologues |
 | Expert Review | One expert reviews your entire PRD through their specific frameworks | Organized by the expert's own thinking tools (LNO, DHM, Continuous Discovery), not generic categories |
+
+![Analyze mode — PRD draft on the left, expert-grounded annotations on the right](/images/projects/prd-auditor/image.png)
 
 ## See It In Action
 

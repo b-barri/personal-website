@@ -112,14 +112,57 @@ const components: Components = {
   hr: () => (
     <hr className="my-12 border-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
   ),
-  img: ({ src, alt }) => (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={typeof src === "string" ? src : ""}
-      alt={alt || ""}
-      className="my-8 rounded-xl shadow-md w-full"
-    />
-  ),
+  img: ({ src, alt }) => {
+    const url = typeof src === "string" ? src : "";
+    const videoMatch = url.match(/\.(mp4|mov|webm)(?:[?#]|$)/i);
+    if (videoMatch) {
+      const ext = videoMatch[1].toLowerCase();
+      const type =
+        ext === "webm"
+          ? "video/webm"
+          : ext === "mov"
+            ? "video/quicktime"
+            : "video/mp4";
+      const isPhoneFrame = /[?#&]phone(?:&|$)/i.test(url);
+      const cleanUrl = url.replace(/#.*$/, "");
+      const video = (
+        <video
+          aria-label={alt || ""}
+          autoPlay
+          muted
+          loop
+          playsInline
+          controls
+          preload="metadata"
+          className={
+            isPhoneFrame
+              ? "block w-full h-auto rounded-[2rem]"
+              : "my-8 rounded-xl shadow-md w-full"
+          }
+        >
+          <source src={cleanUrl} type={type} />
+        </video>
+      );
+      if (isPhoneFrame) {
+        return (
+          <div className="my-8 flex justify-center">
+            <div className="relative bg-black rounded-[2.5rem] p-2 shadow-2xl w-full max-w-[280px]">
+              {video}
+            </div>
+          </div>
+        );
+      }
+      return video;
+    }
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={url}
+        alt={alt || ""}
+        className="my-8 rounded-xl shadow-md w-full"
+      />
+    );
+  },
 };
 
 export default function MarkdownContent({ content }: { content: string }) {

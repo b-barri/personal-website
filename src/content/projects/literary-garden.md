@@ -6,6 +6,8 @@ Built in a weekend with Claude Code. Open sourced as a template. [github.com/b-b
 
 ---
 
+![Literary Garden — scrapbook walkthrough](/videos/projects/literary-garden/scrapbook_recording.mp4)
+
 ## TL;DR
 
 - **What**: A static-site "garden" for your own Kindle reading — a spaced-repetition flashcard bed for vocabulary you looked up, and a scrapbook of passages you highlighted, surfaced as shareable postcards.
@@ -13,6 +15,8 @@ Built in a weekend with Claude Code. Open sourced as a template. [github.com/b-b
 - **Result**: A daily five-minute ritual I actually use, and an open-source template anyone with a Kindle can clone. Private by construction — nothing leaves your laptop unless you choose to deploy it.
 
 ---
+
+![Literary Garden — phone demo](/videos/projects/literary-garden/demo.mp4#phone)
 
 ## Why I Built This
 

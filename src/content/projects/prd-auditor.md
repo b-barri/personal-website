@@ -4,6 +4,8 @@ An AI-powered PRD auditor — your strategy, stress-tested by 279 product expert
 
 Built in a single day with Claude Code. [Try it here](https://lenny-war-room.vercel.app/)
 
+![Analyze mode — PRD draft on the left, expert-grounded annotations on the right](/images/projects/prd-auditor/image.png)
+
 ## TL;DR
 
 **What:** Paste a PRD and get it scored, critiqued, and rewritten by AI grounded in insights from 279 real product experts (Shreyas Doshi, Teresa Torres, Marty Cagan, and more)
@@ -50,6 +52,12 @@ A user pastes a PRD for a new notifications feature. The Analyze mode returns a 
 
 One click accepts the suggested rewrite. The PRD updates instantly. After two rewrites, a nudge appears: "RE-ANALYZE to see your score improve."
 
+![Red Team Council — experts matched to the PRD's topics, ready to debate](/images/projects/prd-auditor/image2.png)
+
+![Red Team Debate — experts reference and challenge each other's arguments](/images/projects/prd-auditor/image1.png)
+
+![Lenny's Verdict — debate distilled into Area / Issue / Action](/images/projects/prd-auditor/image3.png)
+
 ## The Data Pipeline
 
 The foundation is a knowledge base built from Lenny's content (sourced as a paid subscriber, processed locally):
@@ -64,6 +72,8 @@ The foundation is a knowledge base built from Lenny's content (sourced as a paid
 ## Technical Architecture
 
 **Stack:** Next.js 16 (App Router, TypeScript) | React 19 + Zustand 5 | Anthropic Claude API | Tailwind CSS v4 | GSAP | Zod 4 | Vercel
+
+![System architecture — frontend modes, Zustand store, Next.js API routes, Anthropic Claude API](/images/projects/prd-auditor/tech_architecture.png)
 
 ### Two-Tier LLM Strategy
 

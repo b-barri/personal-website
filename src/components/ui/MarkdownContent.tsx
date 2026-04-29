@@ -114,6 +114,23 @@ const components: Components = {
   ),
   img: ({ src, alt }) => {
     const url = typeof src === "string" ? src : "";
+    const youtubeMatch = url.match(
+      /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([\w-]{11})/
+    );
+    if (youtubeMatch) {
+      const videoId = youtubeMatch[1];
+      return (
+        <div className="my-8 aspect-video">
+          <iframe
+            src={`https://www.youtube.com/embed/${videoId}`}
+            title={alt || "YouTube video"}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+            className="w-full h-full rounded-xl shadow-md border-0"
+          />
+        </div>
+      );
+    }
     const videoMatch = url.match(/\.(mp4|mov|webm)(?:[?#]|$)/i);
     if (videoMatch) {
       const ext = videoMatch[1].toLowerCase();

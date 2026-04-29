@@ -4,6 +4,10 @@ Content planning and workflow tool for YouTube creators
 
 **URL:** [content-creator-tool.vercel.app](https://content-creator-tool.vercel.app/)
 
+![ContentFlow landing — upload once, get everything for YouTube](/images/projects/contentflow/image.png)
+
+![ContentFlow walkthrough](https://www.youtube.com/watch?v=Xebxm8rf42c)
+
 ## Overview
 
 ContentFlow: Effortlessly Transform Videos into YouTube-Ready Content
@@ -20,3 +24,9 @@ Creators lose hours jumping between tools to 1) transcribe/caption videos, 2) cr
 - **More discoverable & inclusive:** Transcripts power captions and search (better SEO, accessibility, and content indexing).
 - **Fewer manual errors:** Auto-filled metadata and templated thumbnail layouts reduce typos, broken formatting, and last-minute scrambles.
 - **Safer publishing defaults:** Clear, accurate metadata and readable thumbnails lower the risk of misleading content or accessibility misses (e.g., shipping with no captions).
+
+![Upload — drag and drop your video to start the journey](/images/projects/contentflow/b.png)
+
+![Personalize — train the AI on your past high-performing titles and descriptions](/images/projects/contentflow/c.png)
+
+![Thumbnail gallery — three on-brand thumbnail variants generated per video](/images/projects/contentflow/a.png)

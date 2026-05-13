@@ -17,6 +17,48 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    slug: "mockingbird",
+    title: "Mockingbird",
+    tagline:
+      "A senior PM interviewer that lives in your laptop — voice-first, tension-aware",
+    description:
+      "A voice-based PM interview practice tool built in a weekend. You pick a case, Alex (the AI interviewer) reads it, you talk through your answer, and afterward you get the kind of feedback a real senior PM would give — anchored to specific moments, grounded in the case's named tensions, with no checklist grading. The case bank is 30 cases deep, ~70% India-context (UPI, Swiggy, Blinkit, IRCTC tatkal, Zerodha onboarding). The voice layer is provider-pluggable so the same product can run on Sarvam Bulbul + Saaras or Cartesia Sonic + Ink-Whisper — the architecture is an empirical testbed for Indic-native voice. BYO API keys, 187 tests green, decision history readable as a PR.",
+    imagePath: "/images/projects/interview.png",
+    tools: [
+      "Next.js 15",
+      "React 19",
+      "TypeScript",
+      "Tailwind CSS",
+      "Anthropic Claude Sonnet 4.6",
+      "Sarvam Bulbul + Saaras",
+      "Cartesia Sonic + Ink-Whisper",
+      "Vitest",
+      "Playwright",
+      "Vercel",
+      "Claude Code",
+      "Midjourney",
+    ],
+    features: [
+      "Tension-grounded feedback — eval rubric is the case's named trade-offs, not a generic framework checklist",
+      "30 Product Design cases, ~70% India-context (UPI, Swiggy, Blinkit, IRCTC, Zerodha)",
+      "Voice-first session with provider-pluggable layer (Sarvam or Cartesia) behind one abstraction",
+      "BYO API keys — no server-side cost, no PII storage, 90-second onboarding",
+      "Dimension cards + tension prose feedback — scannable without going numeric",
+    ],
+    links: {
+      demo: "https://mockingbird-chi.vercel.app",
+      github: "https://github.com/b-barri/mockingbird",
+      other: [
+        {
+          label: "PR walkthrough",
+          url: "https://github.com/b-barri/mockingbird/pull/1",
+        },
+      ],
+    },
+    featured: true,
+    hasFullContent: true,
+  },
+  {
     slug: "literary-garden",
     title: "Literary Garden",
     tagline:

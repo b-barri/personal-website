@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# raw image/source exports kept locally but not shipped
+/public/images/projects/clawde_toolbar*.png

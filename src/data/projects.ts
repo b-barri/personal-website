@@ -17,6 +17,37 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    slug: "clawd-touchbar",
+    title: "clawd-touchbar",
+    tagline:
+      "A tiny animated mascot that lives on your MacBook Pro Touch Bar and reacts to your Claude Code session",
+    description:
+      "A love letter to a piece of hardware Apple gave up on. clawd is a small animated character that lives on the Touch Bar and mirrors the live state of your Claude Code session — it wakes when a session starts, thinks while Claude reasons, shows tool-aware sprites while tools run (bash → typing, write → building, read → reading), celebrates when they finish, and curls up to sleep when the conversation ends. Ten visual states, driven by Claude Code's hook system through a local HTTP listener. Built end-to-end in one focused session as a Swift Package Manager executable that links Apple's private DFRFoundation framework — no Xcode, no Apple Developer Program, no 7-day expiry, ad-hoc signed and public on GitHub. The mid-build pivot mattered most: a 30pt control-strip slot made the character illegible on real hardware, so I rewrote the render path to take over the wide app-region modal Touch Bar instead. AGPL-3.0, with the full sprite attribution chain intact.",
+    imagePath: "/images/projects/clawd-touchbar.webp",
+    tools: [
+      "Swift",
+      "Swift Package Manager",
+      "AppKit",
+      "DFRFoundation (private API)",
+      "BSD Sockets",
+      "Claude Code Hooks",
+      "ad-hoc codesign",
+      "Claude Code",
+    ],
+    features: [
+      "Ten visual states driven by Claude Code hook events, round-trip under 50ms",
+      "Tool-aware working sprites: bash → typing, write/edit → building, read → reading",
+      "Private DFRFoundation framework for full Touch Bar takeover — no Xcode, no Developer Program",
+      "BSD-socket listener on 127.0.0.1 instead of Network.framework — builds on Command Line Tools alone",
+      "Passive-verification onboarding: waits for a real hook event before confirming 'connected'",
+    ],
+    links: {
+      github: "https://github.com/b-barri/clawd-touchbar",
+    },
+    featured: true,
+    hasFullContent: true,
+  },
+  {
     slug: "mockingbird",
     title: "Mockingbird",
     tagline:

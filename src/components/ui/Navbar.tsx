@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import ThemeToggle from "./ThemeToggle";
+import QuestLog from "./QuestLog";
 
 const navLinks = [
   { label: "Projects", href: "#projects" },
@@ -130,13 +131,15 @@ export default function Navbar() {
               {link.label}
             </a>
           ))}
-          <div className="ml-2 pl-2 border-l border-white/20 dark:border-white/10">
+          <div className="ml-2 pl-2 border-l border-white/20 dark:border-white/10 flex items-center gap-1">
+            <QuestLog scrolled={scrolled} />
             <ThemeToggle scrolled={scrolled} />
           </div>
         </div>
 
-        {/* Mobile: theme toggle + hamburger */}
+        {/* Mobile: quest log + theme toggle + hamburger */}
         <div className="md:hidden flex items-center gap-2">
+          <QuestLog scrolled={scrolled} />
           <ThemeToggle scrolled={scrolled} />
           <button
             className={`flex flex-col justify-center items-center w-10 h-10 rounded-lg focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none transition-colors ${

@@ -4,6 +4,8 @@
 
 I read a fair bit, and the deciding part was always the worst part. A star rating tells you a book is popular, not whether it's for you. So I'd open six tabs, skim a Goodreads thread, dig for what the prose actually feels like, and twenty minutes later still not really know. Prosepect is me trying to collapse that into one question you can just type.
 
+![Prosepect, a short demo and walkthrough on LinkedIn](https://www.linkedin.com/posts/bhavyabarri_have-been-spending-an-unreasonable-amount-ugcPost-7355173411398041600-jbWv)
+
 You ask it the way you'd ask a friend who reads more than you do. "I loved Project Hail Mary, what next?" "What are the main ideas in Thinking, Fast and Slow?" "Tell me about Murakami's writing style." It takes the question and looks at the book from a few angles at once instead of one number: what the writing actually reads like, the themes underneath it, what readers keep saying in their reviews, who the author is and where this fits in their work. Then it gives you a read on whether it's worth your time, and what to pick up next.
 
 The search box leads with example queries on purpose. A blank box is a small dare, and most people don't want to compose the perfect prompt before they've seen the thing work. Handing you a few real questions to click is the difference between "I'll come back to this" and actually trying it.

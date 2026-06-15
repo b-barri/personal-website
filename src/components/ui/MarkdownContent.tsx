@@ -213,6 +213,27 @@ const components: Components = {
       }
       return video;
     }
+    // LinkedIn post embed (official; carries the post's own video player).
+    // iframe is phrasing content, so it stays valid inside react-markdown's <p>.
+    if (url.includes("linkedin.com")) {
+      const m = url.match(/(ugcPost|activity|share)[-:](\d+)/);
+      const liSrc = url.includes("/embed/")
+        ? url
+        : m
+          ? `https://www.linkedin.com/embed/feed/update/urn:li:${m[1]}:${m[2]}`
+          : null;
+      if (liSrc) {
+        return (
+          <iframe
+            src={liSrc}
+            title={alt || "LinkedIn post"}
+            loading="lazy"
+            allowFullScreen
+            className="my-8 mx-auto block h-[640px] w-full max-w-[550px] rounded-xl border border-border"
+          />
+        );
+      }
+    }
     return withCaption(
       // eslint-disable-next-line @next/next/no-img-element
       <img

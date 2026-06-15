@@ -13,6 +13,7 @@
   --color-accent-hover: #2563EB;
   --color-border: #DEE2DE;
   --color-meta-theme: #FEFFFC;
+  --color-frank: #A63D2F;            /* oxblood postal mark — ink, not accent */
 }
 
 .dark {
@@ -26,6 +27,7 @@
   --color-accent-hover: #93c5fd;
   --color-border: #44403c;           /* warm dark border */
   --color-meta-theme: #1c1917;
+  --color-frank: #c96a59;            /* lighter oxblood for dark paper */
 }
 
 @theme inline {
@@ -38,9 +40,12 @@
   --color-accent: var(--color-accent);
   --color-accent-hover: var(--color-accent-hover);
   --color-border: var(--color-border);
+  --color-frank: var(--color-frank);
   --font-heading: var(--font-space-grotesk);
   --font-body: var(--font-inter);
   --font-playfair: var(--font-playfair);
+  --font-mono: var(--font-mono);
+  --font-hand: var(--font-hand);
 }
 
 html {
@@ -106,6 +111,142 @@ h1, h2, h3, h4, h5, h6 {
     linear-gradient(to right, rgba(245, 243, 238, 0.03) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(245, 243, 238, 0.03) 1px, transparent 1px);
 }
+
+/* ============================================================
+   POSTAL ARCHIVE LANGUAGE
+   Shared texture + chrome vocabulary for the stamp/postcard system.
+   Watercolours stay full colour; this layer is paper + ink only.
+   ============================================================ */
+
+/* Paper grain — a faint fibre overlay. Apply to a relatively-positioned
+   element; the noise rides on a ::before so it never blocks pointer events. */
+.paper-grain { position: relative; }
+.paper-grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.dark .paper-grain::before { opacity: 0.07; }
+
+/* Crosshatch — Tufte-style richness without colour (dividers, empty states). */
+.bg-crosshatch {
+  background-image:
+    repeating-linear-gradient(45deg, rgba(44, 44, 44, 0.06) 0 1px, transparent 1px 6px),
+    repeating-linear-gradient(-45deg, rgba(44, 44, 44, 0.06) 0 1px, transparent 1px 6px);
+}
+.dark .bg-crosshatch {
+  background-image:
+    repeating-linear-gradient(45deg, rgba(245, 243, 238, 0.05) 0 1px, transparent 1px 6px),
+    repeating-linear-gradient(-45deg, rgba(245, 243, 238, 0.05) 0 1px, transparent 1px 6px);
+}
+
+/* Dashed catalog rule — the perforated hairline beside section labels. */
+.catalog-rule {
+  height: 1px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--color-border) 0 6px,
+    transparent 6px 10px
+  );
+}
+
+/* Perforated stamp edge — punches holes in the colour of the page behind
+   the stamp (--perf-bg, default = the primary background). Set --perf-bg on
+   the element when the stamp sits on a different surface. */
+.stamp-edge {
+  --perf-bg: var(--color-bg-primary);
+  --stamp-fill: var(--color-bg-surface);
+  /* Even, closely-spaced perforations on a uniform 11px pitch (all four edges
+     share the pitch so corners resolve cleanly). The hole colour matches the
+     surface behind the stamp so it reads as a real punched edge. */
+  background:
+    radial-gradient(circle 3.5px at 50% 0,    var(--perf-bg) 98%, transparent 100%) 5.5px 0    / 11px 7px repeat-x,
+    radial-gradient(circle 3.5px at 50% 100%, var(--perf-bg) 98%, transparent 100%) 5.5px 100% / 11px 7px repeat-x,
+    radial-gradient(circle 3.5px at 0 50%,    var(--perf-bg) 98%, transparent 100%) 0 5.5px    / 7px 11px repeat-y,
+    radial-gradient(circle 3.5px at 100% 50%, var(--perf-bg) 98%, transparent 100%) 100% 5.5px / 7px 11px repeat-y,
+    var(--stamp-fill);
+  box-shadow: 0 3px 12px -4px rgba(0, 0, 0, 0.24), 0 1px 0 rgba(0, 0, 0, 0.04);
+}
+/* Dark paper: lift the mat well above the page so the page-coloured
+   perforations actually bite (bg-surface sits too close to bg-primary). */
+.dark .stamp-edge {
+  --stamp-fill: #38322e;
+}
+
+/* Loading shimmer behind a stamp illustration — replaces the blank flash
+   while next/image streams in. */
+@keyframes stamp-shimmer {
+  0% { background-position: -150% 0; }
+  100% { background-position: 250% 0; }
+}
+.stamp-shimmer {
+  background-image: linear-gradient(
+    100deg,
+    transparent 20%,
+    color-mix(in srgb, var(--color-text-primary) 7%, transparent) 42%,
+    transparent 64%
+  );
+  background-size: 220% 100%;
+  animation: stamp-shimmer 1.5s ease-in-out infinite;
+}
+
+/* ---- Artifact chrome: specimen-sheet / catalogue-plate vocabulary ---- */
+
+/* Photo mounting corner — the translucent triangle that pins a stamp to an
+   album page. Place four, one per corner, via the position helpers. */
+.photo-corner {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background: linear-gradient(135deg, rgba(44, 44, 44, 0.34), rgba(44, 44, 44, 0.12));
+  box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.4);
+}
+.dark .photo-corner {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.25));
+}
+.photo-corner.tl { top: -1px; left: -1px; clip-path: polygon(0 0, 100% 0, 0 100%); }
+.photo-corner.tr { top: -1px; right: -1px; clip-path: polygon(0 0, 100% 0, 100% 100%); }
+.photo-corner.bl { bottom: -1px; left: -1px; clip-path: polygon(0 0, 0 100%, 100% 100%); }
+.photo-corner.br { bottom: -1px; right: -1px; clip-path: polygon(100% 0, 0 100%, 100% 100%); }
+
+/* Postmark — concentric oxblood rings, ridden over the stamp at an angle. */
+.postmark {
+  border-radius: 50%;
+  color: var(--color-frank);
+  border: 1.5px solid currentColor;
+  box-shadow: inset 0 0 0 3px transparent, inset 0 0 0 4.5px currentColor;
+  opacity: 0.72;
+}
+
+/* Loupe — a magnifier puck with a glassy rim, for detail callouts. */
+.loupe {
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 5px var(--color-bg-surface),
+    0 0 0 6.5px color-mix(in srgb, var(--color-text-primary) 35%, transparent),
+    0 16px 34px -10px rgba(0, 0, 0, 0.5),
+    inset 0 0 24px rgba(255, 255, 255, 0.28);
+}
+
+/* L-shaped crop bracket for the sheet corners. */
+.crop-bracket { position: absolute; width: 14px; height: 14px; }
+.crop-bracket::before, .crop-bracket::after {
+  content: ""; position: absolute; background: var(--color-text-secondary);
+}
+.crop-bracket::before { width: 14px; height: 1px; }
+.crop-bracket::after { width: 1px; height: 14px; }
+.crop-bracket.tl { top: -1px; left: -1px; }
+.crop-bracket.tr { top: -1px; right: -1px; }
+.crop-bracket.tr::before { right: 0; }  .crop-bracket.tr::after { right: 0; }
+.crop-bracket.bl { bottom: -1px; left: -1px; }
+.crop-bracket.bl::before { bottom: 0; }  .crop-bracket.bl::after { bottom: 0; }
+.crop-bracket.br { bottom: -1px; right: -1px; }
+.crop-bracket.br::before { bottom: 0; right: 0; }  .crop-bracket.br::after { bottom: 0; right: 0; }
 
 /* Art carousel — perspective only on desktop */
 .carousel-container {
@@ -200,7 +341,8 @@ h1, h2, h3, h4, h5, h6 {
   .animate-float-delayed,
   .animate-bounce,
   .animate-marquee,
-  .animate-slow-spin {
+  .animate-slow-spin,
+  .stamp-shimmer {
     animation: none;
   }
 }

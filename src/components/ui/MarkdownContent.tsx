@@ -2,6 +2,8 @@
 
 import ReactMarkdown, { Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
+import remarkGloss from "@/lib/remark-gloss";
+import GlossTerm from "@/components/ui/GlossTerm";
 
 const components: Components = {
   h1: ({ children }) => (
@@ -112,6 +114,8 @@ const components: Components = {
   hr: () => (
     <hr className="my-12 border-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
   ),
+  // Glossary terms: [[term::explanation]] -> <abbr> (see lib/remark-gloss.ts)
+  abbr: ({ children, title }) => <GlossTerm title={title}>{children}</GlossTerm>,
   img: ({ src, alt }) => {
     const url = typeof src === "string" ? src : "";
     const youtubeMatch = url.match(
@@ -185,7 +189,7 @@ const components: Components = {
 export default function MarkdownContent({ content }: { content: string }) {
   return (
     <article className="markdown-content">
-      <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
+      <ReactMarkdown remarkPlugins={[remarkGfm, remarkGloss]} components={components}>
         {content}
       </ReactMarkdown>
     </article>

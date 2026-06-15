@@ -1,134 +1,32 @@
 # clawd-touchbar
 
-**A tiny animated mascot that lives on your MacBook Pro Touch Bar and reacts to your Claude Code session.**
+**A tiny pixel crab that lives on your MacBook's Touch Bar and reacts to what Claude Code is doing.**
 
-Shipped end-to-end in one focused session. Live at [github.com/b-barri/clawd-touchbar](https://github.com/b-barri/clawd-touchbar) (AGPL-3.0).
+![clawd-touchbar, live demo on a MacBook Pro Touch Bar](/videos/projects/clawd-touchbar/demo.mp4)
 
----
+Apple gave up on the Touch Bar in 2021, and gave up on caring about it years before that. Mine just sat there above the keyboard, a dark strip of wasted screen, while I spent half my day in Claude Code watching a terminal for state changes. Is it thinking? Running something? Waiting on me? Done?
 
-![clawd-touchbar — live demo on a MacBook Pro Touch Bar](/videos/projects/clawd-touchbar/demo.mp4)
+Those two facts collided one evening. I wanted some ambient sense of what my agent was doing without staring at the terminal, and I had two inches of always-on display doing absolutely nothing. A menu-bar icon would just add to the notification pile. The Touch Bar sits in your peripheral vision and asks for nothing in return. It was the right surface, and nobody was using it.
 
-## TL;DR
+So I built clawd: a little crab who paces back and forth on the Touch Bar and changes what he's doing based on your session. Ten states in all. He types when Claude runs a shell command, picks up a hammer when it writes a file, sits down with a book when it reads one, throws his hands up when something breaks, and curls up to sleep when you walk away. What makes that possible is [[hooks::little scripts Claude Code runs automatically whenever something happens. A task starts, a tool runs, a turn ends]]: Claude fires one on every event, and each quietly hands clawd the news through a [[local socket::a tiny private channel on your own machine that lets two programs talk to each other, without ever touching the internet]]. clawd just listens and reacts, in under fifty milliseconds.
 
-- **What**: A small animated character that walks around on the Touch Bar and shows live state from your Claude Code session.
-- **How**: A Swift Package Manager executable linking Apple's private DFRFoundation framework, talking to Claude Code via a local HTTP listener wired through hooks.
-- **Result**: Ten visual states, thirteen commits, ad-hoc signed (no Apple Developer Program needed), public on GitHub.
+Getting him onto the Touch Bar at all meant going where Apple would rather you didn't. There's no supported way to draw your own thing up there, so clawd leans on [[DFRFoundation::a hidden, undocumented piece of Apple's own code that controls the Touch Bar. Apps aren't meant to touch it, so there's no manual, and you reverse-engineer how it works]]. It's the same private machinery the handful of other Touch Bar tools quietly use. The whole app is one [[Swift::Apple's programming language for building Mac and iPhone software]] program built with [[Swift Package Manager::Apple's built-in build tool, so you don't need Xcode, Apple's big, heavy code editor]]. It compiles in about ten seconds and runs without the usual ceremony.
 
----
+The part worth telling, though, is the afternoon I almost shipped the wrong thing.
 
-## Why I Built This
+The plan was to put clawd in the little 30-point slot inside the Control Strip, so he'd sit politely next to your volume and brightness keys. I built exactly that, ran it on real hardware, and he was a smear. A 30-pixel-wide animated character is illegible. It's noise. The tempting fix was to keep the slot and simplify the sprites until they read at that size. The right fix was to admit the slot itself was the problem, and rewrite it to take over the Touch Bar's entire app region instead. I lost polite coexistence with other apps. I got a crab you can actually see, and I put that trade-off at the top of the README so nobody's surprised.
 
-I kept noticing the Touch Bar sit dark above my keyboard. Apple removed it from the MacBook Pro lineup in 2021 and gave up on the software story years before that. Most apps that ever supported it have dropped support.
+That afternoon is the whole project in miniature. When something isn't working, the real question is whether you're fixing the design or papering over a decision underneath it that was wrong from the start. I spent hours shrinking a character to fit a box before I accepted the box was never going to work.
 
-Meanwhile I'd been spending half my day in Claude Code. It's the kind of tool with constant state changes — thinking, running a tool, waiting on me, finishing — and I wanted some ambient signal of what was happening without staring at the terminal. Menu bar widgets feel like more notification noise. But the Touch Bar is two inches above the keyboard, always in my peripheral vision, doing nothing.
+The other lessons came from the surface fighting back. The networking almost didn't ship: the modern, friendly way to do it is [[Network.framework::Apple's current, polished toolkit for letting programs talk over a network]], but on my machine it refused to load because of a toolchain version mismatch. Rather than chase the toolchain, I dropped down to [[BSD sockets::the decades-old, bare-metal way for programs to pass data to each other, old-fashioned, but it works on any Mac, no special setup]]. Fifty extra lines, one fewer thing to break. And the sprites needed my eyes, not my tests: one shipped with a leftover [[chroma key::the green-screen trick, a solid background color that's supposed to be made invisible, except here nobody had]] green background, another sat too high and got clipped on the narrow strip. Unit tests catch broken logic; only looking at the thing catches "the question mark is cut off at the top." The testing has to match the medium.
 
-Both problems converged. The Touch Bar is the right surface for live session state, and Claude Code's hook system gives you the events. So I built clawd.
+Two small decisions I'm glad I made. Onboarding doesn't lie to you: instead of faking a self-test that always passes, the setup window sits quietly and waits for a real event from your actual Claude session before it says "connected." And clawd is [[ad-hoc signed::Apple makes you cryptographically "sign" an app before the Mac will trust it. Ad-hoc signing is the free, do-it-yourself version, so you skip Apple's $99-a-year Developer Program]], so anyone can build and run it without paying Apple a cent. It's [[AGPL::a strict open-source license: anyone can use and change the code, but they have to keep their version open too]], inherited from the artist whose sprites clawd is built on.
 
----
+clawd shipped in one sitting, and it's the rare side project where the thing I built is also a thing I use every day.
 
-## The Problem
+## Try it
 
-The Touch Bar shipped on 2016-2021 MacBook Pros and was discontinued with the M1 Pro generation. The function row never found its audience, the per-app contextual bars never matured, and most owners flipped to F-keys and forgot it existed.
-
-The existing third-party tools for the Touch Bar are Pock and MTMR. Both are great, both focus on system widgets like volume sliders or window switchers. Neither is session-aware in the way Claude Code needs.
-
-A menu bar widget would have been the obvious alternative. But a menu bar item competes with system notifications for attention, and the whole point of an ambient signal is that it sits there without demanding anything. The Touch Bar is structurally better for this.
-
----
-
-## The Solution
-
-clawd is a small character living on the left half of the Touch Bar. Ten visual states, driven by hook events:
-
-| State | Trigger | What clawd shows |
-|---|---|---|
-| Waking | Session start | Alert pose with a "!", settles into idle |
-| Idle | Nothing pending | One of four chill poses (headphones, reading, juggling, bubble) |
-| Thinking | You submit a prompt | Thoughtful pose |
-| Working | Tool call in progress | Tool-aware sprite: bash → typing, write/edit → building, read → reading |
-| Asking | Claude needs your input | Lightbulb above clawd's head |
-| Happy | Tool succeeded | Celebratory jump |
-| Awaiting | Claude finished, your turn | Thought-bubble pose |
-| Error | Tool failed | Downed clawd with ERROR text |
-| Sleeping | Sustained idle | Curled up |
-| Notification | Reserved for future hook types | (currently unused) |
-
-The character walks back and forth across the stage continuously regardless of state. The Control Strip on the right stays fully visible, so brightness, volume, and mute keep working normally.
-
----
-
-## Technical Architecture
-
-The whole thing is a Swift Package Manager executable. No Xcode required, no Apple Developer Program, no 7-day expiry. Builds in roughly ten seconds.
-
-Stack:
-
-| Layer | Tech |
-|---|---|
-| UI | AppKit, NSImageView, CATransition for cross-fades |
-| Touch Bar takeover | Apple's private DFRFoundation framework, linked via `@_silgen_name` and Obj-C runtime selector resolution |
-| Networking | BSD sockets via the Darwin module, bound to 127.0.0.1:53777 |
-| State machine | Plain Swift with auto-cancelling dispatch timers |
-| Build + sign | Swift Package Manager, Makefile, ad-hoc codesign |
-| License | AGPL-3.0 inherited from the sprite source |
-
-The wiring loop: Claude Code fires a hook event, runs a curl command that posts the JSON payload to clawd's local listener, the state machine maps the event to a state, the animator picks a sprite, the Touch Bar updates. Round trip is under fifty milliseconds.
-
----
-
-## Key Technical Decisions
-
-**Modal Touch Bar over Control Strip slot.** The original plan was to render clawd in the small 30pt slot inside the Control Strip. I built it, then ran a smoke test on actual hardware and realized a 30pt-wide animated character is unreadable. I pivoted mid-build to the wide app-region modal Touch Bar (the same private API Pock uses for full-bar takeover). I gave up peaceful coexistence with other apps' Touch Bar items. I gained visibility. The README discloses the trade-off prominently.
-
-**BSD sockets over Network.framework.** The standard answer is Network.framework. But on the Command Line Tools-only install on my Mac, the prebuilt Network swiftmodule failed to load with a compiler-version mismatch. Switching to raw BSD sockets via the Darwin module added about fifty lines of code, removed a toolchain dependency, and now the project builds on any Mac with `xcode-select --install`.
-
-**Per-sprite Y offsets over autolayout centering.** NSImageView with `wantsLayer = true` draws via its CALayer, and the layer's `contentsGravity` overrides `imageAlignment`. Some sprites kept getting clipped at the top because the visible character sat in the upper portion of the source's bounding box. Instead of fighting the layer subsystem, I added a per-sprite Y offset dictionary. Four sprites get a small negative offset, the rest stay at zero. Small ongoing maintenance cost, predictable rendering today.
-
-**Passive verification onboarding over synthetic round-trip.** The first design had the app send itself a fake hook event after the user pastes the config. That always succeeded since the listener was up, but it didn't prove the user's settings.json was actually wired. I switched to passive listening. The onboarding window waits for the first real hook event from Claude Code, then flips to "connected" and closes. Honest signal, no false positives.
-
----
-
-## The Build Story
-
-Built with Claude Code's compound-engineering workflow. A brainstorm doc captured the requirements and explicit non-goals, a plan doc broke v1 into seven implementation units with execution notes, and each unit shipped as one commit with proper attribution.
-
-The project lived three lives:
-
-**v1: scaffolding.** Swift Package Manager skeleton, DFRFoundation bindings, sprite pipeline, HTTP listener, state machine, onboarding window. Shipped as seven commits with traceable test cases.
-
-**v2: contextual states.** Live testing on the actual Touch Bar surfaced two perceptual gaps. `Stop` looked like "session over" when it actually meant "your turn," and every tool call looked the same. v2 added a distinct `awaiting` state plus tool-aware working sprites (bash → typing keyboard, write → hammer and hard hat, read → sitting with a book). It also unified all "needs your response" signals — permission prompts plus blocking tool calls like AskUserQuestion and ExitPlanMode — into a single `asking` state.
-
-**v2.5: visual polish.** The hardest part. One sprite had a solid green chroma-key background that nobody had stripped upstream. Another had asymmetric padding that made it sit at the top of the stage instead of centered. A third had elements (a lightbulb, juggling balls) reaching the top edge of the bounding box and getting clipped on the Touch Bar's small render. Each fix was its own small commit with a clear "before" and "after."
-
-The mid-build pivot mattered most. The v1 plan called for clawd to live in the small Control Strip slot. When I actually ran it on Touch Bar hardware, the character was illegibly small. Instead of compressing the design around the slot, I rewrote U3 to take over the wide app region via the modal Touch Bar API. One wasted afternoon, but the alternative was shipping something nobody would use.
-
----
-
-## Outcomes and What I Learned
-
-- A full v1 + v2 + v2.5 shipped in one focused session: ten states, modal Touch Bar takeover, onboarding UI, thirty-eight tests, AGPL attribution chain intact, public on GitHub.
-- The compound-engineering workflow kept the work coherent through multiple pivots. Every architectural change was a deliberate commit with a clear message, not a silent reverse.
-- Live testing on the actual surface caught everything that pure unit tests missed: clipping, asymmetric centering, the chroma-key bug, the "stop means your turn" misread.
-
-Three meta-insights:
-
-1. **Visual code needs visual testing.** Unit tests catch logic. Only your eye catches "the question mark is clipped at the top" or "this sprite is sitting too high in the frame." The testing strategy has to match the medium.
-2. **When an architectural assumption is wrong, pivot the architecture, not the design.** I spent time trying to make a small character work in a small slot before accepting that the slot was the wrong place. A small fix would have been a band-aid.
-3. **AI-assisted building works best when you commit to the workflow's seams.** Brainstorm doc → plan doc → execute → polish makes each phase's output legible and reviewable. Trying to skip ahead loses context faster than you'd think.
-
----
-
-## What I'd Do Differently
-
-- Test against Apple's Touch Bar simulator (in Xcode) from day one instead of relying on hardware loops. It would have caught sprite clipping in the first few iterations instead of the fifth.
-- Consider per-session state partitioning from v1, not v1.1+. With multiple Claude Code sessions running concurrently, last-event-wins is awkward. Easy to spot in retrospect, easy to defer in the moment.
-- Record the demo earlier in the build, not after publishing. The GitHub page shipped with a missing hero image until the recording landed as a follow-up.
-
----
-
-## Try It Yourself
-
-On any MacBook Pro with Touch Bar hardware (2016 to 2021), macOS 13 or newer, with Claude Code installed:
+Any Touch Bar MacBook (2016 to 2021), macOS 13 or newer, Claude Code installed:
 
 ```bash
 git clone https://github.com/b-barri/clawd-touchbar.git
@@ -138,8 +36,6 @@ make
 open Clawd.app
 ```
 
-The onboarding window walks you through a five-line addition to `~/.claude/settings.json`. Send a message in any Claude session and clawd reacts.
+The onboarding walks you through a five-line addition to `~/.claude/settings.json`. Send a message in any session and he wakes up.
 
----
-
-Source, license, and full attribution chain at [github.com/b-barri/clawd-touchbar](https://github.com/b-barri/clawd-touchbar).
+Source, license, and full attribution chain at [github.com/b-barri/clawd-touchbar](https://github.com/b-barri/clawd-touchbar) (AGPL-3.0).

@@ -98,3 +98,50 @@ Decision-led Quest Log cards · self-updating ship's log · field notes + "Tensi
 ## Coherence note
 
 Ideas 1, 5, and 6 share the sprite-engine system; ideas 2 and 5 share a small ambient scene/season store. Build order that compounds: **1 → 2 → 5**, then 3 (after a visual prototype) and 4, then 6 as the capstone.
+
+---
+
+# Design Direction (2026-06-15): "The Postal Archive"
+
+Added after Bhavya pulled five design references and two pieces of product feedback: (a) 14 quests is too many to ask anyone to complete, (b) "a conversation with me" is not a reward worth the climb — the hidden room needs a real gift. Also: he likes the Back Room as a **documentary** (behind-the-scenes, with a recording of himself), and is open to **rewriting the blogs and showcasing the work better**.
+
+## The references and what each contributes
+
+1. **christine røde / Dia "artifacts" thread** (https://x.com/chrstnerode/status/2065070625970946175) — the design *philosophy*, and an exact match for Bhavya's problem ("how do you make AI-generated docs that don't *feel* AI-generated?"). Load-bearing lines, verbatim:
+   - "elevated, consistent, well-crafted. designed, but not *over*-designed — the content should always come first."
+   - **"in a world where full-fidelity interactive websites are cheap, constraints are a perk."** (the thesis)
+   - "we <3 paper" — archival references: President's Daily Brief, office memoranda, cork board, graph paper, "still warm from the xerox machine. still beautiful."
+   - Crosshatching textures so charts are rich **without color** — "i dedicate this one to edward tufte" (Bhavya has a tufte-viz skill; his graph-paper texture is already here).
+   - The sweet spot to aim for: **"you asked your assistant to do some research, and they came back with this. a rough draft, for your consideration."** Too rustic = unpleasant; too polished = "vibecoded."
+   - The Morning Brief: every issue paired with a **public-domain National Gallery painting**, LLM words set against centuries-old handmade art, **all manually curated** → "make them feel something."
+2. **codrops interactive stamp collection** (tympanus.net, 2026-06-09) — the *mechanics* of the stamp/postcard: perforated edges, paper grain, drop shadows, an offscreen-canvas **loupe** with shader edge-distortion + chromatic aberration for "playful inspection," a **two-sided postcard** (front = illustration, back = the form/text — you flip it to write), a "genie" shader transition for opening, monospace catalog metadata, handwriting annotations. Key reusable trick: **reconstruct in an offscreen canvas instead of zooming the DOM**, so you can swap a small preview for a high-res detail image.
+3. **marijanapav.com/stamps** — stamps as **narrative containers**: "each stamp tells a story of a piece of history, a moment in time"; the blend of art, history, and typography.
+4. **Jean Chen's sketchbook repository** (https://x.com/jeanxcrj/status/2064835647152787800, "mostly claude code") — a tactile 3D **notebook object** you open, sitting on clean white with ruler/catalog margin marks. The archive-as-object pattern for the Back Room.
+5. **Aditya's Framer folder animation** (https://x.com/AdityaSur11/status/2054751049232380401) — the *motion*: a deep-green **envelope/folder unfolds** (side flaps swing open, front panel drops) to reveal a stamped cream **postcard** rising out of it (vertical type, a small bird illustration, a stamp tucked behind). This is the open-to-reveal animation for the sealed room and the project cards.
+
+## The synthesis — one coherent language
+
+All five collapse into a single aesthetic the site is *already* most of the way toward (graph paper, warm cream/charcoal, watercolors, Playfair, the "Side Quests" frame, the wax-seal prototype): **a personal postal archive.** Philately as the organizing metaphor.
+
+- **Projects are stamps** in a collection. The wax-seal Quest Log prototype already lives here — sharpen the seals into perforated-edge stamps with paper grain; each "witnessed" project is a franked stamp in the album.
+- **Case studies are postcards.** Front = a stamp-framed illustration (his watercolor or the project hero); flip = the writing. This is the hook for **rewriting the blogs**: rewrite them *as* postcards/dispatches, content-first, "a rough draft for your consideration" voice — not over-designed, not AI-slop.
+- **The hidden room is a sealed envelope** that unfolds (Aditya motion) into **the Back Room documentary** — the behind-the-scenes cut with Bhavya's own recording.
+- **The gift is a postcard you keep.** The reworked "Visit Garden" share card, done right: one of his watercolors as the stamp art + a real takeaway, downloadable. Pretty AND useful (his own bar). Possibly a small wallpaper set too. This replaces "let's talk" as the reward.
+- **Constraints are the taste signal.** Lean into Tufte/crosshatch richness without relying on color; monospace catalog labels for metadata; handwriting for annotations; black-and-white "xerox" warmth. This is what separates "designed" from "vibecoded," and it directly answers his "make it beautiful" + "signal taste" goal.
+- **His art is the National-Gallery layer.** Where Dia used public-domain paintings, Bhavya uses *his own watercolors* as the stamp/postcard illustrations — the differentiator no other PM has, finally load-bearing instead of quarantined in a carousel.
+
+## Concrete changes this direction drives
+
+- **Lower the unlock threshold.** Quest = the **6 featured projects** ("the album"), not all 14. Reachable in one honest visit; doubles as the album/B-sides tiering. (Prototype change: count + unlock compute against `featured`.)
+- **Rework the hidden room** from "claim a conversation" → **the Back Room**: an envelope that unfolds into a documentary (Bhavya's recording) + scrapped v1s, sketches, one unlisted watercolor. The *gift* is a keepable watercolor postcard (download).
+- **Restyle the seal as a stamp** (perforated edge, paper grain, optional loupe inspection on hover) to match the archive language.
+- **Rewrite the blogs as postcards/dispatches** in the content-first, rough-draft voice; showcase projects as stamps → postcards rather than catalog cards.
+- **Adopt the constraint palette** site-wide as the "beautiful" layer: paper grain, crosshatch, monospace catalog metadata, handwriting accents, restrained color.
+
+## Open questions for Bhavya
+- Full **postal-archive redesign** of the homepage, or apply the language **incrementally** (start with the Quest Log → Back Room, then blogs, then homepage)?
+- Documentary: a real screen-recording + voiceover, a talking-head, or a Loom-style narrated walkthrough? (Affects whether the envelope opens to a video player or a scrollable "dispatch".)
+- Blog rewrite: do it **as postcards** (short, illustrated, content-first dispatches) or keep long-form case studies and only restyle them?
+
+## Recommended next build
+Reshape the existing prototype to the new spec — **threshold → 6 featured**, and **hidden room → envelope-unfold Back Room** with a placeholder documentary slot and a keepable watercolor postcard gift — so the approved feedback is testable immediately, before committing to the full-site postal redesign.

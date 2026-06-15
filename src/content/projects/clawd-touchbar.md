@@ -10,6 +10,10 @@ Apple gave up on the Touch Bar in 2021, and gave up on caring about it years bef
 
 Those two facts collided one evening. I wanted some ambient sense of what my agent was doing without staring at the terminal, and I had two inches of always-on display doing absolutely nothing. A menu-bar icon would just add to the notification pile. The Touch Bar sits in your peripheral vision and asks for nothing in return. It was the right surface, and nobody was using it.
 
+I wasn't the first to think a creature could live up there. Grace Avery's [Touchbar Pet](https://screenrant.com/touch-bar-tamagotchi-macbook-pro-touchbar-pet/), a little cat that paces the strip and naps between meals, had already shown the Touch Bar could hold a character with moods. clawd borrows that spirit and points it at a different job: not a pet you look after, but a coworker that quietly mirrors what your AI is doing.
+
+![Grace Avery's Touchbar Pet, a pixel cat that walks along the MacBook Touch Bar](/images/projects/clawd-touchbar/inspiration-touchbar-pet.jpg "The spark: Grace Avery's Touchbar Pet (image via ScreenRant).")
+
 ## How clawd works
 
 ![How clawd works: from a keystroke in Claude Code to a pixel on the Touch Bar, in six steps](/images/projects/clawd-touchbar/how-it-works.svg)

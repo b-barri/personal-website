@@ -118,15 +118,17 @@ const components: Components = {
   abbr: ({ children, title }) => <GlossTerm title={title}>{children}</GlossTerm>,
   img: ({ src, alt, title }) => {
     const url = typeof src === "string" ? src : "";
-    // `![alt](src "caption")` -> rendered caption under the image
+    // `![alt](src "caption")` -> rendered caption under the image.
+    // Uses block-styled spans, not <figure>, so it stays valid inside the
+    // <p> react-markdown wraps lone images in (avoids hydration mismatch).
     const withCaption = (node: React.ReactNode) =>
       title ? (
-        <figure className="my-8">
+        <span className="my-8 block">
           {node}
-          <figcaption className="mt-3 text-center text-sm italic text-text-secondary">
+          <span className="mt-3 block text-center text-sm italic text-text-secondary">
             {title}
-          </figcaption>
-        </figure>
+          </span>
+        </span>
       ) : (
         node
       );
@@ -192,7 +194,7 @@ const components: Components = {
       <img
         src={url}
         alt={alt || ""}
-        className={`${title ? "" : "my-8"} rounded-xl shadow-md w-full`}
+        className={`${title ? "block" : "my-8"} rounded-xl shadow-md w-full`}
       />
     );
   },

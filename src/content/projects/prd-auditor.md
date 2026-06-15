@@ -1,163 +1,59 @@
 # Lenny's War Room
 
-An AI-powered PRD auditor — your strategy, stress-tested by 279 product experts.
+**An AI PRD auditor. Paste your strategy, get it stress-tested by 279 product experts.**
 
 Built in a single day with Claude Code. [Try it here](https://lenny-war-room.vercel.app/)
 
-![War Room landing — drop your PRD, get the truth from 279 product experts](/images/projects/prd-auditor/lenny.png)
+![War Room landing: drop your PRD, get the truth from 279 product experts](/images/projects/prd-auditor/lenny.png)
 
-## TL;DR
+## "Looks good" is not feedback
 
-**What:** Paste a PRD and get it scored, critiqued, and rewritten by AI grounded in insights from 279 real product experts (Shreyas Doshi, Teresa Torres, Marty Cagan, and more)
+After writing dozens of PRDs as a PM, I kept hitting the same wall. The feedback was nonexistent, vague, or one person's opinion. I'd spend a week on a strategy doc, share it, and hear back "looks good" or "the metrics section needs work," with zero specifics.
 
-**How:** Processed 289 podcast transcripts + 349 newsletter articles into a structured knowledge base, built a Next.js app with a two-tier Claude API strategy, and shipped in one day using a compound engineering workflow
+Meanwhile I'd spent years on Lenny Rachitsky's podcast and newsletter, where product leaders share specific, named frameworks for strategy, metrics, and growth. Shreyas Doshi's LNO framework, Teresa Torres on continuous discovery, all of it genuinely good, and all of it locked inside 289 transcripts and 349 articles nobody has time to cross-reference against their actual work. The question I couldn't shake: what if that knowledge were operational? Not something you read, but a tool that applies those frameworks directly to your PRD.
 
-**Result:** Three distinct feedback modes (scorecard, expert debate, framework review) with a pixel-art game UI and collectible experts mechanic
+## Three kinds of feedback
 
-## Why I Built This
+The War Room gives you a PRD review in three flavors. **Analyze** scores nine sections, highlights weak phrases, and offers one-click rewrites, where each annotation teaches the expert's framework first, then shows how it applies to your text. **Red Team** matches two to five experts to your PRD's topics and has them debate your strategy, referencing and challenging each other rather than delivering parallel monologues. **Expert Review** runs one expert across your whole doc, organized by their own thinking tools rather than generic categories.
 
-After writing dozens of PRDs as a PM, I kept hitting the same wall: feedback was either nonexistent, vague, or limited to one person's perspective. I'd spend a week crafting a strategy document, share it broadly, and hear back "looks good" or "the metrics section needs work" — with zero specifics.
+![Analyze mode: PRD draft on the left, expert-grounded annotations on the right](/images/projects/prd-auditor/image.png)
 
-Meanwhile, I'd been consuming Lenny Rachitsky's podcast and newsletter for years. Every episode featured a product leader sharing specific, named frameworks for thinking about strategy, metrics, growth, and execution. The knowledge was incredible — but it lived in 289 transcripts and 349 articles that nobody had time to cross-reference against their actual work.
+A concrete run. You paste a PRD for a notifications feature. The scorecard rates your Problem Statement 8/10 but your North Star Metric 3/10, and the annotation on the phrase "increase DAU" explains:
 
-The question I couldn't shake: what if you could make that expert knowledge operational? Not content to passively read, but a tool that applies those frameworks directly to your PRD.
+> "Shreyas Doshi's LNO Framework classifies metrics as Leverage, Neutral, or Overhead. DAU is Neutral, it describes activity but doesn't predict outcomes. A Leverage metric would be notification-driven task completions, which directly connects user engagement to the feature's value."
 
-## The Problem
+One click accepts the rewrite, the PRD updates, and after a couple of edits a nudge appears to re-analyze and watch the score move.
 
-PRD feedback today is broken in three specific ways:
+![Red Team Council: experts matched to the PRD's topics, ready to debate](/images/projects/prd-auditor/image2.png)
 
-1. **No feedback** — everyone's too busy to read your 8-page doc
-2. **Vague feedback** — "the metrics section needs work" with no specifics
-3. **One person's opinion** — which may not represent how a seasoned product leader would think
+![Red Team Debate: experts reference and challenge each other](/images/projects/prd-auditor/image1.png)
 
-Existing alternatives don't solve this well:
+![Lenny's Verdict: the debate distilled into Area, Issue, Action](/images/projects/prd-auditor/image3.png)
 
-- **Peer review** is slow and calendar-dependent. You wait days for feedback that may never come.
-- **ChatGPT with a generic prompt** gives surface-level advice with no grounding in real expert thinking — it doesn't know that Shreyas Doshi's LNO Framework exists, or how Teresa Torres would critique your opportunity space.
-- **PM tools** (Notion AI, Coda AI) help you write docs but don't critique them at the level a senior product leader would.
+The knowledge base behind it was built from Lenny's content (sourced as a paid subscriber, processed on my own machine): 289 podcast transcripts and 349 newsletter articles, distilled into 279 experts and 119 named frameworks, for about $0.40 in API calls. The app itself is [[Next.js::a popular framework for building websites with React]] with a deliberately split brain: heavy reasoning (the analysis, the debates) runs on the stronger, slower [[Claude Sonnet::Anthropic's mid-tier model, good at careful reasoning]], while fast, cheap jobs like matching experts to your topics run on [[Claude Haiku::Anthropic's small, fast, inexpensive model]]. Matchmaking needs speed and costs pennies; a real framework-grounded review needs the depth.
 
-## The Solution: Three Modes of Expert Feedback
+![The system architecture: frontend modes, a state store, API routes, and the Claude API](/images/projects/prd-auditor/tech_architecture.png)
 
-| Mode | What It Does | What Makes It Different |
-|------|-------------|------------------------|
-| Analyze PRD | Scores 9 sections (1-10), highlights weak phrases, suggests one-click rewrites | Each annotation teaches an expert's framework first, then applies it to your text |
-| Red Team | 2-5 experts matched to your PRD's topics debate your strategy | Experts reference and challenge each other's arguments — not parallel monologues |
-| Expert Review | One expert reviews your entire PRD through their specific frameworks | Organized by the expert's own thinking tools (LNO, DHM, Continuous Discovery), not generic categories |
+## The decisions that shaped it
 
-![Analyze mode — PRD draft on the left, expert-grounded annotations on the right](/images/projects/prd-auditor/image.png)
+I made it **teach, then apply**. An annotation could just say "your metric is bad." Instead each one explains the framework generically, then applies it to your specific text. You lose brevity, you gain a reusable framework instead of a one-time fix.
 
-## See It In Action
+It's [[BYOK::bring your own key, meaning you paste your own Anthropic API key instead of using mine]], with the key held in a [[secure cookie::an httpOnly cookie, a kind of cookie that JavaScript on the page can't read, so it can't be stolen by a malicious script]] and never logged or stored on any server. I gave up easy onboarding and gained zero backend auth, no API cost exposure, and the freedom to deploy publicly without worrying about abuse.
 
-A user pastes a PRD for a new notifications feature. The Analyze mode returns a heatmap scorecard: Problem Statement scores 8/10 (strong), but North Star Metric scores 3/10 (critical). The inline annotation highlights the phrase "increase DAU" and explains:
+And the debate's typing animation is faked. The experts appear to type word by word, but the whole conversation is generated in one call and revealed by a client-side animation. A code review flagged real streaming as high complexity for low value, and it was right: the fake version already feels great.
 
-> "Shreyas Doshi's LNO Framework classifies metrics as Leverage, Neutral, or Overhead. DAU is Neutral — it describes activity but doesn't predict outcomes. A Leverage metric would be notification-driven task completions, which directly connects user engagement to the feature's value proposition."
+My favorite bug: accepting a rewrite originally used JavaScript's text-replace, which treats a `$` as a special character. So a rewrite containing "$50M ARR" produced garbage. The fix was to splice the text by position instead of pattern-matching. A correctness bug an AI code review caught before it ever shipped.
 
-One click accepts the suggested rewrite. The PRD updates instantly. After two rewrites, a nudge appears: "RE-ANALYZE to see your score improve."
+## Pixel art meets product rigor
 
-![Red Team Council — experts matched to the PRD's topics, ready to debate](/images/projects/prd-auditor/image2.png)
+Product work is serious enough that the tool critiquing your PRD doesn't have to be. The whole interface is a retro game: a pixel font for headers, 279 pixel-art expert avatars, RPG-style score badges, and "War Room" and "Red Team" metaphors throughout. Every expert you meet gets added to a Guest Collection, 279 to collect, tracked by a little treasure chest in the header.
 
-![Red Team Debate — experts reference and challenge each other's arguments](/images/projects/prd-auditor/image1.png)
+## What I learned working with AI
 
-![Lenny's Verdict — debate distilled into Area / Issue / Action](/images/projects/prd-auditor/image3.png)
+Three things stuck. First, prompt engineering is the new product design: maybe 80% of this build wasn't code, it was getting the prompts right, because the gap between generic advice and a grounded, framework-specific critique lives entirely there. Second, AI code reviews catch real bugs, run in parallel across angles (correctness, security, performance, simplicity) they caught the text-replace bug, flagged an oversized data file, and talked me out of the streaming feature. Third, ship the simple version. The debate verdict was originally planned as a structured schema with dedicated types. The simplicity reviewer pushed back: just improve the prompt and render the result as markdown. I resisted, then tried it, and it worked perfectly. That one review saved hours.
 
-## The Data Pipeline
+## Try it
 
-The foundation is a knowledge base built from Lenny's content (sourced as a paid subscriber, processed locally):
+Paste a PRD at [lenny-war-room.vercel.app](https://lenny-war-room.vercel.app/) with your own Anthropic key. Expert-level feedback comes back in about thirty seconds, versus the days, or silence, of a traditional review cycle.
 
-- 289 podcast transcripts → `build-corpus.ts` → guest-index.json (279 guests), search-corpus.json (inverted index), debate-pairs.json
-- 349 newsletter articles → `enrich-newsletter.mjs` (Haiku) → newsletter-enrichment.json
-- 119 frameworks extracted
-- 194 articles mapped to guests
-
-**Pipeline cost: ~$0.40 in API calls.** Haiku extracted guest mentions, named frameworks, and key insights from each of the 349 newsletter articles in about 10 minutes.
-
-## Technical Architecture
-
-**Stack:** Next.js 16 (App Router, TypeScript) | React 19 + Zustand 5 | Anthropic Claude API | Tailwind CSS v4 | GSAP | Zod 4 | Vercel
-
-![System architecture — frontend modes, Zustand store, Next.js API routes, Anthropic Claude API](/images/projects/prd-auditor/tech_architecture.png)
-
-### Two-Tier LLM Strategy
-
-Heavy reasoning tasks (analysis, debates, reviews) use Claude Sonnet 4. Fast classification tasks (expert matchmaking, API key validation) use Claude Haiku 4.5. This isn't arbitrary — matchmaking needs speed and costs pennies, while a framework-organized expert review needs the reasoning depth that only Sonnet provides.
-
-### Key Technical Decisions
-
-**BYOK (Bring Your Own Key) vs. server-side key management:** The app needs to call the Anthropic API on behalf of users. I chose BYOK — the key lives in a secure httpOnly cookie, never logged, never stored on any server. I gave up easy onboarding (users need their own API key) but gained zero backend auth infrastructure, no API cost exposure, and public deployment without abuse concerns.
-
-**"Teach Then Apply" vs. direct critique:** Annotations could just say "your metric is bad." Instead, each one explains the expert's framework generically, then shows how it applies to the specific PRD text. I gave up brevity but gained something more valuable: PMs learn a reusable framework, not just a one-time fix.
-
-**Fake streaming vs. real NDJSON streaming:** The debate feature shows typing indicators and word-by-word reveal, but generates the entire conversation in one API call. A client-side state machine handles the animation. A code review flagged real streaming as high complexity, low value — the fake version already felt great.
-
-**Index-based splicing vs. String.replace():** When a user accepts a rewrite, JavaScript's replace() interprets $ in replacement strings as special patterns — a rewrite containing "$50M ARR" would produce garbage. The fix: indexOf() + slice() instead. A correctness bug caught by an AI code review before it shipped.
-
-**Regex JSON fixer vs. structured output mode:** Claude frequently produces literal newlines inside JSON string values, breaking JSON.parse(). Every API route includes a fallback regex parser that finds string values and escapes literal newlines before re-parsing. Ugly but reliable.
-
-## The Design: Pixel Art Meets Product Rigor
-
-Product work is serious enough — the tool that critiques your PRD doesn't have to be.
-
-The entire UI is built around a retro game aesthetic: Press Start 2P pixel font for headers, 279 AI-generated pixel-art avatar sprites, pixel shadow buttons, RPG-style score badges, and "War Room" / "Red Team" / "Expert Arena" metaphors throughout.
-
-The gamification hook: Every expert you encounter through analyses, debates, and reviews gets added to your Guest Collection — 279 to collect, tracked by a pixel-art treasure chest in the header.
-
-## The Build Story: One Day, Seven Iterations
-
-Every feature followed the same compound engineering loop:
-
-`/ce:brainstorm → /ce:plan → /ce:review → /ce:work → Ship`
-
-This loop ran seven times in a single day:
-
-1. Annotation workflow (accept/dismiss/rewrite)
-2. Guest collection tracking
-3. Expanded 9-section scorecard
-4. Verdict table for debates
-5. Expert review mode
-6. Newsletter enrichment pipeline
-7. Design polish (animations, loading states)
-
-**The pivot that mattered:** The verdict table was originally planned as a structured TypeScript object with new Zod schemas and dedicated types. The simplicity reviewer pushed back — "just improve the prompt and render the string as markdown." I resisted, then tried it. The simple version worked perfectly. That one review saved hours of unnecessary schema work.
-
-**Key insight:** The brainstorm and review phases saved more time than they cost. Every feature that skipped review had bugs. Every feature that went through the full loop shipped clean.
-
-## Outcomes and What I Learned
-
-**Speed:** The tool generates expert-level PRD feedback in ~30 seconds — versus the days (or silence) of a traditional review cycle.
-
-Three meta-insights from the build:
-
-1. **Prompt engineering is the new product design.** 80% of the work wasn't code — it was getting the prompts right. The difference between generic advice and a grounded, framework-specific critique is entirely in the prompt.
-2. **AI code reviews catch real bugs.** Multi-agent reviews (architecture, security, performance, simplicity in parallel) caught the String.replace injection bug, flagged an oversized JSON file, and recommended deferring the streaming feature.
-3. **Ship the simple version.** Almost every feature started more complex than what shipped. The simplicity reviewer repeatedly argued for less — and was right every time.
-
-## What I'd Do Differently
-
-- **Real-time streaming for analysis:** The fake streaming works for debates, but the initial analysis has a long wait. Streaming partial results would improve perceived performance.
-- **Persistent session state:** Currently, refreshing the page loses all analysis results. Adding localStorage persistence would let users return to previous sessions.
-- **Collaborative mode:** PMs often review PRDs together. A shared session where multiple people see and discuss the same annotations would extend this from a solo tool to a team workflow.
-
-## Project Stats
-
-| Metric | Value |
-|--------|-------|
-| Build time | 1 day |
-| Product experts indexed | 279 |
-| Podcast transcripts processed | 289 |
-| Newsletter articles processed | 349 |
-| Named frameworks extracted | 119 |
-| AI-generated pixel-art sprites | 279 |
-| Data pipeline cost | ~$0.40 |
-| Development iterations | 7 (brainstorm-to-ship cycles) |
-
-| Layer | Technology |
-|-------|-----------|
-| Frontend | Next.js 16, React 19, TypeScript |
-| State | Zustand 5 |
-| Styling | Tailwind CSS v4, GSAP, Press Start 2P |
-| AI | Claude Sonnet 4 + Haiku 4.5 |
-| Validation | Zod 4 |
-| Deployment | Vercel |
-| Auth | BYOK (httpOnly cookie) |
-
-Built with Claude Code. Pixel-art sprites generated with AI image tools. Data sourced from Lenny's Podcast and Newsletter as a paid subscriber.
+*Data sourced from Lenny's Podcast and Newsletter as a paid subscriber. Pixel-art sprites generated with AI image tools.*

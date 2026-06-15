@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 678" font-family="Inter, system-ui, -apple-system, sans-serif" role="img" aria-label="How ProjectDora works. A seven-stage writing pipeline. You approve, edit, or reject at every gate.">
+<defs><pattern id="grid" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M28 0H0V28" fill="none" stroke="#2c2c2c" stroke-opacity="0.045" stroke-width="1"/></pattern></defs>
+<rect x="6" y="6" width="748" height="666" rx="20" fill="#FBFAF5" stroke="#DEE2DE" stroke-width="1.5"/>
+<rect x="6" y="6" width="748" height="666" rx="20" fill="url(#grid)"/>
+<text x="44" y="58" font-size="24" font-weight="700" fill="#2C2C2C">How ProjectDora works</text>
+<text x="44" y="84" font-size="14.5" fill="#6B7280">A seven-stage writing pipeline. You approve, edit, or reject at every gate.</text>
+<line x1="44" y1="104" x2="716" y2="104" stroke="#DEE2DE" stroke-width="1"/>
+<line x1="72" y1="150" x2="72" y2="618" stroke="#3B82F6" stroke-opacity="0.35" stroke-width="2" stroke-dasharray="2 6" stroke-linecap="round"/>
+<circle cx="72" cy="189" r="8" fill="#15803D"/>
+<text x="72" y="192" font-size="9" fill="#FFFFFF" text-anchor="middle">✓</text>
+<circle cx="72" cy="267" r="8" fill="#15803D"/>
+<text x="72" y="270" font-size="9" fill="#FFFFFF" text-anchor="middle">✓</text>
+<circle cx="72" cy="345" r="8" fill="#15803D"/>
+<text x="72" y="348" font-size="9" fill="#FFFFFF" text-anchor="middle">✓</text>
+<circle cx="72" cy="423" r="8" fill="#15803D"/>
+<text x="72" y="426" font-size="9" fill="#FFFFFF" text-anchor="middle">✓</text>
+<circle cx="72" cy="501" r="8" fill="#15803D"/>
+<text x="72" y="504" font-size="9" fill="#FFFFFF" text-anchor="middle">✓</text>
+<circle cx="72" cy="579" r="8" fill="#15803D"/>
+<text x="72" y="582" font-size="9" fill="#FFFFFF" text-anchor="middle">✓</text>
+<circle cx="72" cy="150" r="17" fill="#3B82F6"/>
+<text x="72" y="156" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="middle">1</text>
+<text x="108" y="146" font-size="16.5" font-weight="600" fill="#2C2C2C">Scrape nine sources</text>
+<text x="108" y="167" font-size="12.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#6B7280">a slot system weights each source by how much you trust it</text>
+<circle cx="72" cy="228" r="17" fill="#3B82F6"/>
+<text x="72" y="234" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="middle">2</text>
+<text x="108" y="224" font-size="16.5" font-weight="600" fill="#2C2C2C">Suggest topics</text>
+<text x="108" y="245" font-size="12.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#6B7280">Sonnet for ideas, Haiku for strategy framing; it learns your taste</text>
+<circle cx="72" cy="306" r="17" fill="#3B82F6"/>
+<text x="72" y="312" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="middle">3</text>
+<text x="108" y="302" font-size="16.5" font-weight="600" fill="#2C2C2C">Research the one you pick</text>
+<text x="108" y="323" font-size="12.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#6B7280">a deep dive on the angle you chose</text>
+<circle cx="72" cy="384" r="17" fill="#3B82F6"/>
+<text x="72" y="390" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="middle">4</text>
+<text x="108" y="380" font-size="16.5" font-weight="600" fill="#2C2C2C">Outline it</text>
+<text x="108" y="401" font-size="12.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#6B7280">structure before prose</text>
+<circle cx="72" cy="462" r="17" fill="#3B82F6"/>
+<text x="72" y="468" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="middle">5</text>
+<text x="108" y="458" font-size="16.5" font-weight="600" fill="#2C2C2C">Draft section by section</text>
+<text x="108" y="479" font-size="12.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#6B7280">in your voice, via tone fingerprinting from your old posts</text>
+<circle cx="72" cy="540" r="17" fill="#3B82F6"/>
+<text x="72" y="546" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="middle">6</text>
+<text x="108" y="536" font-size="16.5" font-weight="600" fill="#2C2C2C">Fact-check the claims</text>
+<text x="108" y="557" font-size="12.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#6B7280">verify before anything reaches you</text>
+<circle cx="72" cy="618" r="17" fill="#15803D"/>
+<text x="72" y="624" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="middle">7</text>
+<text x="108" y="614" font-size="16.5" font-weight="600" fill="#2C2C2C">Generate a hero image</text>
+<text x="108" y="635" font-size="12.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#6B7280">the finishing touch</text>
+<text x="716" y="618" font-size="12" font-style="italic" fill="#9aa0a6" text-anchor="end">every gate waits for your yes</text>
+</svg>

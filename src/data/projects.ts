@@ -211,7 +211,7 @@ export const projects: Project[] = [
       other: [
         {
           label: "Blog Post",
-          url: "https://bhavya287274.substack.com/p/i-ran-openclaw-for-a-day-heres-what",
+          url: "https://barribhavya.substack.com/p/i-ran-openclaw-for-a-day-heres-what",
         },
       ],
     },

@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 600" font-family="Inter, system-ui, -apple-system, sans-serif" role="img" aria-label="How clawd works: from your keystroke in Claude Code to a pixel on the Touch Bar, in six steps.">
+  <defs>
+    <pattern id="grid" width="28" height="28" patternUnits="userSpaceOnUse">
+      <path d="M28 0H0V28" fill="none" stroke="#2c2c2c" stroke-opacity="0.045" stroke-width="1"/>
+    </pattern>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="6" flood-color="#2c2c2c" flood-opacity="0.10"/>
+    </filter>
+  </defs>
+
+  <!-- paper card: self-contained so it reads on light or dark theme -->
+  <rect x="6" y="6" width="748" height="588" rx="20" fill="#FBFAF5" stroke="#DEE2DE" stroke-width="1.5"/>
+  <rect x="6" y="6" width="748" height="588" rx="20" fill="url(#grid)"/>
+
+  <!-- header -->
+  <text x="44" y="58" font-size="24" font-weight="700" fill="#2C2C2C">How clawd works</text>
+  <text x="44" y="84" font-size="14.5" fill="#6B7280">From a keystroke in Claude Code to a pixel on the Touch Bar.</text>
+  <line x1="44" y1="104" x2="716" y2="104" stroke="#DEE2DE" stroke-width="1"/>
+
+  <!-- vertical rail -->
+  <line x1="72" y1="150" x2="72" y2="540" stroke="#3B82F6" stroke-opacity="0.35" stroke-width="2" stroke-dasharray="2 6" stroke-linecap="round"/>
+
+  <!-- step factory: circle + number + label + mono sublabel -->
+  <!-- 1 -->
+  <circle cx="72" cy="150" r="17" fill="#3B82F6"/>
+  <text x="72" y="156" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="middle">1</text>
+  <text x="108" y="146" font-size="16.5" font-weight="600" fill="#2C2C2C">You send a message</text>
+  <text x="108" y="167" font-size="12.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#6B7280">in any Claude Code session</text>
+
+  <!-- 2 -->
+  <circle cx="72" cy="228" r="17" fill="#3B82F6"/>
+  <text x="72" y="234" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="middle">2</text>
+  <text x="108" y="224" font-size="16.5" font-weight="600" fill="#2C2C2C">Claude gets to work</text>
+  <text x="108" y="245" font-size="12.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#6B7280">it thinks, runs a tool, or finishes a turn</text>
+
+  <!-- 3 -->
+  <circle cx="72" cy="306" r="17" fill="#3B82F6"/>
+  <text x="72" y="312" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="middle">3</text>
+  <text x="108" y="302" font-size="16.5" font-weight="600" fill="#2C2C2C">A hook fires</text>
+  <text x="108" y="323" font-size="12.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#6B7280">a little script Claude runs on every event</text>
+
+  <!-- 4 -->
+  <circle cx="72" cy="384" r="17" fill="#3B82F6"/>
+  <text x="72" y="390" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="middle">4</text>
+  <text x="108" y="380" font-size="16.5" font-weight="600" fill="#2C2C2C">The news reaches clawd</text>
+  <text x="108" y="401" font-size="12.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#6B7280">over a private channel on your Mac · 127.0.0.1</text>
+
+  <!-- 5 -->
+  <circle cx="72" cy="462" r="17" fill="#3B82F6"/>
+  <text x="72" y="468" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="middle">5</text>
+  <text x="108" y="458" font-size="16.5" font-weight="600" fill="#2C2C2C">clawd picks his pose</text>
+  <text x="108" y="479" font-size="12.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#6B7280">matches the event to one of ten sprites</text>
+
+  <!-- 6 -->
+  <circle cx="72" cy="540" r="17" fill="#15803D"/>
+  <text x="72" y="546" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="middle">6</text>
+  <text x="108" y="536" font-size="16.5" font-weight="600" fill="#2C2C2C">He appears on the Touch Bar</text>
+  <text x="108" y="557" font-size="12.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" fill="#6B7280">drawn through Apple's hidden Touch Bar code</text>
+
+  <!-- round trip note -->
+  <text x="716" y="540" font-size="12" font-style="italic" fill="#9aa0a6" text-anchor="end">the whole loop: under 50ms</text>
+</svg>

@@ -1,18 +1,13 @@
-# Prosepect (Book Research Assistant)
+# Prosepect
 
-AI-powered book research assistant that helps you decide what to read next.
+**A book research assistant for the "okay, but should I actually read this?" moment.**
 
-## Overview
+I read a fair bit, and the deciding part was always the worst part. A star rating tells you a book is popular, not whether it's for you. So I'd open six tabs, skim a Goodreads thread, dig for what the prose actually feels like, and twenty minutes later still not really know. Prosepect is me trying to collapse that into one question you can just type.
 
-The intelligent book research assistant — because Googling every book is exhausting.
+![Prosepect, a short demo and walkthrough on LinkedIn](https://www.linkedin.com/posts/bhavyabarri_have-been-spending-an-unreasonable-amount-ugcPost-7355173411398041600-jbWv)
 
-Prosepect is a book research tool that lets you search books, authors, and topics to help you decide what to read next. It provides an intuitive search interface with suggested queries like:
+You ask it the way you'd ask a friend who reads more than you do. "I loved Project Hail Mary, what next?" "What are the main ideas in Thinking, Fast and Slow?" "Tell me about Murakami's writing style." It takes the question and looks at the book from a few angles at once instead of one number: what the writing actually reads like, the themes underneath it, what readers keep saying in their reviews, who the author is and where this fits in their work. Then it gives you a read on whether it's worth your time, and what to pick up next.
 
-- "I loved Project Hail Mary. What should I read next?"
-- "What are the main ideas in Thinking, Fast and Slow?"
-- "Tell me about Haruki Murakami's writing style"
-- "Best fantasy books"
-- "Books similar to The Seven Husbands of Evelyn Hugo"
-- "What makes a good mystery novel?"
+The search box leads with example queries on purpose. A blank box is a small dare, and most people don't want to compose the perfect prompt before they've seen the thing work. Handing you a few real questions to click is the difference between "I'll come back to this" and actually trying it.
 
-Built by Bhavya Barri | Product | Ex-Groww | IIT Delhi'22
+It's an early one, and short by design. The bet I wanted to test was simple: that the useful unit isn't a recommendation, it's an honest paragraph about a specific book, written for the specific reason you're asking.

@@ -12,4 +12,20 @@ The knobs are deliberately few. A document vibe, like Modern, that sets the over
 
 The actual document gets built by the [[Gamma API::Gamma is a tool that makes slick presentation decks and docs from a prompt. The API is the version you call from your own code instead of clicking around their app]], which does the layout and the imagery so I don't have to. My job was the front of the house in [[React::the standard toolkit for building interactive web pages, the input fields and buttons people click]]: the inputs, the two modes, the styling choices, and handing it all off cleanly.
 
-The early outputs are the ones that told me it was working. A solo review of *Small Things Like These* by Claire Keegan. A book club recap of *Pride and Prejudice*, group argument and all. A take on *Dune* by Frank Herbert. Each one took the kind of notes that usually die in my drafts and made them something I'd actually press send on. That was the whole bet.
+The early outputs are the ones that told me it was working. Each of these is a real deck the tool built from the kind of notes that usually die in my drafts. Click any to open the live version.
+
+**Personal reviews**
+
+[Small Things Like These, by Claire Keegan](https://gamma.app/docs/My-Review-Small-Things-like-these-by-Claire-Keegan-o0cg7p2wycgdqma)
+
+[Dune, by Frank Herbert](https://gamma.app/docs/My-Review-Dune-by-Frank-Herbert-h3gsy43e3bhg5c0)
+
+**Book club discussions**
+
+[Pride and Prejudice](https://gamma.app/docs/Book-Club-Discussion-Pride-and-Prejudice-ph3j985i5wh1ikv)
+
+[Pride and Prejudice, a second discussion](https://gamma.app/docs/Book-Club-Discussion-Pride-and-Prejudice-kwoko7tu05gwpwe)
+
+[Tom Lake, by Ann Patchett](https://gamma.app/docs/Bhavyas-Book-Club-Discussion-Tom-Lake-by-Ann-Patchett-tv1bnv4uvg51ruz)
+
+Each one took notes I'd never have bothered to write up and made them something I'd actually press send on. That was the whole bet.

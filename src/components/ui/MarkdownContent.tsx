@@ -31,16 +31,40 @@ const components: Components = {
       {children}
     </p>
   ),
-  a: ({ children, href }) => (
-    <a
-      href={href}
-      target={href?.startsWith("http") ? "_blank" : undefined}
-      rel={href?.startsWith("http") ? "noopener noreferrer" : undefined}
-      className="text-accent font-medium underline decoration-accent/30 underline-offset-2 hover:decoration-accent transition-colors"
-    >
-      {children}
-    </a>
-  ),
+  a: ({ children, href }) => {
+    // Gamma deck links render as a clickable card (Gamma blocks iframe embeds).
+    if (href?.includes("gamma.app")) {
+      return (
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group my-2.5 inline-flex w-full items-center gap-3 rounded-xl border border-border bg-bg-surface px-5 py-4 no-underline transition-all hover:border-accent/50 hover:shadow-md focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none"
+        >
+          <span className="shrink-0 rounded-md bg-accent/10 px-2 py-1 text-[10px] font-bold uppercase tracking-widest text-accent font-[family-name:var(--font-heading)]">
+            Gamma
+          </span>
+          <span className="flex-1 font-medium text-text-primary">{children}</span>
+          <span
+            className="shrink-0 text-text-secondary transition-transform group-hover:translate-x-0.5 group-hover:text-accent"
+            aria-hidden="true"
+          >
+            ↗
+          </span>
+        </a>
+      );
+    }
+    return (
+      <a
+        href={href}
+        target={href?.startsWith("http") ? "_blank" : undefined}
+        rel={href?.startsWith("http") ? "noopener noreferrer" : undefined}
+        className="text-accent font-medium underline decoration-accent/30 underline-offset-2 hover:decoration-accent transition-colors"
+      >
+        {children}
+      </a>
+    );
+  },
   strong: ({ children }) => (
     <strong className="font-semibold text-text-primary">{children}</strong>
   ),

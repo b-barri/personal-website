@@ -16,20 +16,40 @@ export default function About() {
             {/* Bio text */}
             <div className="space-y-5 text-base md:text-lg text-text-secondary leading-[1.8] order-2 md:order-1">
               <p>
-                I studied biotech and chose product the week I graduated, not
-                because I had a plan, but because I couldn&apos;t stop noticing
-                what was broken.
+                Biotech engineer by training. Product builder because I
+                couldn&apos;t stop noticing what was broken.
               </p>
               <p>
-                Four years at Groww, then Cred. I spent most of it close to the
-                search bar, what people type when they don&apos;t know the right
-                word for what they want. That question took me into LLM
-                pipelines, document analysis, and eventually building with
-                Claude.
+                I graduated from IIT Delhi in 2022, joined Groww, and spent the
+                next few years pulling on three threads in sequence. First,
+                search, that one small box where people type when they
+                don&apos;t know the right word for what they want. Then
+                engagement, specifically how in-app stories could make a
+                financial app feel alive instead of transactional. Then AI,
+                building an in-house news and content pipeline because the same
+                question kept coming up: how do you get the right information to
+                the right person before they know to ask for it.
               </p>
               <p>
-                Off-hours: same thing, smaller canvas. iPad sketches. Side
-                projects that ship. Books I finish, not just start.
+                At Cred, I moved into commerce, the Rewards platform and Cred
+                Store, where the job was making discovery and purchase feel like
+                one motion, not two.
+              </p>
+              <p>
+                The common thread across all of it is not the domain. It is a
+                question I keep returning to: what actually endures? Software
+                ages fast. An interface that looks great today looks dated in
+                ten years. But the community around a product, the problem it
+                stands for, the trust it builds, those outlast the UI. A Birkin
+                bag is decades old and appreciating. Buildings get more
+                interesting with time. Software almost never does. So the work I
+                care about is the layer underneath the product: what does it
+                mean to people, and would they miss it if it disappeared.
+              </p>
+              <p>
+                Off the clock: home barista in progress, Kindle reader, Substack
+                writer, and iPad sketcher when I need to make something with my
+                hands.
               </p>
             </div>
 

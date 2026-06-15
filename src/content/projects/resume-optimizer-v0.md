@@ -1,146 +1,29 @@
 # Resume Optimizer v0
 
-Claude agent skill that tailors resumes to specific job descriptions
+**A Python pipeline that re-tailors your resume to a job description without quietly making things up about you.**
 
-## Problem This Skill Solves
+## The resume rewrite tax
 
-### The Core Problem
+Every time I applied to a role, I paid the same tax. Read the job post, dig back through my resume, figure out which bullets actually matter for this one, reorder them, reword a few so the keywords line up, and somehow still keep it on one page. An hour, easily, per application. And the tools that promised to do it for me were worse than the manual work: they'd bulldoze my formatting, sprinkle in corporate filler, and sometimes invent a metric I never claimed. A resume that reads "AI-generated" is a resume that gets trusted less, which defeats the entire point.
 
-Job seekers struggle to tailor their resumes for specific roles while maintaining authenticity and formatting.
+So I built the boring, honest version of that tool for myself.
 
-Specifically, this skill addresses:
+## What it actually does
 
-- **Relevance Mismatch:** Generic resumes don't highlight the most relevant experience for each job posting
-- **Skills Discoverability:** Important skills get buried among less relevant ones
-- **Time-Intensive Manual Work:** Manually analyzing job descriptions and reordering content takes hours
-- **Format Destruction:** Most resume tools destroy carefully crafted formatting when making edits
-- **Loss of Authenticity:** Many tools add corporate jargon or change factual data, making resumes feel "AI-generated"
-- **Page Limit Constraints:** Candidates need to fit everything on 1 page without losing important content
+You feed it your resume and a job posting (a PDF, a DOCX, or just a URL it scrapes), and it does three things. It pulls the real requirements out of the posting, separating the skills they need from the ones that are merely nice to have. It re-sorts your bullets so the most relevant experience rises to the top instead of sitting in chronological order. And it tells you which skills the job wants that your resume doesn't mention, which is as useful for deciding whether to even apply as it is for prep.
 
-### The Solution Approach
+The hard rule underneath all of it: it never touches a fact. No invented dates, no inflated numbers, no achievements I didn't have. It only reorders and re-emphasizes what's already true. It also doesn't edit your document directly. It hands you instructions for what to change in your Google Doc, so your formatting survives intact.
 
-- **AI-Powered Job Analysis:** Automatically extracts key requirements, skills (technical + soft), and competencies from job postings
-- **Intelligent Content Reordering:** Scores and reorders resume bullets by relevance rather than chronological order
-- **Smart Skills Prioritization:** Moves job-relevant skills to the top while preserving all others
-- **Format Preservation:** Generates manual update instructions (for Google Docs) rather than auto-editing, preserving your formatting
-- **Data Integrity:** Never changes facts, dates, or metrics — only reorders and emphasizes existing content
-- **Skills Gap Analysis:** Identifies missing skills to help candidates prepare for interviews or decide if they're a good fit
+## The decision that kept it honest
 
-## Tech Stack
+The tempting move was to let the tool rewrite freely and trust it to stay truthful. I didn't trust it, so I designed against it. The core of the thing is a plain, legible [[scoring algorithm::a fixed set of point rules, more like a tax form than a black box, so you can see exactly why one bullet beat another]] that I can read and defend: a bullet earns +2.0 for each skill from the posting it actually mentions, a small bonus for leadership verbs on senior roles, a bit more for carrying a real metric, and the whole score gets weighted by how badly the job wants that requirement. Required skills count triple. Nice-to-haves count once.
 
-| Category | Technology |
-|---|---|
-| Core Language | Python 3.9+ |
-| Document Processing | pdfplumber (0.9.0+), PyPDF2 (3.0.0+), python-docx (0.8.11+) |
-| Web & Data Processing | requests (2.28.0+), beautifulsoup4 (4.11.0+) |
-| Google Docs Integration (Optional) | google-api-python-client (2.80.0+), google-auth (2.16.0+), google-auth-oauthlib (1.0.0+), google-auth-httplib2 (0.1.0+) |
-| Built-in Python Libraries | pathlib, difflib, re (regex), dataclasses, argparse |
+It's not clever. That was the point. A transparent rule I can audit beats a smart model that occasionally lies on my behalf, on the one document where lying gets you caught in the interview.
 
-## Architecture Pattern
+## What I learned working with AI
 
-Modular Design: Separation of concerns across 5 core modules:
+This is v0 for a reason. I'd written hundreds of lines of Python to extract skills, match keywords, and score bullets, basically hand-coding the judgment of a person reading a resume. It worked, but it was brittle. Every new resume shape or weirdly-worded posting meant another pattern to bolt on. The lesson that pushed me toward v1 was realizing I was rebuilding, badly, the one thing the model is already good at: reading a document and understanding what it means. The scoring rules were the part worth keeping. The reverse-engineered NLP was the part to hand back to Claude. v0 taught me where the line sits between logic you should own and judgment you should delegate.
 
-- `resume_analyzer.py` - Input parsing
-- `job_matcher.py` - Requirement extraction
-- `optimizer.py` - Core optimization logic
-- `skills_analyzer.py` - Gap analysis
-- `google_docs_helper.py` - Output formatting
-- `main.py` - Orchestration layer
+## Try it
 
-## Key Algorithms
-
-### Relevance Scoring Algorithm (in optimizer.py)
-
-- Keyword matching: +2.0 per job skill found
-- Leadership verbs: +0.5-1.0 for senior roles
-- Quantifiable metrics: +0.5 per data point
-- Importance weighting: 3x (required), 2x (preferred), 1x (nice-to-have)
-
-### Skill Extraction (in job_matcher.py)
-
-- Pattern matching for technical skills (Python, SQL, AWS, etc.)
-- PM competency detection (stakeholder management, GTM, roadmap)
-- Requirement categorization using NLP patterns
-
-### Content Preservation
-
-- No factual changes to dates, numbers, or achievements
-- Section order preservation
-- Bullet reordering within sections only
-
-## Output Formats
-
-- Plain text (.txt)
-- Microsoft Word (.docx)
-- Google Docs manual instructions
-- Detailed change tracking reports
-
-## Example: Resume Optimization for Cult.fit PM2 Role
-
-### Optimization Strategy
-
-Emphasize 0-to-1 building, rapid experimentation, user engagement focus.
-
-### Key Changes Made
-
-- Total Sections Modified: 2 (Experience, Skills)
-- Bullets Reordered: 8 (prioritized 0-to-1 work)
-- Bullets Reframed: 8 (added job-specific keywords)
-- New Content Added: Fitness interest in Skills section
-- Word Count: Maintained within 1-page limit
-
-### Detailed Changes
-
-**Experience - Product Manager 1 (Current Role):**
-
-Reordered and reframed bullets to lead with 0-to-1 product development (Annual Flashback scaling to 5.2M+ users), added language like "rapid experimentation," "hypothesis-driven A/B testing," "user research to identify content preferences," and "established performance metrics."
-
-**Experience - Associate Product Manager 2:**
-
-Added "0-to-1" framing to voice search launch, replaced technical details with user research language, added "hypothesis testing and validation," and emphasized cross-functional collaboration with "design, analytics, engineering, and business teams."
-
-**Experience - Associate Product Manager 1:**
-
-Moved Pills in Search to bullet 1 (strongest 0-to-1 example), added "market research and user trend analysis," emphasized "high ownership in building industry-first experience."
-
-**Skills & Interests:**
-
-Completely reframed. Product Management skills listed first: 0-to-1 product development, rapid experimentation & hypothesis testing, user research & persona definition, customer journey optimization. Removed overly AI-specific terms (NER, semantic deduplication). Added "Personal: Fitness enthusiast" to address job's fitness industry preference.
-
-### Keywords Added/Emphasized
-
-- 0-to-1 product development (4 mentions)
-- Rapid experimentation (4 mentions)
-- Hypothesis testing (3 mentions)
-- User research / user analysis (3 mentions)
-- Customer journey optimization (3 mentions)
-- Data-driven (3 mentions)
-- Cross-functional collaboration (1 detailed mention)
-- Performance metrics (2 mentions)
-
-### Strategic Positioning
-
-The optimized resume positions the candidate as:
-
-1. Serial 0-to-1 Product Builder (4 explicit examples)
-2. Experimentation Expert
-3. User-Obsessed PM
-4. Engagement & Retention Specialist (73.4%, 82% completion rates)
-5. Cross-functional Leader
-6. Data-Driven Executor
-7. High-Ownership Mindset
-8. Fitness Enthusiast (strategic for role)
-9. Tier 1 Education (IIT Delhi + Entrepreneurship minor)
-
-### Strength of Match
-
-Overall Match: EXCEPTIONAL (90-95%)
-
-- Multiple 0-to-1 products (exactly what they need)
-- Proven rapid experimentation (core to the role)
-- Strong engagement metrics (critical for subscription fitness)
-- IIT Delhi degree (Tier 1 preference)
-- 3+ years PM experience (meets requirement)
-- Cross-functional leadership (required)
-
-Only Gap: No direct fitness industry experience (listed as "a plus," not required). Mitigated by adding fitness interest and emphasizing transferable skills.
+It runs from the command line on Python 3.9+, reads PDF and DOCX resumes, fetches postings from a URL, and writes back plain text, Word, or step-by-step Google Docs instructions plus a change-tracking report so you can see exactly what moved and why.

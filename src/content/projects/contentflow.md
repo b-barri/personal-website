@@ -1,32 +1,19 @@
 # ContentFlow (for YT Content Creators)
 
-Content planning and workflow tool for YouTube creators
+**Upload a video once, get the captions, titles, descriptions, and thumbnails it needs to go live.**
 
 **URL:** [content-creator-tool.vercel.app](https://content-creator-tool.vercel.app/)
 
-![ContentFlow landing — upload once, get everything for YouTube](/images/projects/contentflow/image.png)
+![ContentFlow landing, upload once, get everything for YouTube](/images/projects/contentflow/image.png)
 
 ![ContentFlow walkthrough](https://www.youtube.com/watch?v=Xebxm8rf42c)
 
-## Overview
+Watch how a creator actually publishes a video and it's death by a thousand tabs. One tool transcribes it, another drafts a title that won't embarrass you, a third lays out a thumbnail. By the time everything's stitched together the branding has drifted, the captions got skipped, and an afternoon is gone. ContentFlow collapses that into a single pass: drop a video in, and it hands back a clean transcript, a few title and description options, and thumbnail variants, all in one place with no jumping around.
 
-ContentFlow: Effortlessly Transform Videos into YouTube-Ready Content
+![Upload, drag and drop your video to start the journey](/images/projects/contentflow/b.png)
 
-## The Problem It Solves
+The part I cared most about was making the output sound like the creator and not like a robot. You can seed it with your own past high-performing titles and descriptions, so the suggestions echo your voice instead of generic [[SEO::search engine optimization, the craft of phrasing titles and descriptions so YouTube and Google surface your video to more people]] mush. You can also lock in your brand language, color palette, and text styles up front, so the metadata and thumbnails come out consistent across every video instead of drifting each time. And because every video gets a transcript, captions come for free, which quietly helps both accessibility and discoverability.
 
-Creators lose hours jumping between tools to 1) transcribe/caption videos, 2) craft SEO-friendly titles/descriptions that fit their brand, and 3) design readable, on-brand thumbnails. This fragmented workflow causes delays, inconsistent branding, and missed reach (no captions = lower accessibility & searchability).
+![Personalize, train the AI on your past high-performing titles and descriptions](/images/projects/contentflow/c.png)
 
-## What People Can Use It For
-
-- **Publish-ready in minutes:** Auto-generate a clean transcript, multiple title/description options, and customizable thumbnails — no context-switching or outsourcing.
-- **Consistent brand, every time:** Lock in brand language, color palettes, and text styles so metadata and thumbnails stay on-brand across videos.
-- **Personalized, not generic:** Seed the system with past high-performing titles/descriptions so suggestions match the creator's voice and audience.
-- **More discoverable & inclusive:** Transcripts power captions and search (better SEO, accessibility, and content indexing).
-- **Fewer manual errors:** Auto-filled metadata and templated thumbnail layouts reduce typos, broken formatting, and last-minute scrambles.
-- **Safer publishing defaults:** Clear, accurate metadata and readable thumbnails lower the risk of misleading content or accessibility misses (e.g., shipping with no captions).
-
-![Upload — drag and drop your video to start the journey](/images/projects/contentflow/b.png)
-
-![Personalize — train the AI on your past high-performing titles and descriptions](/images/projects/contentflow/c.png)
-
-![Thumbnail gallery — three on-brand thumbnail variants generated per video](/images/projects/contentflow/a.png)
+![Thumbnail gallery, three on-brand thumbnail variants generated per video](/images/projects/contentflow/a.png)

@@ -1,40 +1,15 @@
 # Notion Cover Generator
 
-AI-powered tool that generates custom cover images for Notion pages
+**Type in a blog title, get back a hand-drawn Notion cover in one consistent style.**
 
-**URL:** [notion-pixie-doodler.lovable.app](https://notion-pixie-doodler.lovable.app/)
+My Notion was a mess of stock photos that didn't go together. Every page had a different vibe because every cover came from a different place, and the workspace felt like a junk drawer. I didn't want to learn illustration or pay someone per cover. I wanted one look, applied everywhere, with as little effort as typing.
 
-## Tech Stack
+So I built Notion Pixie Doodler. You give it a blog title and a short description, and it draws a cover in a fixed style: delicate black ink line art with soft pink watercolor on a white background, a small girl in a pink coat somewhere in the frame doing something related to what you wrote about. The output is sized 1500 by 600, which is Notion's cover format, with room left at the bottom so the page icon doesn't land on top of her.
 
-**Frontend:**
-- React 18 with TypeScript
-- Vite (build tool)
-- Tailwind CSS (styling)
-- shadcn/ui (UI components)
-- React Router (routing)
-- TanStack Query (data fetching)
+The point isn't any single image. It's that every cover comes out looking like it belongs to the same set. Open ten pages and they read as one workspace instead of ten unrelated tabs.
 
-**Backend:**
-- Lovable Cloud (Supabase) for database, authentication, storage, and edge functions
-- Edge function using Lovable AI Gateway for image generation (Google Gemini models)
+I made it on [[Lovable::a tool where you describe an app in plain English and it builds the working version for you, front end and back end together]], which meant I could focus on the look and the rules of the style rather than wiring. The actual drawing happens in a small server-side function that calls [[Google Gemini::Google's family of AI models, used here for turning a text prompt into an image]] to generate each cover on demand. Storage and the backend run on [[Supabase::a ready-made backend, the database and file storage you'd otherwise have to set up and run yourself]] underneath.
 
-## Overview
+The hard part wasn't getting an image. It was getting the same image twice. A loose prompt gives you ten different art styles for ten different titles, which is the exact problem I started with. Most of the work was pinning the style down hard enough that the model stays on a leash: same line weight, same pink, same character, same empty space for the icon, every time, no matter what you type in.
 
-Notion Pixie Doodler is an AI-powered Notion cover image generator that creates beautiful, cohesive illustrations in a distinctive minimalist Japanese watercolor style.
-
-## What it does
-
-- Generates custom Notion cover images (1500x600px) based on your blog title and description
-- Creates illustrations featuring a charming character (a small girl in a pink coat) interacting with elements related to your content
-- Maintains a consistent aesthetic across all covers: delicate black ink line art with soft pink watercolor touches on white backgrounds
-- Produces ready-to-use images optimized for Notion's cover format with proper spacing for page icons
-
-## Problem it solves
-
-- **Time-consuming creation:** No need to spend hours designing or commissioning custom illustrations
-- **Inconsistent aesthetics:** Ensures all your Notion pages have a cohesive, professional look with the same artistic style
-- **Generic visuals:** Replaces bland stock photos with personalized, topic-specific artwork
-- **Design skills barrier:** Makes beautiful, artistic covers accessible to anyone regardless of design experience
-- **Cost:** Eliminates the need to hire illustrators or purchase multiple stock illustrations
-
-Perfect for content creators, personal knowledge bases, portfolios, or anyone who wants their Notion workspace to feel warm, cohesive, and uniquely theirs.
+Try it at [notion-pixie-doodler.lovable.app](https://notion-pixie-doodler.lovable.app/).

@@ -10,7 +10,7 @@ export const writings: Writing[] = [
     title: "Bhavya on Substack",
     description:
       "Essays on building with AI, product strategy, and shipping side projects in public.",
-    url: "https://substack.com/@barribhavya",
+    url: "https://barribhavya.substack.com/",
     platform: "Substack",
   },
   {

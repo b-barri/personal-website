@@ -2,6 +2,8 @@
 
 import ReactMarkdown, { Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
+import remarkGloss from "@/lib/remark-gloss";
+import GlossTerm from "@/components/ui/GlossTerm";
 
 const components: Components = {
   h1: ({ children }) => (
@@ -29,16 +31,40 @@ const components: Components = {
       {children}
     </p>
   ),
-  a: ({ children, href }) => (
-    <a
-      href={href}
-      target={href?.startsWith("http") ? "_blank" : undefined}
-      rel={href?.startsWith("http") ? "noopener noreferrer" : undefined}
-      className="text-accent font-medium underline decoration-accent/30 underline-offset-2 hover:decoration-accent transition-colors"
-    >
-      {children}
-    </a>
-  ),
+  a: ({ children, href }) => {
+    // Gamma deck links render as a clickable card (Gamma blocks iframe embeds).
+    if (href?.includes("gamma.app")) {
+      return (
+        <a
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="group my-2.5 inline-flex w-full items-center gap-3 rounded-xl border border-border bg-bg-surface px-5 py-4 no-underline transition-all hover:border-accent/50 hover:shadow-md focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none"
+        >
+          <span className="shrink-0 rounded-md bg-accent/10 px-2 py-1 text-[10px] font-bold uppercase tracking-widest text-accent font-[family-name:var(--font-heading)]">
+            Gamma
+          </span>
+          <span className="flex-1 font-medium text-text-primary">{children}</span>
+          <span
+            className="shrink-0 text-text-secondary transition-transform group-hover:translate-x-0.5 group-hover:text-accent"
+            aria-hidden="true"
+          >
+            ↗
+          </span>
+        </a>
+      );
+    }
+    return (
+      <a
+        href={href}
+        target={href?.startsWith("http") ? "_blank" : undefined}
+        rel={href?.startsWith("http") ? "noopener noreferrer" : undefined}
+        className="text-accent font-medium underline decoration-accent/30 underline-offset-2 hover:decoration-accent transition-colors"
+      >
+        {children}
+      </a>
+    );
+  },
   strong: ({ children }) => (
     <strong className="font-semibold text-text-primary">{children}</strong>
   ),
@@ -112,8 +138,24 @@ const components: Components = {
   hr: () => (
     <hr className="my-12 border-0 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
   ),
-  img: ({ src, alt }) => {
+  // Glossary terms: [[term::explanation]] -> <abbr> (see lib/remark-gloss.ts)
+  abbr: ({ children, title }) => <GlossTerm title={title}>{children}</GlossTerm>,
+  img: ({ src, alt, title }) => {
     const url = typeof src === "string" ? src : "";
+    // `![alt](src "caption")` -> rendered caption under the image.
+    // Uses block-styled spans, not <figure>, so it stays valid inside the
+    // <p> react-markdown wraps lone images in (avoids hydration mismatch).
+    const withCaption = (node: React.ReactNode) =>
+      title ? (
+        <span className="my-8 block">
+          {node}
+          <span className="mt-3 block text-center text-sm italic text-text-secondary">
+            {title}
+          </span>
+        </span>
+      ) : (
+        node
+      );
     const youtubeMatch = url.match(
       /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([\w-]{11})/
     );
@@ -171,12 +213,33 @@ const components: Components = {
       }
       return video;
     }
-    return (
+    // LinkedIn post embed (official; carries the post's own video player).
+    // iframe is phrasing content, so it stays valid inside react-markdown's <p>.
+    if (url.includes("linkedin.com")) {
+      const m = url.match(/(ugcPost|activity|share)[-:](\d+)/);
+      const liSrc = url.includes("/embed/")
+        ? url
+        : m
+          ? `https://www.linkedin.com/embed/feed/update/urn:li:${m[1]}:${m[2]}`
+          : null;
+      if (liSrc) {
+        return (
+          <iframe
+            src={liSrc}
+            title={alt || "LinkedIn post"}
+            loading="lazy"
+            allowFullScreen
+            className="my-8 mx-auto block h-[640px] w-full max-w-[550px] rounded-xl border border-border"
+          />
+        );
+      }
+    }
+    return withCaption(
       // eslint-disable-next-line @next/next/no-img-element
       <img
         src={url}
         alt={alt || ""}
-        className="my-8 rounded-xl shadow-md w-full"
+        className={`${title ? "block" : "my-8"} rounded-xl shadow-md w-full`}
       />
     );
   },
@@ -185,7 +248,7 @@ const components: Components = {
 export default function MarkdownContent({ content }: { content: string }) {
   return (
     <article className="markdown-content">
-      <ReactMarkdown remarkPlugins={[remarkGfm]} components={components}>
+      <ReactMarkdown remarkPlugins={[remarkGfm, remarkGloss]} components={components}>
         {content}
       </ReactMarkdown>
     </article>

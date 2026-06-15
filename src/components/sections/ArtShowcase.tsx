@@ -318,7 +318,7 @@ export default function ArtShowcase() {
             Pixels &amp; palettes.
           </h2>
           <p className="text-text-secondary text-base md:text-lg mb-6 md:mb-8 max-w-2xl leading-relaxed">
-            No models were prompted. Just Procreate, an Apple Pencil, and a free evening.
+            No prompts. Just Procreate, a Pencil, and whatever was in my head.
           </p>
         </ScrollReveal>
 

@@ -9,11 +9,10 @@ export default function Writing() {
         <ScrollReveal>
           <SectionLabel number="03" label="Writing" />
           <h2 className="font-[family-name:var(--font-playfair)] text-4xl md:text-6xl font-normal text-text-primary mb-4 md:mb-6 leading-[1.05] tracking-tight">
-            Notes from the build.
+            Thinking out loud.
           </h2>
           <p className="text-text-secondary text-base md:text-lg mb-12 md:mb-16 max-w-2xl leading-relaxed">
-            Thoughts on building with AI, shipping side projects, and working in
-            public.
+            Writing is how I figure out what I actually think.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl">

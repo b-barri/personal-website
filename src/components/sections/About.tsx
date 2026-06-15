@@ -9,32 +9,27 @@ export default function About() {
         <ScrollReveal>
           <SectionLabel number="02" label="About" />
           <h2 className="font-[family-name:var(--font-playfair)] text-4xl md:text-6xl font-normal text-text-primary mb-12 md:mb-16 leading-[1.05] tracking-tight">
-            A builder, by choice.
+            The work is the point.
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-12 md:gap-16 items-start">
             {/* Bio text */}
             <div className="space-y-5 text-base md:text-lg text-text-secondary leading-[1.8] order-2 md:order-1">
               <p>
-                Biotech engineer by training, product builder by choice. After
-                graduating from IIT Delhi in 2022, I joined Groww — what started
-                as curiosity about how people make financial decisions quietly
-                turned into a deep obsession with Search, Discovery, and
-                Engagement.
+                I studied biotech and chose product the week I graduated, not
+                because I had a plan, but because I couldn&apos;t stop noticing
+                what was broken.
               </p>
               <p>
-                Somewhere along the way, LLMs entered the picture. I&apos;ve
-                since built GenAI pipelines for financial content and LLM-powered
-                document analysis systems — not because it was trendy, but
-                because it genuinely made products smarter. From voice search to
-                Stories and Rewards platforms at CRED, I care most about
-                building things that feel effortless to the millions of people
-                who never think twice about how it works.
+                Four years at Groww, then Cred. I spent most of it close to the
+                search bar, what people type when they don&apos;t know the right
+                word for what they want. That question took me into LLM
+                pipelines, document analysis, and eventually building with
+                Claude.
               </p>
               <p>
-                Off the clock: tech blogs, reading on my Kindle, prompt
-                engineering experiments, and iPad sketching when I need a break
-                from building.
+                Off-hours: same thing, smaller canvas. iPad sketches. Side
+                projects that ship. Books I finish, not just start.
               </p>
             </div>
 

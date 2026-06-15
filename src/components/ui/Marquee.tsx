@@ -1,6 +1,6 @@
 const phrases = [
   "Currently building",
-  "Curious by default",
+  "Worth making",
   "Shipped 11 side quests",
   "Built in Bangalore",
   "Made with caffeine",

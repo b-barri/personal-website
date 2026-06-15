@@ -3,7 +3,6 @@ import { Metadata } from "next";
 import Link from "next/link";
 import ProjectImage from "@/components/ui/ProjectImage";
 import MarkdownContent from "@/components/ui/MarkdownContent";
-import QuestStamp from "@/components/ui/QuestStamp";
 import { projects } from "@/data/projects";
 import { getProjectContent } from "@/lib/content";
 
@@ -41,7 +40,6 @@ export default async function ProjectPage({ params }: Props) {
 
   return (
     <main id="main" className="flex-1 bg-bg-primary">
-      <QuestStamp slug={project.slug} title={project.title} />
       {/* Hero image with title overlay */}
       <div className="relative w-full h-[50vh] md:h-[60vh] min-h-[320px] md:min-h-[400px] bg-bg-surface overflow-hidden">
         <ProjectImage

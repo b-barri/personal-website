@@ -12,6 +12,8 @@ The tools that already exist don't do this. "Write me a blog post" gives you gen
 
 ## How it works
 
+![How ProjectDora works: a seven-stage writing pipeline with a human approval gate at each step](/images/projects/project-dora/how-it-works.svg)
+
 ProjectDora is a seven-stage pipeline, and the spine of it is a human approval gate between every stage. It scrapes nine sources, suggests topics, researches the one you pick, outlines it, drafts it section by section, fact-checks the claims, then generates a hero image. At each handoff it stops and waits for me to approve, edit, or reject. Nothing moves forward on its own.
 
 The first interesting decision is how it picks what to surface. Instead of scoring every item equally, it uses a slot system: fixed slots per source, weighted by how much I trust that source. Stratechery and Every.to get fifteen slots each. Twitter gets eight, with a one-per-author cap so a single prolific poster can't flood the feed. It's an editorial opinion baked into the plumbing.

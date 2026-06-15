@@ -18,6 +18,8 @@ I wanted an honest object for that. Not a reading tracker, not a Goodreads profi
 
 ## Two beds, one garden
 
+![How Literary Garden works: from your Kindle's files to a daily garden](/images/projects/literary-garden/how-it-works.svg)
+
 The site has two halves that share a look but do different jobs.
 
 The **words bed** is the daily ritual. Each word you looked up becomes a flashcard with the exact Kindle sentence it came from on the back. Five new words a day, plus whatever's due for review. The card's appearance *is* its state: a pale ink outline when it's new (seedling), a full botanical illustration once it's in rotation (bloom), a pressed-flower album card once you've proven you remember it. No progress bar, no percentage, the screen rewards you without a single number on it.

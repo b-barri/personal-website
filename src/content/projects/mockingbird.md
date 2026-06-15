@@ -14,6 +14,8 @@ The interesting one is the option that doesn't exist yet: a senior PM who lives 
 
 ## Feedback graded on the case's tensions, not a checklist
 
+![How Mockingbird works: from picking a case to tension-grounded feedback](/images/projects/mockingbird/how-it-works.svg)
+
 Mockingbird runs on one product opinion: you should be graded against the case's real trade-offs, not a generic framework. Every case is authored with its named tensions. "Design Instagram for teen wellbeing" is testing engagement against harm. "Design a UPI feature for small merchants" is testing reconciliation against settlement against trust. The feedback grades how well you engaged each side of that specific tension, not whether you recited step four of CIRCLES.
 
 ![The case bank: 30 cases, about 70 percent India-context](/images/projects/mockingbird/choose_case.png)

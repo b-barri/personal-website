@@ -12,6 +12,8 @@ What I wanted wasn't another chatbot. I wanted an assistant that runs 24/7, answ
 
 ## A gateway that sits between my apps and the AI
 
+![How OpenClaw works: from any messaging app through one switchboard to your AI and back](/images/projects/openclaw/how-it-works.svg)
+
 [[OpenClaw::an open-source framework for running your own personal AI assistant, the way you'd self-host your own email server instead of using Gmail]] is the layer I was missing. Think of it as a switchboard that sits between every messaging app I use and whichever AI model I point it at, routing all of it through one agent that keeps its memory and its sense of who I am.
 
 The shape of it is what makes it feel like an agent rather than a chatbot. Channels are plugins, so WhatsApp, Telegram, Slack, Discord, Signal, iMessage and a dozen more are each just something you switch on. Models are swappable, Anthropic or OpenAI or Google or a local Ollama, with automatic failover if one goes down. And it has real agency: it can drive a browser, run shell commands, schedule itself through [[cron::the standard way computers run a task on a timer, like "every morning at 7"]] jobs, take a camera snapshot. Underneath, everything flows through one switchboard and the rest are just lines plugged into it. The product is the assistant. The infrastructure is supposed to disappear.

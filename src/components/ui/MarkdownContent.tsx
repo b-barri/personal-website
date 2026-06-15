@@ -116,8 +116,20 @@ const components: Components = {
   ),
   // Glossary terms: [[term::explanation]] -> <abbr> (see lib/remark-gloss.ts)
   abbr: ({ children, title }) => <GlossTerm title={title}>{children}</GlossTerm>,
-  img: ({ src, alt }) => {
+  img: ({ src, alt, title }) => {
     const url = typeof src === "string" ? src : "";
+    // `![alt](src "caption")` -> rendered caption under the image
+    const withCaption = (node: React.ReactNode) =>
+      title ? (
+        <figure className="my-8">
+          {node}
+          <figcaption className="mt-3 text-center text-sm italic text-text-secondary">
+            {title}
+          </figcaption>
+        </figure>
+      ) : (
+        node
+      );
     const youtubeMatch = url.match(
       /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([\w-]{11})/
     );
@@ -175,12 +187,12 @@ const components: Components = {
       }
       return video;
     }
-    return (
+    return withCaption(
       // eslint-disable-next-line @next/next/no-img-element
       <img
         src={url}
         alt={alt || ""}
-        className="my-8 rounded-xl shadow-md w-full"
+        className={`${title ? "" : "my-8"} rounded-xl shadow-md w-full`}
       />
     );
   },

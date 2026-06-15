@@ -38,6 +38,10 @@ Onboarding doesn't lie to you. Instead of faking a self-test that always passes,
 
 And clawd is [[ad-hoc signed::Apple makes you cryptographically "sign" an app before the Mac will trust it. Ad-hoc signing is the free, do-it-yourself version, so you skip Apple's $99-a-year Developer Program]], so anyone can build and run it without paying Apple a cent. It's [[AGPL::a strict open-source license: anyone can use and change the code, but they have to keep their version open too]], inherited from the artist whose sprites clawd is built on.
 
+## What I learned working with AI
+
+I build these with Claude Code, and clawd is where one habit earned its keep. Before any code, I had it draft a short plan: v1 broken into a handful of small pieces, each meant to ship as a single commit. So when the Control Strip idea fell apart on real hardware, the pivot wasn't a rewrite of the whole app. It was throwing out one piece and slotting in another. The plan made the mistake cheap. I used to treat planning as overhead and skip straight to building. Now I think the plan is the thing that lets you change your mind without unravelling everything around it.
+
 clawd shipped in one sitting, and it's the rare side project where the thing I built is also a thing I use every day.
 
 ## Try it

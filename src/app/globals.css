@@ -348,3 +348,294 @@ h1, h2, h3, h4, h5, h6 {
     animation: none;
   }
 }
+
+/* ============================================================
+   The Stamp Drawer — art "take one" gift (see StampDrawer.tsx)
+   A bifold folder that opens (covers fold back), reveals postcards
+   fanned in the pocket, and pops one forward to flip + take.
+   State driven by [data-phase] on .drawer; reduced/touch by [data-reduced].
+   ============================================================ */
+.drawer {
+  --folder: #cbb78f;
+  --folder-deep: #b59c70;
+  --folder-inside: #9c8358;
+  --mx: 0deg;
+  --my: 0deg;
+  /* spring overshoot for cards/pop; soft (no overshoot) for the covers */
+  --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --spring-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative;
+  width: 340px;
+  max-width: 100%;
+  height: 440px;
+  margin-inline: auto;
+  perspective: 2000px;
+}
+.drawer-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.drawer[data-phase="open"] .drawer-wrapper { transform: rotateX(6deg) rotateY(-3deg); }
+
+.drawer-base {
+  position: absolute;
+  inset: 0;
+  background: var(--folder-inside);
+  border-radius: 22px;
+  box-shadow: 0 30px 60px -25px rgba(40, 32, 22, 0.5);
+  transform-style: preserve-3d;
+}
+.drawer-pocket {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 44%;
+  background: var(--folder);
+  /* curved top corners so the pocket reads like a smooth scoop holding the art */
+  border-radius: 26px 26px 22px 22px;
+  transform: translateZ(10px);
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.18);
+  pointer-events: none; /* decorative; never eat card/trigger clicks */
+}
+
+/* covers */
+.drawer-flap {
+  position: absolute;
+  top: 0;
+  width: 50.2%;
+  height: 100%;
+  background: var(--folder);
+  transition: transform 0.72s var(--spring-soft);
+  transform-style: preserve-3d;
+  /* visible backface so the opened cover stays solid instead of vanishing past 90deg */
+  backface-visibility: visible;
+  pointer-events: none; /* covers are decorative; clicks pass to trigger/cards */
+}
+.drawer-flap.left {
+  left: 0;
+  /* outer corners match the folder (22); inner seam corners softened too */
+  border-radius: 22px 18px 18px 22px;
+  transform-origin: 0% 50%;
+  transform: translateZ(30px);
+}
+.drawer-flap.right {
+  right: 0;
+  border-radius: 18px 22px 22px 18px;
+  transform-origin: 100% 50%;
+  transform: translateZ(30px);
+}
+.drawer-flap::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: repeating-linear-gradient(135deg, rgba(0, 0, 0, 0.02) 0 2px, transparent 2px 4px);
+}
+.drawer-flap::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--color-frank);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  transform: translateY(-50%) translateZ(1px);
+  box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.4);
+}
+.drawer-flap.left::after { right: 11px; }
+.drawer-flap.right::after { left: 11px; }
+.drawer[data-phase="open"] .drawer-flap.left { transform: translateZ(30px) rotateY(-138deg); }
+.drawer[data-phase="open"] .drawer-flap.right { transform: translateZ(30px) rotateY(138deg); }
+
+.drawer-brand,
+.drawer-meta {
+  backface-visibility: hidden; /* vanish (don't mirror) when the cover folds open */
+  transform: translateZ(1px);
+}
+.drawer-brand {
+  position: absolute;
+  top: 24px;
+  left: 22px;
+  font-family: var(--font-playfair), serif;
+  font-style: italic;
+  font-size: 22px;
+  color: #3a3228;
+  opacity: 0.82;
+}
+.drawer-meta {
+  position: absolute;
+  bottom: 28px;
+  left: 22px;
+  font-family: var(--font-mono), monospace;
+  font-size: 12px;
+  line-height: 1.5;
+  color: rgba(58, 50, 40, 0.78);
+}
+.drawer-meta span { display: block; opacity: 0.6; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; }
+
+/* full-cover trigger (closed state only) */
+.drawer-trigger {
+  position: absolute;
+  inset: 0;
+  z-index: 60;
+  border: 0;
+  background: transparent;
+  border-radius: 22px;
+  cursor: pointer;
+}
+.drawer-trigger:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 4px; }
+
+/* cards */
+.drawer-cards {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.drawer[data-phase="open"] .drawer-cards,
+.drawer[data-phase="popped"] .drawer-cards { opacity: 1; }
+
+.drawer-card {
+  position: absolute;
+  left: 50%;
+  top: 44%;
+  width: 192px;
+  height: 136px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  opacity: 0;
+  /* resting state: tucked down inside the pocket, slightly shrunk */
+  transform: translate(-50%, -50%) translateY(54px) scale(0.84);
+  transition: transform 0.6s var(--spring), opacity 0.4s ease;
+  transition-delay: var(--card-delay, 0ms);
+  filter: drop-shadow(0 8px 16px rgba(40, 32, 22, 0.18));
+}
+/* open: each card springs up to its fanned slot, staggered via --card-delay */
+.drawer[data-phase="open"] .drawer-card {
+  opacity: 1;
+  transform: translate(-50%, -50%) translate(var(--fx, 0), var(--fy, 10px)) rotate(var(--fr, 0deg)) translateZ(var(--fz, 5px));
+}
+/* hover lifts a card up and forward so it's fully visible and easy to click,
+   even in a tightly overlapped deck */
+.drawer[data-phase="open"] .drawer-card:hover {
+  transform: translate(-50%, -50%) translate(var(--fx, 0), -10px) rotate(var(--fr, 0deg)) translateZ(80px) scale(1.06);
+}
+.drawer-card:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 5px; border-radius: 8px; }
+.drawer[data-phase="open"] .drawer-card:focus-visible {
+  transform: translate(-50%, -50%) translate(var(--fx, 0), -10px) rotate(var(--fr, 0deg)) translateZ(80px) scale(1.06);
+}
+.drawer[data-phase="closed"] .drawer-card { pointer-events: none; }
+.drawer-card:hover { filter: drop-shadow(0 14px 22px rgba(40, 32, 22, 0.26)); }
+
+.drawer-card-inner {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transition: transform 0.55s var(--spring-soft);
+}
+.drawer-card-inner.flipped { transform: rotateY(180deg); }
+
+.drawer-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 5px solid #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+.drawer-face.front { background: var(--color-bg-surface); }
+.drawer-face.back {
+  transform: rotateY(180deg);
+  background: var(--color-bg-surface);
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 10px;
+  padding: 13px 15px;
+}
+.drawer-cap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  padding: 16px 10px 7px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.58));
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.drawer-cap .t { font-family: var(--font-playfair), serif; color: #fff; font-size: 13px; }
+.drawer-cap .n { font-family: var(--font-mono), monospace; color: rgba(255, 255, 255, 0.85); font-size: 9px; letter-spacing: 0.08em; }
+.drawer-note {
+  font-family: var(--font-hand), cursive;
+  font-size: 18px;
+  line-height: 1.22;
+  color: var(--color-text-primary);
+  border-right: 1px dashed var(--color-border);
+  padding-right: 10px;
+  text-align: left;
+}
+.drawer-addr { position: relative; font-family: var(--font-mono), monospace; font-size: 8px; color: var(--color-text-secondary); letter-spacing: 0.05em; text-align: left; }
+.drawer-addr .hd { display: block; color: var(--color-text-primary); margin-bottom: 7px; letter-spacing: 0.12em; }
+.drawer-addr .ln { display: block; border-bottom: 1px solid var(--color-border); height: 10px; margin-bottom: 6px; }
+.drawer-addr .pmark {
+  position: absolute;
+  top: 10px;
+  right: 0;
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid var(--color-frank);
+  border-radius: 50%;
+  color: var(--color-frank);
+  font-family: var(--font-mono), monospace;
+  font-size: 5.5px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  line-height: 1.3;
+  letter-spacing: 0.06em;
+  transform: rotate(-12deg);
+}
+
+/* popped: covers close, focused card floats forward + parallax, others hide */
+.drawer[data-phase="popped"] .drawer-flap.left,
+.drawer[data-phase="popped"] .drawer-flap.right { transform: translateZ(30px) rotateY(0deg); }
+.drawer[data-phase="popped"] .drawer-card { opacity: 0; pointer-events: none; transition-delay: 0ms; }
+.drawer[data-phase="popped"] .drawer-card.is-focused {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 50;
+  transform: translate(-50%, -50%) translateY(-46px) translateZ(170px) scale(1.85) rotateX(var(--my)) rotateY(var(--mx));
+  filter: drop-shadow(0 48px 66px rgba(40, 32, 22, 0.36));
+}
+/* must outrank the focused-pop rule above, hence the extra .is-focused */
+.drawer[data-phase="popped"] .drawer-card.is-focused.is-leaving {
+  opacity: 0;
+  transform: translate(-50%, -50%) translateY(-300px) translateZ(190px) scale(1.7) rotate(8deg);
+}
+
+/* reduced motion / coarse pointer: keep the layout, drop the motion + parallax */
+.drawer[data-reduced="true"] { perspective: none; }
+.drawer[data-reduced="true"] .drawer-wrapper { transform: none; }
+.drawer[data-reduced="true"] .drawer-wrapper,
+.drawer[data-reduced="true"] .drawer-flap,
+.drawer[data-reduced="true"] .drawer-card,
+.drawer[data-reduced="true"] .drawer-card-inner,
+.drawer[data-reduced="true"] .drawer-cards { transition-duration: 0.01ms; transition-delay: 0ms; }
+.drawer[data-reduced="true"][data-phase="open"] .drawer-flap.left,
+.drawer[data-reduced="true"][data-phase="open"] .drawer-flap.right { opacity: 0; }
+.drawer[data-reduced="true"] .drawer-card.is-focused {
+  transform: translate(-50%, -50%) translateY(-46px) translateZ(170px) scale(1.85);
+}

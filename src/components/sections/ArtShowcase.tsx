@@ -6,9 +6,36 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import CatalogLabel from "@/components/ui/CatalogLabel";
+import StampDrawer, { type DrawerCard } from "@/components/ui/StampDrawer";
 import { artworks } from "@/data/artworks";
 
 gsap.registerPlugin(useGSAP);
+
+// "Take one" postcards — every artwork, with image + alt pulled from the
+// registry; title/note/edition are the gift-side copy (lowercase, no em-dashes).
+const DRAWER_PICKS: Pick<DrawerCard, "id" | "title" | "no" | "note" | "edition">[] = [
+  { id: "art-01", title: "Hidden cove", no: "No. 01", note: "found this beach in my head on a slow tuesday. it's yours.", edition: "no. 08 / 50" },
+  { id: "art-02", title: "The falls", no: "No. 02", note: "i could hear the water while painting this. take it.", edition: "no. 04 / 50" },
+  { id: "art-03", title: "Night cube", no: "No. 03", note: "the one night i let the colours get weird. yours, b.", edition: "no. 02 / 50" },
+  { id: "art-04", title: "Golden hour", no: "No. 04", note: "everything looks better at golden hour, even me.", edition: "no. 11 / 50" },
+  { id: "art-05", title: "First light", no: "No. 05", note: "painted the hills before the coffee kicked in. yours, b.", edition: "no. 12 / 50" },
+  { id: "art-06", title: "Aurora", no: "No. 06", note: "stayed up too late for this sky. take it with you.", edition: "no. 05 / 50" },
+  { id: "art-07", title: "Still water", no: "No. 07", note: "an alpine lake i never visited. now it's yours.", edition: "no. 03 / 50" },
+  { id: "art-08", title: "Late dinner", no: "No. 08", note: "the kind of place you find at 11pm and never forget.", edition: "no. 07 / 50" },
+  { id: "art-09", title: "Bloom", no: "No. 09", note: "she grew flowers where the bruises were. keep her.", edition: "no. 06 / 50" },
+  { id: "art-10", title: "Teal & coral", no: "No. 10", note: "two colours that had no business working together.", edition: "no. 09 / 50" },
+  { id: "art-11", title: "Held", no: "No. 11", note: "this one is about my mum. you can hold it too.", edition: "no. 01 / 50" },
+  { id: "art-12", title: "Sunday kitchen", no: "No. 12", note: "sunday mornings should smell like this. yours, b.", edition: "no. 10 / 50" },
+];
+
+const DRAWER_CARDS: DrawerCard[] = DRAWER_PICKS.map((p) => {
+  const art = artworks.find((a) => a.id === p.id);
+  return {
+    ...p,
+    imageSrc: art?.imagePath ?? "",
+    alt: art?.alt ?? p.title,
+  };
+});
 
 const AUTO_PLAY_INTERVAL = 4000;
 const RESUME_DELAY = 6000;
@@ -320,6 +347,20 @@ export default function ArtShowcase() {
           <p className="text-text-secondary text-base md:text-lg mb-6 md:mb-8 max-w-2xl leading-relaxed">
             No prompts. Just Procreate, a Pencil, and whatever was in my head.
           </p>
+        </ScrollReveal>
+
+        {/* Take-one drawer — the hero gift */}
+        <ScrollReveal>
+          <div className="mt-10 mb-14 md:mt-14 md:mb-20">
+            <StampDrawer cards={DRAWER_CARDS} />
+          </div>
+          <div className="mb-10 flex items-center gap-4 text-text-secondary">
+            <span className="h-px flex-1 bg-border" />
+            <span className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.16em] whitespace-nowrap">
+              or just scroll the gallery
+            </span>
+            <span className="h-px flex-1 bg-border" />
+          </div>
         </ScrollReveal>
 
         {/* 3D Carousel */}

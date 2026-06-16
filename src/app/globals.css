@@ -13,6 +13,7 @@
   --color-accent-hover: #2563EB;
   --color-border: #DEE2DE;
   --color-meta-theme: #FEFFFC;
+  --color-frank: #A63D2F;            /* oxblood postal mark — ink, not accent */
 }
 
 .dark {
@@ -26,6 +27,7 @@
   --color-accent-hover: #93c5fd;
   --color-border: #44403c;           /* warm dark border */
   --color-meta-theme: #1c1917;
+  --color-frank: #c96a59;            /* lighter oxblood for dark paper */
 }
 
 @theme inline {
@@ -38,9 +40,12 @@
   --color-accent: var(--color-accent);
   --color-accent-hover: var(--color-accent-hover);
   --color-border: var(--color-border);
+  --color-frank: var(--color-frank);
   --font-heading: var(--font-space-grotesk);
   --font-body: var(--font-inter);
   --font-playfair: var(--font-playfair);
+  --font-mono: var(--font-mono);
+  --font-hand: var(--font-hand);
 }
 
 html {
@@ -105,6 +110,158 @@ h1, h2, h3, h4, h5, h6 {
   background-image:
     linear-gradient(to right, rgba(245, 243, 238, 0.03) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(245, 243, 238, 0.03) 1px, transparent 1px);
+}
+
+/* ============================================================
+   POSTAL ARCHIVE LANGUAGE
+   Shared texture + chrome vocabulary for the stamp/postcard system.
+   Watercolours stay full colour; this layer is paper + ink only.
+   ============================================================ */
+
+/* Paper grain — a faint fibre overlay. Apply to a relatively-positioned
+   element; the noise rides on a ::before so it never blocks pointer events. */
+.paper-grain { position: relative; }
+.paper-grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.dark .paper-grain::before { opacity: 0.07; }
+
+/* Crosshatch — Tufte-style richness without colour (dividers, empty states). */
+.bg-crosshatch {
+  background-image:
+    repeating-linear-gradient(45deg, rgba(44, 44, 44, 0.06) 0 1px, transparent 1px 6px),
+    repeating-linear-gradient(-45deg, rgba(44, 44, 44, 0.06) 0 1px, transparent 1px 6px);
+}
+.dark .bg-crosshatch {
+  background-image:
+    repeating-linear-gradient(45deg, rgba(245, 243, 238, 0.05) 0 1px, transparent 1px 6px),
+    repeating-linear-gradient(-45deg, rgba(245, 243, 238, 0.05) 0 1px, transparent 1px 6px);
+}
+
+/* Dashed catalog rule — the perforated hairline beside section labels. */
+.catalog-rule {
+  height: 1px;
+  background-image: repeating-linear-gradient(
+    90deg,
+    var(--color-border) 0 6px,
+    transparent 6px 10px
+  );
+}
+
+/* Perforated stamp edge — punches holes in the colour of the page behind
+   the stamp (--perf-bg, default = the primary background). Set --perf-bg on
+   the element when the stamp sits on a different surface. */
+.stamp-edge {
+  --perf-bg: var(--color-bg-primary);
+  /* Warm paper a clear step below the near-white page, so the stamp shape and
+     its page-coloured perforations read against bg-primary in light mode. */
+  --stamp-fill: #ece8db;
+  /* Even, closely-spaced perforations on a uniform 11px pitch (all four edges
+     share the pitch so corners resolve cleanly). The hole colour matches the
+     surface behind the stamp so it reads as a real punched edge. */
+  background:
+    radial-gradient(circle 3.5px at 50% 0,    var(--perf-bg) 98%, transparent 100%) 5.5px 0    / 11px 7px repeat-x,
+    radial-gradient(circle 3.5px at 50% 100%, var(--perf-bg) 98%, transparent 100%) 5.5px 100% / 11px 7px repeat-x,
+    radial-gradient(circle 3.5px at 0 50%,    var(--perf-bg) 98%, transparent 100%) 0 5.5px    / 7px 11px repeat-y,
+    radial-gradient(circle 3.5px at 100% 50%, var(--perf-bg) 98%, transparent 100%) 100% 5.5px / 7px 11px repeat-y,
+    var(--stamp-fill);
+  box-shadow: 0 3px 12px -4px rgba(0, 0, 0, 0.24), 0 1px 0 rgba(0, 0, 0, 0.04);
+}
+/* Dark paper: lift the mat well above the page so the page-coloured
+   perforations actually bite (bg-surface sits too close to bg-primary). */
+.dark .stamp-edge {
+  --stamp-fill: #38322e;
+}
+
+/* Loading shimmer behind a stamp illustration — replaces the blank flash
+   while next/image streams in. */
+@keyframes stamp-shimmer {
+  0% { background-position: -150% 0; }
+  100% { background-position: 250% 0; }
+}
+.stamp-shimmer {
+  background-image: linear-gradient(
+    100deg,
+    transparent 20%,
+    color-mix(in srgb, var(--color-text-primary) 7%, transparent) 42%,
+    transparent 64%
+  );
+  background-size: 220% 100%;
+  animation: stamp-shimmer 1.5s ease-in-out infinite;
+}
+
+/* ---- Artifact chrome: specimen-sheet / catalogue-plate vocabulary ---- */
+
+/* Photo mounting corner — the translucent triangle that pins a stamp to an
+   album page. Place four, one per corner, via the position helpers. */
+.photo-corner {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background: linear-gradient(135deg, rgba(44, 44, 44, 0.34), rgba(44, 44, 44, 0.12));
+  box-shadow: inset 0 0 1px rgba(0, 0, 0, 0.4);
+}
+.dark .photo-corner {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.25));
+}
+.photo-corner.tl { top: -1px; left: -1px; clip-path: polygon(0 0, 100% 0, 0 100%); }
+.photo-corner.tr { top: -1px; right: -1px; clip-path: polygon(0 0, 100% 0, 100% 100%); }
+.photo-corner.bl { bottom: -1px; left: -1px; clip-path: polygon(0 0, 0 100%, 100% 100%); }
+.photo-corner.br { bottom: -1px; right: -1px; clip-path: polygon(100% 0, 0 100%, 100% 100%); }
+
+/* Postmark — concentric oxblood rings, ridden over the stamp at an angle. */
+.postmark {
+  border-radius: 50%;
+  color: var(--color-frank);
+  border: 1.5px solid currentColor;
+  box-shadow: inset 0 0 0 3px transparent, inset 0 0 0 4.5px currentColor;
+  opacity: 0.72;
+}
+
+/* Loupe — a magnifier puck with a glassy rim, for detail callouts. */
+.loupe {
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 5px var(--color-bg-surface),
+    0 0 0 6.5px color-mix(in srgb, var(--color-text-primary) 35%, transparent),
+    0 16px 34px -10px rgba(0, 0, 0, 0.5),
+    inset 0 0 24px rgba(255, 255, 255, 0.28);
+}
+
+/* L-shaped crop bracket for the sheet corners. */
+.crop-bracket { position: absolute; width: 14px; height: 14px; }
+.crop-bracket::before, .crop-bracket::after {
+  content: ""; position: absolute; background: var(--color-text-secondary);
+}
+.crop-bracket::before { width: 14px; height: 1px; }
+.crop-bracket::after { width: 1px; height: 14px; }
+.crop-bracket.tl { top: -1px; left: -1px; }
+.crop-bracket.tr { top: -1px; right: -1px; }
+.crop-bracket.tr::before { right: 0; }  .crop-bracket.tr::after { right: 0; }
+.crop-bracket.bl { bottom: -1px; left: -1px; }
+.crop-bracket.bl::before { bottom: 0; }  .crop-bracket.bl::after { bottom: 0; }
+.crop-bracket.br { bottom: -1px; right: -1px; }
+.crop-bracket.br::before { bottom: 0; right: 0; }  .crop-bracket.br::after { bottom: 0; right: 0; }
+
+/* Par Avion airmail edge — the barber-stripe border of an airmail envelope,
+   kept in palette: oxblood frank + the site's blue accent, not primary red/blue.
+   Set the height where used (e.g. h-3). */
+.airmail-edge {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--color-frank) 0 10px,
+    transparent 10px 20px,
+    var(--color-accent) 20px 30px,
+    transparent 30px 40px
+  );
+  background-size: 56.57px 56.57px; /* 40px stripe period at 45deg */
 }
 
 /* Art carousel — perspective only on desktop */
@@ -200,7 +357,322 @@ h1, h2, h3, h4, h5, h6 {
   .animate-float-delayed,
   .animate-bounce,
   .animate-marquee,
-  .animate-slow-spin {
+  .animate-slow-spin,
+  .stamp-shimmer {
     animation: none;
   }
+}
+
+/* ============================================================
+   The Stamp Drawer — art "take one" gift (see StampDrawer.tsx)
+   A bifold folder that opens (covers fold back), reveals postcards
+   fanned in the pocket, and pops one forward to flip + take.
+   State driven by [data-phase] on .drawer; reduced/touch by [data-reduced].
+   ============================================================ */
+.drawer {
+  --folder: #cbb78f;
+  --folder-deep: #b59c70;
+  --folder-inside: #9c8358;
+  --mx: 0deg;
+  --my: 0deg;
+  /* spring overshoot for cards/pop; soft (no overshoot) for the covers */
+  --spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --spring-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative;
+  width: 340px;
+  max-width: 100%;
+  height: 440px;
+  margin-inline: auto;
+  perspective: 2000px;
+}
+.drawer-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.drawer[data-phase="open"] .drawer-wrapper { transform: rotateX(6deg) rotateY(-3deg); }
+
+.drawer-base {
+  position: absolute;
+  inset: 0;
+  background: var(--folder-inside);
+  border-radius: 22px;
+  box-shadow: 0 30px 60px -25px rgba(40, 32, 22, 0.5);
+  transform-style: preserve-3d;
+}
+.drawer-pocket {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 44%;
+  background: var(--folder);
+  /* curved top corners so the pocket reads like a smooth scoop holding the art */
+  border-radius: 26px 26px 22px 22px;
+  transform: translateZ(10px);
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.18);
+  pointer-events: none; /* decorative; never eat card/trigger clicks */
+}
+
+/* covers */
+.drawer-flap {
+  position: absolute;
+  top: 0;
+  width: 50.2%;
+  height: 100%;
+  background: var(--folder);
+  transition: transform 0.72s var(--spring-soft);
+  transform-style: preserve-3d;
+  /* visible backface so the opened cover stays solid instead of vanishing past 90deg */
+  backface-visibility: visible;
+  pointer-events: none; /* covers are decorative; clicks pass to trigger/cards */
+}
+.drawer-flap.left {
+  left: 0;
+  /* outer corners match the folder (22); inner seam corners softened too */
+  border-radius: 22px 18px 18px 22px;
+  transform-origin: 0% 50%;
+  transform: translateZ(30px);
+}
+.drawer-flap.right {
+  right: 0;
+  border-radius: 18px 22px 22px 18px;
+  transform-origin: 100% 50%;
+  transform: translateZ(30px);
+}
+.drawer-flap::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: repeating-linear-gradient(135deg, rgba(0, 0, 0, 0.02) 0 2px, transparent 2px 4px);
+}
+.drawer-flap::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--color-frank);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  transform: translateY(-50%) translateZ(1px);
+  box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.4);
+}
+.drawer-flap.left::after { right: 11px; }
+.drawer-flap.right::after { left: 11px; }
+.drawer[data-phase="open"] .drawer-flap.left { transform: translateZ(30px) rotateY(-138deg); }
+.drawer[data-phase="open"] .drawer-flap.right { transform: translateZ(30px) rotateY(138deg); }
+
+.drawer-brand,
+.drawer-meta {
+  backface-visibility: hidden; /* vanish (don't mirror) when the cover folds open */
+  transform: translateZ(1px);
+}
+.drawer-brand {
+  position: absolute;
+  top: 24px;
+  left: 22px;
+  font-family: var(--font-playfair), serif;
+  font-style: italic;
+  font-size: 22px;
+  color: #3a3228;
+  opacity: 0.82;
+}
+.drawer-meta {
+  position: absolute;
+  bottom: 28px;
+  left: 22px;
+  font-family: var(--font-mono), monospace;
+  font-size: 12px;
+  line-height: 1.5;
+  color: rgba(58, 50, 40, 0.78);
+}
+.drawer-meta span { display: block; opacity: 0.6; font-size: 10.5px; letter-spacing: 0.1em; text-transform: uppercase; }
+
+/* full-cover trigger (closed state only) */
+.drawer-trigger {
+  position: absolute;
+  inset: 0;
+  z-index: 60;
+  border: 0;
+  background: transparent;
+  border-radius: 22px;
+  cursor: pointer;
+}
+.drawer-trigger:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 4px; }
+
+/* cards */
+.drawer-cards {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.drawer[data-phase="open"] .drawer-cards,
+.drawer[data-phase="popped"] .drawer-cards { opacity: 1; }
+
+.drawer-card {
+  position: absolute;
+  left: 50%;
+  top: 44%;
+  width: 192px;
+  height: 136px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  opacity: 0;
+  /* resting state: tucked down inside the pocket, slightly shrunk */
+  transform: translate(-50%, -50%) translateY(54px) scale(0.84);
+  transition: transform 0.6s var(--spring), opacity 0.4s ease;
+  transition-delay: var(--card-delay, 0ms);
+  filter: drop-shadow(0 8px 16px rgba(40, 32, 22, 0.18));
+}
+/* open: each card springs up to its fanned slot, staggered via --card-delay */
+.drawer[data-phase="open"] .drawer-card {
+  opacity: 1;
+  transform: translate(-50%, -50%) translate(var(--fx, 0), var(--fy, 10px)) rotate(var(--fr, 0deg)) translateZ(var(--fz, 5px));
+}
+/* hover lifts a card up and forward so it's fully visible and easy to click,
+   even in a tightly overlapped deck */
+.drawer[data-phase="open"] .drawer-card:hover {
+  transform: translate(-50%, -50%) translate(var(--fx, 0), -10px) rotate(var(--fr, 0deg)) translateZ(80px) scale(1.06);
+}
+.drawer-card:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 5px; border-radius: 8px; }
+.drawer[data-phase="open"] .drawer-card:focus-visible {
+  transform: translate(-50%, -50%) translate(var(--fx, 0), -10px) rotate(var(--fr, 0deg)) translateZ(80px) scale(1.06);
+}
+.drawer[data-phase="closed"] .drawer-card { pointer-events: none; }
+.drawer-card:hover { filter: drop-shadow(0 14px 22px rgba(40, 32, 22, 0.26)); }
+
+.drawer-card-inner {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transition: transform 0.55s var(--spring-soft);
+}
+.drawer-card-inner.flipped { transform: rotateY(180deg); }
+
+.drawer-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 5px solid #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+}
+.drawer-face.front { background: var(--color-bg-surface); }
+.drawer-face.back {
+  transform: rotateY(180deg);
+  background: var(--color-bg-surface);
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 10px;
+  padding: 13px 15px;
+}
+.drawer-cap {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  padding: 16px 10px 7px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.58));
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.drawer-cap .t { font-family: var(--font-playfair), serif; color: #fff; font-size: 13px; }
+.drawer-cap .n { font-family: var(--font-mono), monospace; color: rgba(255, 255, 255, 0.85); font-size: 9px; letter-spacing: 0.08em; }
+.drawer-note {
+  font-family: var(--font-hand), cursive;
+  font-size: 18px;
+  line-height: 1.22;
+  color: var(--color-text-primary);
+  border-right: 1px dashed var(--color-border);
+  padding-right: 10px;
+  text-align: left;
+}
+.drawer-addr { position: relative; font-family: var(--font-mono), monospace; font-size: 8px; color: var(--color-text-secondary); letter-spacing: 0.05em; text-align: left; }
+.drawer-addr .hd { display: block; color: var(--color-text-primary); margin-bottom: 7px; letter-spacing: 0.12em; }
+.drawer-addr .ln { display: block; border-bottom: 1px solid var(--color-border); height: 10px; margin-bottom: 6px; }
+.drawer-addr .pmark {
+  position: absolute;
+  top: 10px;
+  right: 0;
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid var(--color-frank);
+  border-radius: 50%;
+  color: var(--color-frank);
+  font-family: var(--font-mono), monospace;
+  font-size: 5.5px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  line-height: 1.3;
+  letter-spacing: 0.06em;
+  transform: rotate(-12deg);
+}
+
+/* popped: covers close, focused card floats forward + parallax, others hide */
+.drawer[data-phase="popped"] .drawer-flap.left,
+.drawer[data-phase="popped"] .drawer-flap.right { transform: translateZ(30px) rotateY(0deg); }
+.drawer[data-phase="popped"] .drawer-card { opacity: 0; pointer-events: none; transition-delay: 0ms; }
+.drawer[data-phase="popped"] .drawer-card.is-focused {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 50;
+  transform: translate(-50%, -50%) translateY(-46px) translateZ(170px) scale(1.85) rotateX(var(--my)) rotateY(var(--mx));
+  filter: drop-shadow(0 48px 66px rgba(40, 32, 22, 0.36));
+}
+/* must outrank the focused-pop rule above, hence the extra .is-focused */
+.drawer[data-phase="popped"] .drawer-card.is-focused.is-leaving {
+  opacity: 0;
+  transform: translate(-50%, -50%) translateY(-300px) translateZ(190px) scale(1.7) rotate(8deg);
+}
+
+/* reduced motion / coarse pointer: keep the layout, drop the motion + parallax */
+.drawer[data-reduced="true"] { perspective: none; }
+.drawer[data-reduced="true"] .drawer-wrapper { transform: none; }
+.drawer[data-reduced="true"] .drawer-wrapper,
+.drawer[data-reduced="true"] .drawer-flap,
+.drawer[data-reduced="true"] .drawer-card,
+.drawer[data-reduced="true"] .drawer-card-inner,
+.drawer[data-reduced="true"] .drawer-cards { transition-duration: 0.01ms; transition-delay: 0ms; }
+.drawer[data-reduced="true"][data-phase="open"] .drawer-flap.left,
+.drawer[data-reduced="true"][data-phase="open"] .drawer-flap.right { opacity: 0; }
+.drawer[data-reduced="true"] .drawer-card.is-focused {
+  transform: translate(-50%, -50%) translateY(-46px) translateZ(170px) scale(1.85);
+}
+
+/* Postage-stamp paper: a white sheet whose edges are punched with perforation
+   holes. The perforated sheet lives on a ::before layer, NOT the container —
+   a mask on .stamp-paper would also clip its child (the portrait), punching
+   holes through the photo. With the mask on ::before, the portrait stays an
+   unmasked child layered on top (inset), hiding the interior holes so only the
+   scalloped outer ring reads as perforation. `round` snaps the tile so an even
+   number of holes lands on each edge. Used by the About-section portrait stamp. */
+.stamp-paper {
+  --perf: 5px;   /* hole radius */
+  --pitch: 12px; /* hole spacing */
+  position: relative;
+}
+.stamp-paper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #fffdf6;
+  -webkit-mask: radial-gradient(var(--perf) at 50% 50%, #0000 98%, #000) 0 0 /
+    var(--pitch) var(--pitch) round;
+  mask: radial-gradient(var(--perf) at 50% 50%, #0000 98%, #000) 0 0 /
+    var(--pitch) var(--pitch) round;
 }

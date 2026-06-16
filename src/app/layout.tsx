@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { spaceGrotesk, inter, playfairDisplay } from "@/lib/fonts";
+import { spaceGrotesk, inter, playfairDisplay, ibmPlexMono, caveat } from "@/lib/fonts";
 import Navbar from "@/components/ui/Navbar";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import { ThemeProvider } from "@/components/ui/ThemeProvider";
@@ -46,7 +46,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${spaceGrotesk.variable} ${inter.variable} ${playfairDisplay.variable} h-full antialiased`}
+      className={`${spaceGrotesk.variable} ${inter.variable} ${playfairDisplay.variable} ${ibmPlexMono.variable} ${caveat.variable} h-full antialiased`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />

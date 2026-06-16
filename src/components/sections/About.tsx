@@ -1,76 +1,82 @@
 import Image from "next/image";
 import ScrollReveal from "@/components/ui/ScrollReveal";
-import SectionLabel from "@/components/ui/SectionLabel";
+import CatalogLabel from "@/components/ui/CatalogLabel";
+
+// The About section is a single illustrated "postcard" artifact, rendered as an
+// image by deliberate choice (the hand-drawn engraving/ink quality reads more
+// original than HTML can). To offset the usual cost of text-in-an-image, the
+// section keeps a real <h2> heading and a structured sr-only summary so the
+// content stays indexable and screen-reader accessible.
 
 export default function About() {
   return (
-    <section id="about" className="py-20 md:py-32 bg-bg-surface">
+    <section id="about" className="bg-bg-surface py-20 md:py-32">
       <div className="mx-auto max-w-6xl px-6">
         <ScrollReveal>
-          <SectionLabel number="02" label="About" />
-          <h2 className="font-[family-name:var(--font-playfair)] text-4xl md:text-6xl font-normal text-text-primary mb-12 md:mb-16 leading-[1.05] tracking-tight">
+          <CatalogLabel number="02" className="mb-6">
+            Return Address
+          </CatalogLabel>
+          <h2 className="mb-10 font-[family-name:var(--font-playfair)] text-4xl font-normal leading-[1.05] tracking-tight text-text-primary md:mb-14 md:text-6xl">
             The work is the point.
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-12 md:gap-16 items-start">
-            {/* Bio text */}
-            <div className="space-y-5 text-base md:text-lg text-text-secondary leading-[1.8] order-2 md:order-1">
-              <p>
-                Biotech engineer by training. Product builder because I
-                couldn&apos;t stop noticing what was broken.
-              </p>
-              <p>
-                I graduated from IIT Delhi in 2022, joined Groww, and spent the
-                next few years pulling on three threads in sequence. First,
-                search, that one small box where people type when they
-                don&apos;t know the right word for what they want. Then
-                engagement, specifically how in-app stories could make a
-                financial app feel alive instead of transactional. Then AI,
-                building an in-house news and content pipeline because the same
-                question kept coming up: how do you get the right information to
-                the right person before they know to ask for it.
-              </p>
-              <p>
-                At Cred, I moved into commerce, the Rewards platform and Cred
-                Store, where the job was making discovery and purchase feel like
-                one motion, not two.
-              </p>
-              <p>
-                The common thread across all of it is not the domain. It is a
-                question I keep returning to: what actually endures? Software
-                ages fast. An interface that looks great today looks dated in
-                ten years. But the community around a product, the problem it
-                stands for, the trust it builds, those outlast the UI. A Birkin
-                bag is decades old and appreciating. Buildings get more
-                interesting with time. Software almost never does. So the work I
-                care about is the layer underneath the product: what does it
-                mean to people, and would they miss it if it disappeared.
-              </p>
-              <p>
-                Off the clock: home barista in progress, Kindle reader, Substack
-                writer, and iPad sketcher when I need to make something with my
-                hands.
-              </p>
-            </div>
+          <figure className="relative mx-auto overflow-hidden rounded-[4px] shadow-[0_34px_80px_-34px_rgba(0,0,0,0.7)]">
+            <Image
+              src="/images/about/postcard.png"
+              alt="An aged airmail postcard titled “Post Card — About me”, laid out as a sheet of passport stamps summarizing Bhavya Barri's career and interests."
+              width={1536}
+              height={1024}
+              sizes="(max-width: 1152px) 100vw, 1104px"
+              className="h-auto w-full"
+            />
 
-            {/* Photo */}
-            <div className="order-1 md:order-2">
-              <div className="relative aspect-[4/5] rounded-2xl overflow-hidden border border-border shadow-md">
-                <Image
-                  src="/images/about.jpg"
-                  alt="Bhavya Barri"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  priority
-                />
+            {/* Portrait affixed as a postage stamp over the postcard's printed
+                "place stamp here" box (top-right). Positioned as a percentage of
+                the image so it tracks the postcard at every width. */}
+            <div
+              className="absolute rotate-[-5deg]"
+              style={{ left: "88.6%", top: "3.5%", width: "8.7%" }}
+            >
+              <div className="stamp-paper relative aspect-square shadow-[0_3px_9px_-3px_rgba(40,32,22,0.55)]">
+                <div className="absolute inset-[12%] overflow-hidden">
+                  <Image
+                    src="/images/about.jpg"
+                    alt="Bhavya Barri"
+                    fill
+                    sizes="120px"
+                    className="object-cover"
+                    style={{ transform: "scale(1.85)", transformOrigin: "54% 30%" }}
+                  />
+                </div>
               </div>
-              <p className="mt-3 text-xs uppercase tracking-widest text-text-secondary text-center font-[family-name:var(--font-inter)]">
-                <span className="font-[family-name:var(--font-playfair)] italic normal-case text-sm">
-                  Bhavya
-                </span>
-              </p>
             </div>
+          </figure>
+
+          {/* Same content as machine-readable text — keeps the section indexable
+              and accessible even though the artifact itself is an image. */}
+          <div className="sr-only">
+            <p>
+              About Bhavya Barri — biotech engineer turned product builder. A
+              product builder because I couldn&apos;t stop noticing what was broken.
+            </p>
+            <p>
+              Product work across Groww and CRED: search and understanding user
+              intent; engagement and making finance feel human; AI-driven
+              information routing, getting the right information to the right
+              person before they ask; and commerce, merging discovery and
+              purchase into one motion.
+            </p>
+            <p>
+              Driven by one question: what actually endures? Software expires,
+              trust accumulates. An interface that looks great today looks dated
+              in ten years, but the community around a product, the problem it
+              stands for, and the trust it builds outlast the UI.
+            </p>
+            <p>
+              Off the clock: home barista, heavy reader, Substack writer, and
+              sketcher — a reader, writer, maker, and collector of interesting
+              ideas.
+            </p>
           </div>
         </ScrollReveal>
       </div>

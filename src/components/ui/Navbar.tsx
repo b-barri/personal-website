@@ -130,7 +130,7 @@ export default function Navbar() {
               {link.label}
             </a>
           ))}
-          <div className="ml-2 pl-2 border-l border-white/20 dark:border-white/10">
+          <div className="ml-2 pl-2 border-l border-white/20 dark:border-white/10 flex items-center gap-1">
             <ThemeToggle scrolled={scrolled} />
           </div>
         </div>

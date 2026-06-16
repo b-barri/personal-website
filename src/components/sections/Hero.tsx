@@ -41,19 +41,20 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
           className="flex flex-col items-center gap-4 sm:gap-6"
         >
-          <div className="flex items-center gap-3 mb-1 sm:mb-2">
-            <span className="font-[family-name:var(--font-playfair)] italic text-base text-white/70">
-              00
+          {/* catalogue dateline — mono, ties the cover to the album numbering */}
+          <div className="flex items-center gap-3 mb-1 sm:mb-2 [text-shadow:0_1px_10px_rgba(0,0,0,0.45)]">
+            <span className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.22em] text-white/80">
+              Bangalore
             </span>
-            <span className="h-px w-12 bg-white/30" />
-            <span className="font-[family-name:var(--font-playfair)] italic text-sm text-white/70 tracking-wide">
-              Portfolio
+            <span className="h-px w-10 bg-white/40" />
+            <span className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.22em] text-white/80">
+              Archive No. 00
             </span>
           </div>
-          <h1 className="text-[3.25rem] sm:text-6xl md:text-7xl lg:text-[5.5rem] font-normal italic font-[family-name:var(--font-playfair)] text-white tracking-tight leading-[1.05]">
+          <h1 className="text-[3.25rem] sm:text-6xl md:text-7xl lg:text-[5.5rem] font-normal italic font-[family-name:var(--font-playfair)] text-white tracking-tight leading-[1.05] [text-shadow:0_2px_24px_rgba(0,0,0,0.42),0_1px_3px_rgba(0,0,0,0.3)]">
             Bhavya Barri
           </h1>
-          <p className="text-sm sm:text-base md:text-lg text-white/75 max-w-lg leading-relaxed tracking-wide font-[family-name:var(--font-inter)] mt-2 sm:mt-4">
+          <p className="text-sm sm:text-base md:text-lg text-white/85 max-w-lg leading-relaxed tracking-wide font-[family-name:var(--font-inter)] mt-2 sm:mt-4 [text-shadow:0_1px_12px_rgba(0,0,0,0.5)]">
             I make things I can&apos;t stop thinking about.{" "}
             <span className="text-white/95">
               Most of them started as a one-line question. A few became

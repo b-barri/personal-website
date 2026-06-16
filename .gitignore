@@ -42,3 +42,16 @@ next-env.d.ts
 
 # raw image/source exports kept locally but not shipped
 /public/images/projects/clawde_toolbar*.png
+
+# CE learnings store (symlinked to Obsidian vault; do not commit)
+docs/solutions
+.gstack/
+
+# local tooling / cruft
+.claude/
+excalidraw.log
+
+# raw video source originals kept locally, not shipped (web .mp4 versions are tracked)
+*.MP4
+*.MOV
+*.mov

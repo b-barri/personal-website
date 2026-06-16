@@ -53,23 +53,43 @@ export default function About() {
               </p>
             </div>
 
-            {/* Photo */}
+            {/* Photo — mounted as a return-address portrait: an archival print
+                held by album corners, cancelled by a Bangalore postmark, and
+                signed by hand. The section header is "Return Address"; the photo
+                is the sender's slug on the back of the envelope. */}
             <div className="order-1 md:order-2">
-              <div className="relative aspect-[4/5] rounded-2xl overflow-hidden border border-border shadow-md">
-                <Image
-                  src="/images/about.jpg"
-                  alt="Bhavya Barri"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 33vw"
-                  priority
-                />
-              </div>
-              <p className="mt-3 text-xs uppercase tracking-widest text-text-secondary text-center font-[family-name:var(--font-inter)]">
-                <span className="font-[family-name:var(--font-playfair)] italic normal-case text-sm">
-                  Bhavya
-                </span>
-              </p>
+              <figure className="relative mx-auto max-w-xs paper-grain rounded-[2px] border border-border bg-bg-primary p-2.5 shadow-[0_18px_40px_-24px_rgba(0,0,0,0.5)] transition-transform duration-300 ease-out md:mx-0 md:max-w-none md:-rotate-[1.2deg] md:hover:rotate-0 md:hover:-translate-y-0.5">
+                {/* matted print — the mat is the paper the album corners grip */}
+                <div className="relative p-2">
+                  <div className="relative aspect-[4/5] overflow-hidden rounded-[1px] ring-1 ring-black/[0.06] dark:ring-white/[0.08]">
+                    <Image
+                      src="/images/about.jpg"
+                      alt="Bhavya Barri"
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 80vw, 33vw"
+                      priority
+                    />
+                  </div>
+                  {/* album mounting corners grip the print over the mat */}
+                  <span className="photo-corner tl" aria-hidden="true" />
+                  <span className="photo-corner tr" aria-hidden="true" />
+                  <span className="photo-corner bl" aria-hidden="true" />
+                  <span className="photo-corner br" aria-hidden="true" />
+                </div>
+
+                {/* return-address slug + hand signature */}
+                <figcaption className="mt-2 flex items-end justify-between gap-4 px-1">
+                  <span className="font-[family-name:var(--font-mono)] text-[10px] uppercase leading-relaxed tracking-[0.14em] text-text-primary/70">
+                    <span className="block text-text-secondary">The sender</span>
+                    <span className="block text-text-primary/85">Bhavya Barri</span>
+                    <span className="block">Bangalore · IN</span>
+                  </span>
+                  <span className="font-[family-name:var(--font-hand)] -rotate-6 text-2xl leading-none text-text-secondary">
+                    b.
+                  </span>
+                </figcaption>
+              </figure>
             </div>
           </div>
         </ScrollReveal>

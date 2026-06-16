@@ -653,3 +653,18 @@ h1, h2, h3, h4, h5, h6 {
 .drawer[data-reduced="true"] .drawer-card.is-focused {
   transform: translate(-50%, -50%) translateY(-46px) translateZ(170px) scale(1.85);
 }
+
+/* Postage-stamp paper: a white sheet whose edges are punched with perforation
+   holes. The holes tile across the whole sheet; the portrait is layered on top
+   (inset) and hides the interior holes, so only the scalloped outer ring reads
+   as perforation. `round` snaps the tile so an even number of holes lands on
+   each edge. Used by the About-section portrait stamp. */
+.stamp-paper {
+  --perf: 5px;   /* hole radius */
+  --pitch: 12px; /* hole spacing */
+  background: #fffdf6;
+  -webkit-mask: radial-gradient(var(--perf) at 50% 50%, #0000 98%, #000) 0 0 /
+    var(--pitch) var(--pitch) round;
+  mask: radial-gradient(var(--perf) at 50% 50%, #0000 98%, #000) 0 0 /
+    var(--pitch) var(--pitch) round;
+}

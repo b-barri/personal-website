@@ -25,6 +25,8 @@ export interface StampProps {
   /** Category, right side of the meta row, e.g. "AI Tool". */
   category?: string;
   title: string;
+  /** Optional one-line description under the title (e.g. the project tagline). */
+  caption?: string;
   featured?: boolean;
   /** When set, the whole stamp is a link with a "view the dispatch" affordance. */
   href?: string;
@@ -39,6 +41,7 @@ export default function Stamp({
   catalogNo,
   category,
   title,
+  caption,
   featured = false,
   href,
   perfBg,
@@ -94,6 +97,12 @@ export default function Stamp({
       <h3 className="mt-0.5 px-0.5 font-[family-name:var(--font-playfair)] text-xl font-medium leading-tight text-text-primary transition-colors group-hover:text-accent">
         {title}
       </h3>
+
+      {caption && (
+        <p className="mt-1.5 px-0.5 text-sm leading-relaxed text-text-secondary line-clamp-2">
+          {caption}
+        </p>
+      )}
 
       {href && (
         <span className="mt-1.5 inline-flex items-center gap-1.5 px-0.5 font-[family-name:var(--font-mono)] text-[10px] uppercase tracking-[0.16em] text-accent">

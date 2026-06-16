@@ -159,7 +159,9 @@ h1, h2, h3, h4, h5, h6 {
    the element when the stamp sits on a different surface. */
 .stamp-edge {
   --perf-bg: var(--color-bg-primary);
-  --stamp-fill: var(--color-bg-surface);
+  /* Warm paper a clear step below the near-white page, so the stamp shape and
+     its page-coloured perforations read against bg-primary in light mode. */
+  --stamp-fill: #ece8db;
   /* Even, closely-spaced perforations on a uniform 11px pitch (all four edges
      share the pitch so corners resolve cleanly). The hole colour matches the
      surface behind the stamp so it reads as a real punched edge. */

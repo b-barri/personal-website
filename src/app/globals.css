@@ -250,6 +250,20 @@ h1, h2, h3, h4, h5, h6 {
 .crop-bracket.br { bottom: -1px; right: -1px; }
 .crop-bracket.br::before { bottom: 0; right: 0; }  .crop-bracket.br::after { bottom: 0; right: 0; }
 
+/* Par Avion airmail edge — the barber-stripe border of an airmail envelope,
+   kept in palette: oxblood frank + the site's blue accent, not primary red/blue.
+   Set the height where used (e.g. h-3). */
+.airmail-edge {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--color-frank) 0 10px,
+    transparent 10px 20px,
+    var(--color-accent) 20px 30px,
+    transparent 30px 40px
+  );
+  background-size: 56.57px 56.57px; /* 40px stripe period at 45deg */
+}
+
 /* Art carousel — perspective only on desktop */
 .carousel-container {
   perspective: none;

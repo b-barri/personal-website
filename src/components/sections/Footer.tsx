@@ -34,6 +34,9 @@ const socialLinks = [
 export default function Footer() {
   return (
     <footer>
+      {/* Par Avion airmail edge — the top seam of the back-of-envelope footer */}
+      <div className="airmail-edge h-3 w-full" aria-hidden="true" />
+
       {/* Banner image with gradient fade-in from page background */}
       <div className="relative w-full aspect-[2.5/1] md:aspect-[4/1] overflow-hidden">
         <Image

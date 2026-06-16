@@ -54,9 +54,10 @@ export default function Hero() {
             Bhavya Barri
           </h1>
           <p className="text-sm sm:text-base md:text-lg text-white/75 max-w-lg leading-relaxed tracking-wide font-[family-name:var(--font-inter)] mt-2 sm:mt-4">
-            Curious by default, builder by reflex.{" "}
+            I make things I can&apos;t stop thinking about.{" "}
             <span className="text-white/95">
-              Each Side Quest is a question I couldn&apos;t stop poking at.
+              Most of them started as a one-line question. A few became
+              something people actually use.
             </span>
           </p>
         </motion.div>

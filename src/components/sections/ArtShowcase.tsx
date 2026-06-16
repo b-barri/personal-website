@@ -5,7 +5,7 @@ import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import ScrollReveal from "@/components/ui/ScrollReveal";
-import SectionLabel from "@/components/ui/SectionLabel";
+import CatalogLabel from "@/components/ui/CatalogLabel";
 import { artworks } from "@/data/artworks";
 
 gsap.registerPlugin(useGSAP);
@@ -313,12 +313,12 @@ export default function ArtShowcase() {
     <section id="art" className="py-20 md:py-32 overflow-hidden">
       <div className="mx-auto max-w-6xl px-6">
         <ScrollReveal>
-          <SectionLabel number="04" label="Art" />
+          <CatalogLabel number="04" className="mb-6">The Stamp Drawer</CatalogLabel>
           <h2 className="font-[family-name:var(--font-playfair)] text-4xl md:text-6xl font-normal text-text-primary mb-4 md:mb-6 leading-[1.05] tracking-tight">
             Pixels &amp; palettes.
           </h2>
           <p className="text-text-secondary text-base md:text-lg mb-6 md:mb-8 max-w-2xl leading-relaxed">
-            No models were prompted. Just Procreate, an Apple Pencil, and a free evening.
+            No prompts. Just Procreate, a Pencil, and whatever was in my head.
           </p>
         </ScrollReveal>
 

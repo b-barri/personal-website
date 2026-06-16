@@ -48,12 +48,9 @@ export default function Footer() {
         {/* Bottom overlay for text readability */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
         <div className="absolute inset-0 flex items-end justify-center pb-10 md:pb-16">
-          <div className="text-center px-6">
-            <p className="font-[family-name:var(--font-playfair)] italic text-3xl md:text-5xl text-white drop-shadow-lg leading-tight">
-              Let&apos;s build something.
-            </p>
-            <p className="mt-3 text-xs md:text-sm uppercase tracking-[0.25em] text-white/80 font-[family-name:var(--font-inter)]">
-              From Bangalore, with curiosity
+          <div className="text-center px-6 max-w-3xl">
+            <p className="font-[family-name:var(--font-playfair)] italic text-2xl sm:text-3xl md:text-5xl text-white drop-shadow-lg leading-tight">
+              From Bangalore. Let&apos;s make something worth making.
             </p>
           </div>
         </div>

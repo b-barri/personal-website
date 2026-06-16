@@ -97,14 +97,42 @@ export default function StampDrawer({ cards, label = "The Stamp Drawer", classNa
     resetParallax();
   }, [resetParallax]);
 
-  const close = useCallback(() => {
+  const close = useCallback((focusTrigger = true) => {
     setPhase("closed");
     setFocused(null);
     setFlipped(false);
     setTaken({});
     resetParallax();
-    triggerRef.current?.focus();
+    if (focusTrigger) triggerRef.current?.focus();
   }, [resetParallax]);
+
+  // --- hover open/close (desktop fine-pointer only; touch keeps tap) ---
+  // Scoped to the whole component (drawer + tray) so reaching for the "take one"
+  // button doesn't count as leaving. A short grace delay absorbs edge jitter and
+  // the layout shift as the folder unfolds.
+  const hoverLeaveTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleHoverEnter = useCallback(() => {
+    if (!finePointer) return;
+    if (hoverLeaveTimer.current) {
+      clearTimeout(hoverLeaveTimer.current);
+      hoverLeaveTimer.current = null;
+    }
+    if (phase === "closed") open();
+  }, [finePointer, phase, open]);
+
+  const handleHoverLeave = useCallback(() => {
+    if (!finePointer || phase === "closed") return;
+    if (hoverLeaveTimer.current) clearTimeout(hoverLeaveTimer.current);
+    hoverLeaveTimer.current = setTimeout(() => close(false), 160);
+  }, [finePointer, phase, close]);
+
+  useEffect(
+    () => () => {
+      if (hoverLeaveTimer.current) clearTimeout(hoverLeaveTimer.current);
+    },
+    []
+  );
 
   // back to the open drawer from a popped card (restores the fan, repeatable take)
   const backToDrawer = useCallback(() => {
@@ -194,7 +222,12 @@ export default function StampDrawer({ cards, label = "The Stamp Drawer", classNa
   const focusedTaken = focusedCard ? !!taken[focusedCard.id] : false;
 
   return (
-    <div ref={wrapRef} className={className}>
+    <div
+      ref={wrapRef}
+      className={className}
+      onMouseEnter={handleHoverEnter}
+      onMouseLeave={handleHoverLeave}
+    >
       <div
         ref={rootRef}
         className="drawer"
@@ -304,6 +337,22 @@ export default function StampDrawer({ cards, label = "The Stamp Drawer", classNa
 
       {/* tray — context controls, always keyboard-reachable below the drawer */}
       <div className="mt-6 flex min-h-[2.5rem] flex-wrap items-center justify-center gap-3">
+        {phase === "closed" && (
+          <button
+            type="button"
+            onClick={open}
+            className="group flex items-center gap-2 font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.12em] text-text-secondary transition-colors hover:text-accent focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary outline-none rounded-full px-2 py-1"
+          >
+            <span
+              aria-hidden="true"
+              className="text-accent animate-bounce motion-reduce:animate-none"
+            >
+              ↑
+            </span>
+            {finePointer ? "hover to open" : "tap to open"} · take one, free
+          </button>
+        )}
+
         {phase === "open" && (
           <>
             <p className="font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.12em] text-text-secondary">
@@ -311,7 +360,7 @@ export default function StampDrawer({ cards, label = "The Stamp Drawer", classNa
             </p>
             <button
               type="button"
-              onClick={close}
+              onClick={() => close()}
               className="rounded-full border border-border bg-bg-primary px-4 py-2 font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-[0.08em] text-text-secondary transition-colors hover:border-accent hover:text-accent focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary outline-none"
             >
               Close

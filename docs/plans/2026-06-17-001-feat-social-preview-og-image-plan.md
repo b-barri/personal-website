@@ -1,7 +1,7 @@
 ---
 title: "feat: Social-preview (Open Graph) image for the homepage"
 type: feat
-status: active
+status: completed
 date: 2026-06-17
 ---
 

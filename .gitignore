@@ -55,3 +55,6 @@ excalidraw.log
 *.MP4
 *.MOV
 *.mov
+
+# OG image build scratch
+.og-build/
